@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
+import { AdminPanel } from './AdminPanel';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,16 +19,40 @@ export default function App() {
 
   // Auth States
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginNumber, setLoginNumber] = useState('');
   const [loginPass, setLoginPass] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginNumber === '01919012423' && loginPass === '888999') {
+    
+    // Admin Check
+    if (loginNumber === '01919012426' && loginPass === 'jihaD123') {
       setIsAuthenticated(true);
+      setIsAdmin(true);
       setIsLoginModalOpen(false);
       localStorage.setItem('ue_auth', 'true');
+      localStorage.setItem('ue_admin', 'true');
+      Swal.fire({
+        icon: 'success',
+        title: 'Admin Access Granted',
+        text: 'Entering Management Dashboard...',
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end'
+      });
+      return;
+    }
+
+    // Student Check
+    if (loginNumber === '01919012423' && loginPass === '888999') {
+      setIsAuthenticated(true);
+      setIsAdmin(false);
+      setIsLoginModalOpen(false);
+      localStorage.setItem('ue_auth', 'true');
+      localStorage.setItem('ue_admin', 'false');
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
@@ -48,7 +73,9 @@ export default function App() {
 
   const logout = () => {
     setIsAuthenticated(false);
+    setIsAdmin(false);
     localStorage.removeItem('ue_auth');
+    localStorage.removeItem('ue_admin');
     Swal.fire({
       icon: 'info',
       title: 'Logged Out',
@@ -68,7 +95,11 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
 
     const savedAuth = localStorage.getItem('ue_auth');
-    if (savedAuth === 'true') setIsAuthenticated(true);
+    const savedAdmin = localStorage.getItem('ue_admin');
+    if (savedAuth === 'true') {
+      setIsAuthenticated(true);
+      if (savedAdmin === 'true') setIsAdmin(true);
+    }
 
     const COOLDOWN = 30 * 60 * 1000;
     const LAST_SHOW = localStorage.getItem('ue_anniv_popup_closed_at_v1');
@@ -93,7 +124,7 @@ export default function App() {
   };
 
   if (isAuthenticated) {
-    return <StudentPanel logout={logout} />;
+    return isAdmin ? <AdminPanel logout={logout} /> : <StudentPanel logout={logout} />;
   }
 
   return (
@@ -201,7 +232,7 @@ export default function App() {
                     { icon: ShieldCheck, label: "Customer Login", href: "https://unityearning.com/customer-login" },
                     { icon: UserCog, label: "Student Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Sub Admin Login", href: "https://unityearning.com/subadmin-login" },
-                    { icon: ShieldCheck, label: "Admin Login", href: "https://unityearning.com/admin-login" },
+                    { icon: ShieldCheck, label: "Admin Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: BookOpen, label: "All Courses", href: "#" },
                     { icon: HelpCircle, label: "About us", href: "#" },
                     { icon: ShieldCheck, label: "Terms & Conditions", href: "#" },
@@ -234,7 +265,7 @@ export default function App() {
                   { icon: ShieldCheck, label: "Customer Login", color: "ue-pill-lime", href: "https://unityearning.com/customer-login" },
                   { icon: UserCog, label: "Student Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: ShieldCheck, label: "Sub Admin Login", color: "", href: "https://unityearning.com/subadmin-login" },
-                  { icon: ShieldCheck, label: "Admin Login", color: "", href: "https://unityearning.com/admin-login" },
+                  { icon: ShieldCheck, label: "Admin Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                 ].map((item: any, i) => (
                   <button key={i} onClick={item.onClick} className={`ue-pill-btn ${item.color} justify-center w-full py-4 cursor-pointer`}><item.icon className="w-5 h-5" /> <span>{item.label}</span> <ArrowRight className="w-4 h-4" /></button>
                 ))}

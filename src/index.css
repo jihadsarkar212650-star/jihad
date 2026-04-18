@@ -5,14 +5,107 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+
 :root {
   --ue-green: #0b8f2d;
-  --ue-dark: #000000;
-  --font-hind: "Hind Siliguri", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --ue-dark: #0f172a;
+  --ue-accent: #10b981;
+  --ue-premium-black: #020617;
+  --font-hind: "Hind Siliguri", "Space Grotesk", system-ui, -apple-system, sans-serif;
 }
 
 body {
   font-family: var(--font-hind);
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* Premium Header Overrides */
+.navbar-area {
+  backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.scrolled .navbar-area {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Luxury Nav Pill */
+.nav-pill {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-pill:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Professional Course Card */
+.single-course {
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 24px;
+  background: white;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.single-course:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--ue-accent);
+}
+
+.course-badge {
+  background: var(--ue-accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Premium Student Panel Layouts */
+.ue-grad-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ue-soft-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 24px;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Unified Button Style */
+.ue-pill-btn {
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .header-bg {

@@ -7,21 +7,15 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 const COURSES = [
-  { id: 1, title: "Al-Quran Hadis & Namaz Shikkha", img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg" },
-  { id: 2, title: "Photo Editing", img: "https://unityearning.com/assets/img/Popular%20Courses/photo%20edit.jpg" },
-  { id: 3, title: "Video Editing", img: "https://unityearning.com/assets/img/Popular%20Courses/video%20edit.jpg" },
-  { id: 4, title: "Digital Marketing", img: "https://unityearning.com/assets/img/Popular%20Courses/Digital%20Market.jpg" },
-  { id: 5, title: "Product Sell & Buy", img: "https://unityearning.com/assets/img/Popular%20Courses/Product%20Sell.jpg" },
-  { id: 6, title: "Data Entry", img: "https://unityearning.com/assets/img/Popular%20Courses/data%20enty.jpg" },
-  { id: 7, title: "Facebook Marketing", img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg" },
-  { id: 8, title: "Spoken English", img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg" },
-  { id: 9, title: "Graphic Design", img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg" },
-  { id: 10, title: "Computer Training", img: "https://unityearning.com/assets/img/Popular%20Courses/Computer%20Training.jpg" },
-  { id: 11, title: "SIM Offer Selling", img: "https://unityearning.com/assets/img/Popular%20Courses/sim.jpg" },
-  { id: 12, title: "Email Marketing", img: "https://unityearning.com/assets/img/Popular%20Courses/email-marketing.png" },
-  { id: 13, title: "Network Marketing", img: "https://unityearning.com/assets/img/Popular%20Courses/network.webp" },
-  { id: 14, title: "E-Commerce Marketing", img: "https://unityearning.com/assets/img/Popular%20Courses/ecommerce.jpg" },
-  { id: 15, title: "T-Shirt Design", img: "https://unityearning.com/assets/img/Popular%20Courses/tshirt.jpg" },
+  { id: 1, title: "Al-Quran Hadis & Namaz Shikkha", mentor: "Maulana Hafizur Rahman", price: "৳ ৫০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg" },
+  { id: 2, title: "Advanced Photo Editing", mentor: "Ariful Islam", price: "৳ ৪০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/photo%20edit.jpg" },
+  { id: 3, title: "Professional Video Editing", mentor: "Sajid Ahmed", price: "৳ ৮০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/video%20edit.jpg" },
+  { id: 4, title: "Digital Marketing Strategy", mentor: "Nusrat Jahan", price: "৳ ৬০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Digital%20Market.jpg" },
+  { id: 5, title: "E-Commerce Management", mentor: "Rakibul Hassan", price: "৳ ৭০০০", rating: 4.6, img: "https://unityearning.com/assets/img/Popular%20Courses/Product%20Sell.jpg" },
+  { id: 6, title: "Data Entry Specialist", mentor: "Farhana Akter", price: "৳ ৩০০০", rating: 4.5, img: "https://unityearning.com/assets/img/Popular%20Courses/data%20enty.jpg" },
+  { id: 7, title: "Facebook Marketing Masterclass", mentor: "Tanvir Ahmed", price: "৳ ৫০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg" },
+  { id: 8, title: "Professional Spoken English", mentor: "Sumaiya Islam", price: "৳ ৪৫০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg" },
+  { id: 9, title: "Advanced Graphic Design", mentor: "Imran Hossain", price: "৳ ৭০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg" },
 ];
 
 const STATS = [
@@ -137,9 +131,9 @@ export function HomePage({
               <a href="https://unityearning.com/subadmin-login" className="nav-pill pill-sub">
                 <UserCog className="w-4 h-4" /><span>Sub Admin</span>
               </a>
-              <a href="https://unityearning.com/admin-login" className="nav-pill pill-admin">
+              <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-admin">
                 <ShieldCheck className="w-4 h-4" /><span>Admin</span>
-              </a>
+              </button>
             </div>
 
             {/* Mobile Hamburger */}
@@ -231,16 +225,35 @@ export function HomePage({
             {COURSES.map(course => (
               <motion.div 
                 key={course.id} 
-                whileHover={{ y: -5 }}
-                className="single-course group"
+                whileHover={{ y: -8 }}
+                className="single-course group overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 bg-white rounded-[32px]"
               >
-                <div className="aspect-video overflow-hidden">
-                  <img src={course.img} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="aspect-[16/10] overflow-hidden relative">
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg">Premium Course</span>
+                  </div>
+                  <img src={course.img} alt={course.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <div className="course-content bg-gray-50 p-6 flex flex-col items-center">
-                  <h3 className="w-full">
+                <div className="p-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex text-amber-400">
+                      {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
+                    </div>
+                    <span className="text-[10px] font-bold text-slate-400">({course.rating})</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-4 line-clamp-1 group-hover:text-emerald-600 transition-colors">
                     {course.title}
                   </h3>
+                  <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                        <UserCog className="w-4 h-4" />
+                      </div>
+                      <span className="text-xs font-bold text-slate-500">{course.mentor}</span>
+                    </div>
+                    <span className="text-lg font-black text-emerald-600 tracking-tighter">{course.price}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
