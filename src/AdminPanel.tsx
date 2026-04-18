@@ -4,7 +4,7 @@ import {
   Menu, X, LogOut, LayoutGrid, Users, UserPlus, GraduationCap, 
   Store, BookOpen, CreditCard, Settings, MessageSquare, 
   ChevronDown, Bell, Search, Wallet, ArrowDownCircle, 
-  Activity, UserX, UserCheck, Inbox, ShieldCheck, Plus, Trash2, Save, Key, Filter
+  Activity, UserX, UserCheck, Inbox, ShieldCheck, Plus, Trash2, Save, Key, Filter, Megaphone
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { useSettings } from './lib/useSettings';
@@ -22,6 +22,8 @@ export function AdminPanel({ logout }: AdminPanelProps) {
   // Local state for editing settings
   const [editNotices, setEditNotices] = useState<string[]>([]);
   const [editSupport, setEditSupport] = useState(settings.supportTeam);
+  const [editGlobalBanner, setEditGlobalBanner] = useState('');
+  const [editScrollingTicker, setEditScrollingTicker] = useState('');
 
   // Student Search State
   const [searchPhone, setSearchPhone] = useState('');
@@ -35,8 +37,10 @@ export function AdminPanel({ logout }: AdminPanelProps) {
 
   useEffect(() => {
     if (settings) {
-      setEditNotices(settings.notices);
-      setEditSupport(settings.supportTeam);
+      setEditNotices(settings.notices || []);
+      setEditSupport(settings.supportTeam || []);
+      setEditGlobalBanner(settings.globalBanner || '');
+      setEditScrollingTicker(settings.scrollingTicker || '');
     }
   }, [settings]);
 
@@ -44,7 +48,9 @@ export function AdminPanel({ logout }: AdminPanelProps) {
     try {
       await updateSettings({
         notices: editNotices,
-        supportTeam: editSupport
+        supportTeam: editSupport,
+        globalBanner: editGlobalBanner,
+        scrollingTicker: editScrollingTicker
       });
       Swal.fire({
         icon: 'success',
@@ -153,9 +159,60 @@ export function AdminPanel({ logout }: AdminPanelProps) {
       <div className="grid gap-10">
         {/* NOTICES SECTION */}
         <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+          
+          {/* Header Marquee Ticker */}
+          <div className="mb-8 p-6 bg-emerald-50 border-2 border-emerald-100 rounded-3xl">
+            <h3 className="text-lg font-black text-emerald-900 mb-2 flex items-center gap-2">
+              <Megaphone className="w-5 h-5 text-emerald-600" /> হেডারের চলমান নোটিশ (Scrolling Ticker)
+            </h3>
+            <p className="text-sm font-bold text-emerald-600/70 mb-4">
+              এই লেখাটি মেনুবারের পাশে ডান থেকে বাঁ দিকে চলতে থাকবে। ফাঁকা রাখলে শো করবে না।
+            </p>
+            <input 
+              type="text"
+              value={editScrollingTicker}
+              onChange={(e) => setEditScrollingTicker(e.target.value)}
+              placeholder="এখানে চলমান নোটিশ লিখুন..."
+              className="w-full p-4 bg-white border border-emerald-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-gray-800 leading-snug mb-4"
+            />
+            <div className="flex justify-end">
+              <button 
+                onClick={handleSaveSettings}
+                className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 active:scale-95 transition-all"
+              >
+                <Save className="w-4 h-4" /> আপডেট করুন (Submit)
+              </button>
+            </div>
+          </div>
+
+          {/* Global Banner Popup */}
+          <div className="mb-8 p-6 bg-blue-50 border-2 border-blue-100 rounded-3xl">
+            <h3 className="text-lg font-black text-blue-900 mb-2 flex items-center gap-2">
+              <Bell className="w-5 h-5 text-blue-600" /> গ্লোবাল পপআপ নোটিশ (Global Banner)
+            </h3>
+            <p className="text-sm font-bold text-blue-600/70 mb-4">
+              এই নোটিশটি স্টুডেন্ট প্যানেলে লগইন করার পর ওপরের দিকে পপআপ হিসেবে শো করবে।
+            </p>
+            <textarea 
+              value={editGlobalBanner}
+              onChange={(e) => setEditGlobalBanner(e.target.value)}
+              placeholder="এখানে নোটিশ লিখুন... ফাঁকা রাখলে পপআপ শো করবে না।"
+              className="w-full p-4 bg-white border border-blue-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-gray-800 leading-snug mb-4"
+              rows={3}
+            />
+            <div className="flex justify-end">
+              <button 
+                onClick={handleSaveSettings}
+                className="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-blue-700 active:scale-95 transition-all"
+              >
+                <Save className="w-4 h-4" /> আপডেট করুন (Submit)
+              </button>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-black text-gray-800 flex items-center gap-2">
-              <Bell className="w-6 h-6 text-red-500" /> নোটিশ ম্যানেজমেন্ট (Notices)
+              <Bell className="w-6 h-6 text-red-500" /> রেগুলার নোটিশ (Regular Notices)
             </h3>
             <button 
               onClick={() => setEditNotices([...editNotices, 'New Notice Message...'])}

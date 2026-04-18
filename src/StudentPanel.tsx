@@ -3,7 +3,7 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck
 } from 'lucide-react';
 import { useState, FormEvent, useEffect } from 'react';
 import { db } from './lib/firebase';
@@ -512,44 +512,111 @@ function Withdrawals({ onNavigate }: { onNavigate: (tab: string) => void }) {
     { sr: 3, method: "Bkash", date: "17 Feb 2026, 11:37 pm", amount: "Tk 800.00", notes: "Successful", status: "Completed" },
   ];
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto px-2 lg:px-12 mt-4 lg:mt-8 pb-20">
-      <div className="text-center mb-4 lg:mb-8"><h2 className="text-xl lg:text-2xl font-bold text-gray-500 tracking-wide">Home</h2></div>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 lg:gap-6 mb-8 lg:mb-12">
-        <div className="text-center md:text-left">
-          <h2 className="text-2xl lg:text-3xl font-black text-gray-900 mb-1">Withdrawals</h2>
-          <div className="flex items-center justify-center md:justify-start gap-4 text-sm lg:text-lg">
-            <span className="text-gray-500 font-bold">Current Balance:</span>
-            <span className="text-blue-600 font-black">Tk 6991.22</span>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="container mx-auto px-4 lg:px-12 mt-4 pb-20">
+      
+      {/* Header Section */}
+      <div className="bg-white rounded-[2rem] p-6 lg:p-10 shadow-xl shadow-blue-900/5 mt-4 mb-8 border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+        
+        {/* Background Decorations */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px] -z-10 pointer-events-none" />
+        <div className="absolute left-0 bottom-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-[60px] -z-10 pointer-events-none" />
+
+        <div className="flex items-start md:items-center gap-6">
+          <div className="hidden sm:flex w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl items-center justify-center shrink-0">
+            <Wallet className="w-8 h-8" />
           </div>
-          <div className="text-[10px] lg:text-sm text-gray-400 font-bold mt-1">Minimum Withdrawal Amount: Tk 50.00</div>
+          <div className="text-left flex-1 w-full">
+            <h2 className="text-2xl lg:text-3xl font-black text-slate-900 tracking-tight mb-3">Withdrawals</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              <div className="flex items-center justify-between sm:justify-start gap-4">
+                <span className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Current Balance</span>
+                <span className="text-blue-600 font-black px-4 py-1.5 bg-blue-50 rounded-xl">Tk 6991.22</span>
+              </div>
+              <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-200" />
+              <div className="flex items-center justify-between sm:justify-start gap-4">
+                 <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Min. Amount</span>
+                 <span className="text-slate-600 font-bold text-xs">Tk 50.00</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <button onClick={() => onNavigate('new-withdraw')} className="bg-blue-600 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-black shadow-xl hover:shadow-blue-200 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-2 lg:gap-3 text-sm lg:text-base">
-          New Withdraw Request <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
+
+        <button 
+          onClick={() => onNavigate('new-withdraw')} 
+          className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 lg:px-8 py-4 md:py-3.5 rounded-xl font-black shadow-lg shadow-blue-600/25 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm lg:text-base whitespace-nowrap"
+        >
+          <CreditCard className="w-4 h-4 hidden sm:block" /> New Request <ArrowRight className="w-4 h-4" />
         </button>
       </div>
-      <div className="bg-white rounded-xl lg:rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto min-w-[320px]">
-          <table className="w-full text-left">
+
+      <h3 className="text-sm font-black text-slate-400 mb-4 px-2 uppercase tracking-widest">Transaction History</h3>
+
+      <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+        
+        {/* Mobile View: Cards */}
+        <div className="block lg:hidden divide-y divide-slate-50">
+          {history.map((h, i) => (
+            <div key={i} className="p-5 flex flex-col gap-3">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-600 shrink-0">
+                    <span className="font-bold text-xs">#{h.sr}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800 text-sm">{h.method}</h4>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{h.date}</span>
+                  </div>
+                </div>
+                <div className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest ${h.status === 'Completed' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100/50' : 'bg-rose-50 text-rose-600 border border-rose-100/50'}`}>
+                  {h.status}
+                </div>
+              </div>
+              <div className="flex justify-between items-center bg-slate-50 rounded-xl p-3 border border-slate-100/50 mt-1">
+                <div>
+                  <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest">Amount</span>
+                  <span className="font-black text-blue-600 text-base">{h.amount}</span>
+                </div>
+                 <div className="text-right">
+                  <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest">Notes</span>
+                  <span className="font-bold text-slate-600 text-xs">{h.notes}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-100 italic">
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm uppercase">Sr</th>
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm uppercase">Method</th>
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm uppercase">Date</th>
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm uppercase">Amount</th>
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm uppercase">Notes</th>
-                <th className="px-2 lg:px-8 py-3 lg:py-6 text-gray-700 text-[9px] lg:text-sm text-right uppercase">Status</th>
+              <tr className="bg-slate-50 border-b border-slate-100">
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Sr</th>
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Method</th>
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Date</th>
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Amount</th>
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Notes</th>
+                <th className="px-8 py-5 text-slate-400 font-bold uppercase tracking-widest text-[10px] text-right">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-50">
               {history.map((h, i) => (
-                <tr key={i} className="hover:bg-gray-50/50 transition-colors text-[9px] lg:text-xs font-bold">
-                  <td className="px-2 lg:px-8 py-3 lg:py-6 text-gray-900">{h.sr}</td>
-                  <td className="px-2 lg:px-8 py-3 lg:py-6">{h.method}</td>
-                  <td className="px-2 lg:px-8 py-3 lg:py-6 text-gray-500">{h.date}</td>
-                  <td className="px-2 lg:px-8 py-3 lg:py-6 text-blue-600">{h.amount}</td>
-                  <td className="px-2 lg:px-8 py-3 lg:py-6 text-gray-500">{h.notes}</td>
-                  <td className="px-2 lg:px-8 py-3 lg:py-6 text-right">
-                    <span className={`px-2 lg:px-4 py-1 rounded-full ${h.status === 'Completed' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>{h.status}</span>
+                <tr key={i} className="hover:bg-slate-50/50 transition-colors font-semibold group">
+                  <td className="px-8 py-5 text-slate-400 text-sm">#{h.sr}</td>
+                  <td className="px-8 py-5 text-slate-800">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                        <CreditCard className="w-4 h-4" />
+                      </div>
+                      {h.method}
+                    </div>
+                  </td>
+                  <td className="px-8 py-5 text-slate-500 text-sm">{h.date}</td>
+                  <td className="px-8 py-5 text-blue-600 font-black">{h.amount}</td>
+                  <td className="px-8 py-5 text-slate-500 text-sm">{h.notes}</td>
+                  <td className="px-8 py-5 text-right">
+                    <span className={`inline-flex px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest ${h.status === 'Completed' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100/50' : 'bg-rose-50 text-rose-600 border border-rose-100/50'}`}>
+                      {h.status}
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -564,40 +631,120 @@ function Withdrawals({ onNavigate }: { onNavigate: (tab: string) => void }) {
 function NewWithdrawRequest({ onBack }: { onBack: () => void }) {
   const [selectedMethod, setSelectedMethod] = useState("Please Select");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const methods = ["Please Select", "Bkash", "Nagad", "Roket", "Paytm", "Google Pay", "PhonePe"];
+  const methods = ["Bkash", "Nagad", "Roket", "Paytm", "Google Pay", "PhonePe"];
+
   return (
-    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 lg:px-12 mt-4 lg:mt-8 pb-20">
-      <div className="text-center mb-6 lg:mb-8"><h2 className="text-xl lg:text-2xl font-bold text-gray-400">Home</h2></div>
-      <div className="flex items-center justify-between gap-4 mb-8 lg:mb-12">
-        <h2 className="text-2xl lg:text-3xl font-black text-gray-900">Create New Request</h2>
-        <button onClick={onBack} className="bg-blue-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-xl font-black shadow-lg">Request List</button>
+    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 lg:px-12 mt-4 pb-20 max-w-2xl">
+      <div className="flex items-center justify-between mb-8 gap-4 pt-4">
+        <div>
+          <h2 className="text-2xl lg:text-3xl font-black text-slate-900 tracking-tight">Withdraw Funds</h2>
+          <p className="text-sm font-medium text-slate-500 mt-1">Submit a new withdrawal request</p>
+        </div>
+        <button onClick={onBack} className="bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2.5 rounded-xl font-bold transition-colors text-sm flex items-center gap-2">
+          <LayoutGrid className="w-4 h-4" />
+          <span className="hidden sm:inline">Request List</span>
+        </button>
       </div>
-      <div className="space-y-8 max-w-xl mx-auto">
-        <div className="relative">
-          <label className="block text-gray-500 text-xl font-black mb-3">Withdraw Method</label>
-          <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="w-full px-6 py-4 rounded-xl border border-gray-200 bg-white flex items-center justify-between cursor-pointer hover:border-blue-400 transition-colors">
-            <span className={selectedMethod === "Please Select" ? 'text-gray-400' : 'text-gray-800'}>{selectedMethod}</span><ChevronUp className={`w-5 h-5 text-gray-400 ${isDropdownOpen ? 'rotate-0' : 'rotate-180'}`} />
+
+      <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-5 sm:p-8 shadow-2xl shadow-blue-900/5 border border-slate-100/50 space-y-8 relative overflow-visible">
+        {/* Background decorative blob */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px] -z-10 pointer-events-none" />
+
+        <div className="space-y-6 relative z-10">
+          
+          {/* Method Dropdown */}
+          <div className="relative">
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Withdraw Method</label>
+            <div 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+              className="w-full px-5 py-4 rounded-2xl border-2 border-slate-100 bg-white shadow-sm flex items-center justify-between cursor-pointer hover:border-blue-400/50 hover:shadow-md transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-xl transition-colors ${selectedMethod !== "Please Select" ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400 group-hover:text-blue-500 group-hover:bg-blue-50'}`}>
+                   {selectedMethod !== "Please Select" ? <CreditCard className="w-5 h-5" /> : <Wallet className="w-5 h-5" />}
+                </div>
+                <span className={`text-lg font-bold ${selectedMethod === "Please Select" ? 'text-slate-400' : 'text-slate-800'}`}>
+                  {selectedMethod}
+                </span>
+              </div>
+              <ChevronUp className={`w-5 h-5 transition-transform duration-300 ${isDropdownOpen ? 'rotate-0 text-blue-500' : 'rotate-180 text-slate-400 group-hover:text-slate-600'}`} />
+            </div>
+            
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }} 
+                  animate={{ opacity: 1, y: 0, scale: 1 }} 
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }} 
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-0 right-0 top-[calc(100%+8px)] bg-white border border-slate-100 rounded-2xl shadow-2xl shadow-slate-200/50 z-50 overflow-hidden py-2"
+                >
+                  {methods.map((method, i) => (
+                    <div 
+                      key={i} 
+                      onClick={() => { setSelectedMethod(method); setIsDropdownOpen(false); }} 
+                      className={`px-5 py-3.5 mx-2 rounded-xl text-md font-bold cursor-pointer transition-all flex items-center gap-3
+                        ${selectedMethod === method ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100'}`}
+                    >
+                      <CreditCard className={`w-4 h-4 ${selectedMethod === method ? 'text-blue-200' : 'text-slate-400'}`} />
+                      {method}
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <AnimatePresence>
-            {isDropdownOpen && (
-              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute left-0 right-0 top-[calc(100%+8px)] bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 overflow-hidden">
-                {methods.map((method, i) => (
-                  <div key={i} onClick={() => { setSelectedMethod(method); setIsDropdownOpen(false); }} className={`px-6 py-4 text-xl font-bold cursor-pointer hover:bg-gray-50 ${selectedMethod === method ? 'bg-blue-600 text-white' : 'text-gray-700'}`}>{method}</div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+
+          {/* Phone Number */}
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Account Number</label>
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <Phone className="w-5 h-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+              </div>
+              <input 
+                type="text" 
+                placeholder="01XXXXXXXXX" 
+                className="w-full pl-14 pr-5 py-4 rounded-2xl border-2 border-slate-100 bg-white shadow-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-lg font-bold text-slate-800 placeholder:text-slate-300 transition-all" 
+              />
+            </div>
+          </div>
+
+          {/* Amount */}
+          <div>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Withdraw Amount</label>
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <span className="text-xl font-black text-slate-400 group-focus-within:text-blue-500 transition-colors">৳</span>
+              </div>
+              <input 
+                type="number" 
+                placeholder="0" 
+                className="w-full pl-12 pr-5 py-4 rounded-2xl border-2 border-slate-100 bg-white shadow-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-xl font-black text-slate-800 placeholder:text-slate-300 transition-all font-mono" 
+              />
+            </div>
+          </div>
+
+          {/* Info Alert */}
+          <div className="bg-amber-50/80 border border-amber-200/60 rounded-2xl p-4 flex gap-3 items-start mt-2 backdrop-blur-sm">
+            <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5 animate-pulse" />
+            <div>
+              <p className="text-amber-900 font-bold text-sm">Important Notice</p>
+              <ul className="text-amber-700/80 text-xs font-medium mt-1.5 space-y-1 list-disc list-inside">
+                <li>Do not withdraw your full balance.</li>
+                <li>Minimum account balance requirement: <strong className="text-amber-900 font-black">10 ৳</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4.5 rounded-2xl font-black text-lg shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/40 hover:-translate-y-1 active:scale-95 transition-all flex justify-center items-center gap-2">
+              <Send className="w-5 h-5" />
+              Submit Request
+            </button>
+          </div>
+
         </div>
-        <div>
-          <label className="block text-gray-500 text-xl font-black mb-3">Withdraw Phone Number</label>
-          <input type="text" placeholder="Type Withdraw Phone Number" className="w-full px-6 py-4 rounded-2xl border border-gray-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50/50 text-xl font-bold placeholder:text-gray-300" />
-        </div>
-        <div>
-          <label className="block text-gray-500 text-xl font-black mb-3">Amount</label>
-          <input type="text" placeholder="Type Amount" className="w-full px-6 py-4 rounded-2xl border border-gray-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50/50 text-xl font-bold placeholder:text-gray-300" />
-          <div className="mt-6 font-black text-gray-500"><p>Not withdraw full balance!</p><p>Minimum account Balance (10)</p></div>
-        </div>
-        <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl hover:brightness-110 active:scale-95 transition-all">Create Request</button>
       </div>
     </motion.div>
   );
@@ -690,6 +837,7 @@ function ChangePassword() {
 export function StudentPanel({ logout }: StudentPanelProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showBanner, setShowBanner] = useState(true);
   const { settings } = useSettings();
   const navigateTo = (tab: string) => {
     setActiveTab(tab);
@@ -698,10 +846,85 @@ export function StudentPanel({ logout }: StudentPanelProps) {
   };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-hind">
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 lg:px-12 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4 lg:gap-8"><a href="/"><img src="https://unityearning.com/assets/img/unityearning.png" alt="Unity Earning" className="h-10 lg:h-12 w-auto" /></a><div className="hidden md:block"><h5 className="font-bold text-gray-700 m-0">Students Panel</h5></div></div>
-          <nav className="hidden xl:block">
+      {settings.globalBanner && showBanner && (
+        <AnimatePresence>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowBanner(false)}
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: -50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-white rounded-3xl shadow-2xl relative z-10 w-full max-w-lg overflow-hidden border border-gray-100"
+            >
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-center relative">
+                 <Bell className="w-12 h-12 text-white mx-auto mb-3 animate-bounce" />
+                 <h3 className="text-2xl font-black text-white font-hind">বিশেষ নোটিশ</h3>
+                 <button 
+                    onClick={() => setShowBanner(false)}
+                    className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/40 rounded-full text-white transition-all"
+                  >
+                    <X className="w-5 h-5" />
+                 </button>
+              </div>
+              <div className="p-8 text-center bg-white flex flex-col items-center">
+                <p className="text-lg text-gray-700 font-bold font-hind whitespace-pre-wrap leading-relaxed">
+                  {settings.globalBanner}
+                </p>
+                <div className="mt-8">
+                  <button 
+                    onClick={() => setShowBanner(false)}
+                    className="bg-blue-600 text-white font-black px-8 py-3 rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95"
+                  >
+                    বুঝতে পেরেছি <CheckCircle2 className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </AnimatePresence>
+      )}
+
+      <header className="bg-white shadow-md sticky top-0 z-50">
+        <div className="container mx-auto px-4 lg:px-12 h-20 flex items-center justify-between relative">
+          <div className="flex items-center gap-4 lg:gap-8 shrink-0">
+            <a href="/">
+              <img src="https://unityearning.com/assets/img/unityearning.png" alt="Unity Earning" className="h-10 lg:h-12 w-auto" />
+            </a>
+            <div className="hidden md:block">
+              <h5 className="font-bold text-slate-700 m-0">Students Panel</h5>
+            </div>
+          </div>
+
+          {/* SCROLLING TICKER MARQUEE */}
+          {settings.scrollingTicker && (
+            <div className="flex-1 mx-4 lg:mx-8 overflow-hidden rounded-xl bg-blue-50/80 border border-blue-100 flex items-center shadow-inner h-10 relative">
+              <div className="w-10 h-full bg-blue-600 flex items-center justify-center shrink-0 z-10 shadow-md">
+                <Bell className="w-5 h-5 text-white animate-pulse" />
+              </div>
+              <div className="flex-1 overflow-hidden h-full flex items-center pointer-events-none relative">
+                 {/* Fade edges */}
+                 <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-blue-50/80 to-transparent z-10" />
+                 <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-blue-50/80 to-transparent z-10" />
+                 
+                 <motion.div 
+                   className="whitespace-nowrap flex items-center text-blue-900 font-bold px-4"
+                   animate={{ x: ["100%", "-100%"] }}
+                   transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+                 >
+                   {settings.scrollingTicker}
+                 </motion.div>
+              </div>
+            </div>
+          )}
+          {!settings.scrollingTicker && <div className="flex-1" />}
+
+          <nav className="hidden xl:flex shrink-0">
             <ul className="gradient-menu">
               <li onClick={() => navigateTo('dashboard')}><a href="#"><LayoutGrid className="w-4 h-4 mr-2" /> All Course</a></li>
               {MENU_ITEMS.map((item, i) => (
@@ -723,7 +946,9 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <li><button onClick={logout} className="w-full flex items-center justify-center font-bold px-4 py-2 hover:bg-red-50 text-red-600 transition-colors uppercase text-[12px] tracking-widest"><LogOut className="w-4 h-4 mr-2" /> Logout</button></li>
             </ul>
           </nav>
-          <button className="xl:hidden p-2 text-gray-700 bg-gray-100 rounded-lg" onClick={() => setIsMobileMenuOpen(true)}><Menu className="w-6 h-6" /></button>
+          <button className="xl:hidden p-2 text-slate-700 bg-slate-100/80 hover:bg-slate-200 rounded-xl transition-colors shrink-0" onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu className="w-6 h-6" />
+          </button>
         </div>
       </header>
       <AnimatePresence>
@@ -762,7 +987,58 @@ export function StudentPanel({ logout }: StudentPanelProps) {
             </div>
             <div className="container mx-auto px-4 lg:px-12 -mt-12 relative z-20">
               <div className="bg-white p-6 rounded-2xl shadow-xl mb-8"><p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p></div>
-              <div className="ue-grad-panel p-6 lg:p-10 mb-8 overflow-hidden"><h6 className="text-white font-black uppercase mb-6 tracking-widest text-lg">সাপোর্ট টিম</h6><div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">{settings.supportTeam.map((member, i) => (<div key={i} className="ue-soft-card p-6"><div className="text-white font-black text-xl mb-2">{member.role}:</div><div className="text-white/90 text-lg mb-4">{member.name}</div><a href={`https://wa.me/88-${member.phone}`} className="flex items-center gap-2 text-white font-black hover:scale-105 transition-transform origin-left"><Phone className="w-5 h-5" /> Whatsapp: -{member.phone}</a></div>))}</div></div>
+              
+              {/* Refined Support Team UI */}
+              <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[2rem] p-6 lg:p-8 mb-8 shadow-xl shadow-indigo-500/20 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                  <ShieldCheck className="w-32 h-32 text-white" />
+                </div>
+
+                <h6 className="text-white/90 font-black uppercase mb-6 tracking-widest text-sm flex items-center gap-2 relative z-10">
+                  <ShieldCheck className="w-5 h-5" /> সাপোর্ট টিম
+                </h6>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
+                  {settings.supportTeam.map((member, i) => (
+                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all flex items-center gap-4 group">
+                      <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+                        <User className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-white font-black text-sm">{member.role}</div>
+                        <div className="text-white/80 text-xs font-semibold mt-0.5">{member.name}</div>
+                      </div>
+                      <a 
+                        href={`https://wa.me/88${member.phone.replace(/[^0-9]/g, '')}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="w-10 h-10 bg-green-500/90 hover:bg-green-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-green-500/20 transition-all group-hover:scale-110 active:scale-95"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                      </a>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Helpline option */}
+                <div className="mt-6 pt-6 border-t border-white/10 relative z-10">
+                  <a href="https://wa.me/8801919012426" target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-5 transition-all group gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-[#25D366] flex items-center justify-center rounded-xl shadow-lg shadow-[#25D366]/30 group-hover:scale-110 transition-transform shrink-0">
+                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.16c0-5.458 4.438-9.896 9.896-9.896 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.006 5.45-4.437 9.888-9.89 9.898m8.997-18.88C18.606 1.042 15.429 0 12.046 0 5.433 0 .052 5.376.046 11.983c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624a11.88 11.88 0 005.848 1.53h.004c6.611 0 11.986-5.385 11.992-11.996 0-3.203-1.246-6.216-3.51-8.487"/></svg>
+                      </div>
+                      <div>
+                        <div className="text-white/80 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5">সব সময় সাহায্যে প্রস্তুত</div>
+                        <div className="text-white text-base sm:text-xl font-black">হেল্পলাইন এ যোগাযোগ করুন</div>
+                      </div>
+                    </div>
+                    <div className="hidden sm:flex w-10 h-10 bg-white/10 rounded-full items-center justify-center -rotate-45 group-hover:bg-white/20 group-hover:rotate-0 transition-all duration-300">
+                      <ArrowRight className="w-5 h-5 text-white" />
+                    </div>
+                  </a>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center h-full"><h3 className="text-2xl font-black text-gray-900 mb-6 text-center">কিভাবে সাহায্য করতে পারি?</h3><div className="w-full bg-slate-900 p-6 rounded-2xl text-center mt-auto"><h5 className="text-white font-black mb-4">যেকোনো সমস্যা</h5><span className="inline-block bg-teal-600 text-white px-6 py-2 rounded-full font-black text-sm mb-6">সময়ঃ ৮:৩০AM – ১১:৩০PM</span><a href="https://www.facebook.com/share/1MAceX7uXW/" className="ue-join-btn ue-pill-teal"><ArrowRight className="w-5 h-5" /> Join Meeting</a></div></div>
               <div className="bg-[#f0f9ff]/50 p-6 md:p-10 rounded-[40px] shadow-sm border border-blue-100 lg:col-span-2 relative overflow-hidden">
@@ -818,7 +1094,26 @@ export function StudentPanel({ logout }: StudentPanelProps) {
         ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16"><div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold"><img src="https://unityearning.com/assets/img/unityearning.png" alt="Logo" className="h-12 w-auto mx-auto mb-8" /><p className="max-w-2xl mx-auto mb-8">Learn how to use online social media in our society and how to earn online without wasting valuable time from online social media.</p><div className="flex justify-center gap-8 text-sm uppercase tracking-widest text-gray-400"><span>Unity Earning LMS, All Rights Reserved</span></div></div></footer>
-      <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="fixed bottom-10 right-10 p-4 bg-white text-blue-600 rounded-full shadow-2xl z-[60] border border-blue-100"><ChevronUp className="w-6 h-6" /></button>
+      
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3">
+        <a 
+          href="https://wa.me/8801919012426" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="w-12 h-12 bg-[#25D366] hover:bg-[#20bd5a] flex items-center justify-center text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:scale-110 active:scale-95 transition-all outline-none"
+        >
+          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.16c0-5.458 4.438-9.896 9.896-9.896 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.006 5.45-4.437 9.888-9.89 9.898m8.997-18.88C18.606 1.042 15.429 0 12.046 0 5.433 0 .052 5.376.046 11.983c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624a11.88 11.88 0 005.848 1.53h.004c6.611 0 11.986-5.385 11.992-11.996 0-3.203-1.246-6.216-3.51-8.487"/>
+          </svg>
+        </a>
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
+          className="w-12 h-12 bg-white hover:bg-slate-50 text-blue-600 rounded-full shadow-lg border border-slate-100 hover:scale-110 active:scale-95 transition-all outline-none flex items-center justify-center"
+        >
+          <ChevronUp className="w-6 h-6" />
+        </button>
+      </div>
     </div>
   );
 }

@@ -93,7 +93,6 @@ interface HomePageProps {
   setIsMobileDrawerOpen: (open: boolean) => void;
   isAnnivPopupOpen: boolean;
   closeAnnivPopup: () => void;
-  showGoTop: boolean;
   setIsLoginModalOpen: (open: boolean) => void;
 }
 
@@ -104,7 +103,6 @@ export function HomePage({
   setIsMobileDrawerOpen, 
   isAnnivPopupOpen, 
   closeAnnivPopup, 
-  showGoTop,
   setIsLoginModalOpen
 }: HomePageProps) {
   return (
@@ -148,7 +146,7 @@ export function HomePage({
       </div>
 
       {/* BANNER 1 (HERO) */}
-      <section className="relative min-h-[80vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-32 overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center pt-8 pb-16 lg:pt-16 lg:pb-32 overflow-hidden -mt-[100px]">
         {/* Animated Background */}
         <div className="absolute inset-0 bg-[#020617] z-0">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-indigo-900/30 to-slate-900/50" />
@@ -177,7 +175,7 @@ export function HomePage({
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />
         </div>
 
-        <div className="container mx-auto px-4 lg:px-12 relative z-10">
+        <div className="container mx-auto px-4 lg:px-12 relative z-10 pt-10 lg:pt-16">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 text-left">
               <motion.div
@@ -201,18 +199,18 @@ export function HomePage({
                   বাংলাদেশের অন্যতম বিশ্বস্ত ডিজিটাল লার্নিং প্ল্যাটফর্ম। দক্ষ মেন্টরদের তত্ত্বাবধানে আধুনিক স্কিল অর্জন করুন এবং স্বাবলম্বী হোন।
                 </p>
 
-                <div className="flex flex-wrap gap-4">
-                  <button onClick={() => setIsLoginModalOpen(true)} className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-1 transition-all group">
-                    <span className="flex items-center gap-2">লগইন করুন <ArrowRight className="w-4 h-4 group-hover:translateX-1 transition-transform" /></span>
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 mt-8">
+                  <button onClick={() => setIsLoginModalOpen(true)} className="w-full sm:w-auto px-4 py-3.5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5 group">
+                    লগইন করুন <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
-                  <a href="https://unityearning.com/sign-up" className="px-8 py-4 bg-slate-800 text-white border border-slate-700 rounded-2xl font-black uppercase tracking-widest hover:border-blue-500/50 hover:bg-slate-800/80 transition-all">
+                  <a href="https://unityearning.com/sign-up" className="w-full sm:w-auto px-4 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
                     রেজিস্ট্রেশন
                   </a>
-                  <a href="https://www.unityearning.com/shop" className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-1 transition-all flex items-center gap-2">
-                    <Store className="w-5 h-5" /> স্টোর
+                  <a href="https://www.unityearning.com/shop" className="w-full sm:w-auto px-4 py-3.5 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5">
+                    <Store className="w-4 h-4" /> স্টোর
                   </a>
-                  <button onClick={() => setIsLoginModalOpen(true)} className="px-8 py-4 bg-slate-900 text-white border border-slate-700 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center gap-2">
-                    <UserCog className="w-5 h-5" /> এজেন্ট লগইন
+                  <button onClick={() => setIsLoginModalOpen(true)} className="w-full sm:w-auto px-4 py-3.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-1.5">
+                    <UserCog className="w-4 h-4" /> এজেন্ট লগইন
                   </button>
                 </div>
               </motion.div>
@@ -262,10 +260,10 @@ export function HomePage({
       {/* QUICK STATS / OVERVIEW */}
       <section className="py-8 bg-[#020617] border-y border-white/5 relative z-10 overflow-hidden">
         <div className="container mx-auto px-4 lg:px-12">
-          <div className="flex flex-wrap justify-center lg:justify-between items-center gap-8 lg:gap-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row justify-between items-center gap-6 lg:gap-0">
             {STATS.map((stat, i) => (
-              <div key={i} className="flex items-center gap-4 group">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
+              <div key={i} className="flex items-center gap-4 group justify-start lg:justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg shrink-0">
                    {stat.icon === 'book' ? <BookOpen /> : stat.icon === 'user' ? <Users /> : stat.icon === 'trophy' ? <Trophy /> : <Briefcase />}
                 </div>
                 <div>
@@ -452,53 +450,56 @@ export function HomePage({
             </div>
 
             <div className="text-center">
-              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-green-500 underline underline-offset-8">Certificate</h3>
+              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8">Certificate</h3>
               <img src="https://unityearning.com/assets/img/Popular%20Courses/cert.jpeg" alt="Certificate" className="w-1/2 mx-auto rounded-lg shadow-xl" referrerPolicy="no-referrer" />
             </div>
 
             <div>
-              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-green-500 underline underline-offset-8">Company</h3>
+              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8">Company</h3>
               <ul className="space-y-4">
-                <li><a href="#" className="text-gray-400 hover:text-green-500 transition-colors uppercase font-bold">All Courses</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-green-500 transition-colors uppercase font-bold">About us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-green-500 transition-colors uppercase font-bold">Terms & Conditions</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-green-500 transition-colors uppercase font-bold">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">All Courses</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">About us</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Terms & Conditions</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Privacy Policy</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-900 pt-8 text-center">
+          <div className="border-t border-gray-900 pt-8 text-center flex flex-col gap-2">
             <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">
-              <a href="https://biswasdigitalsolution.com" target="_blank" className="text-green-500 hover:underline">
-                Unity Earning LMS. All Rights By BDS
-              </a>
+              <span className="text-blue-500">
+                Unity Earning LMS. All Rights Reserved
+              </span>
+            </p>
+            <p className="text-gray-500 font-bold text-sm">
+              Made with ❤️ by <a href="#" className="text-indigo-400 hover:text-blue-400 transition-colors font-black">Jihadul Islam</a>
             </p>
           </div>
         </div>
       </footer>
 
-      {/* GO TOP BUTTON */}
-      <AnimatePresence>
-        {showGoTop && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-24 right-6 p-4 bg-green-600 text-white rounded-full shadow-2xl z-40 hover:bg-green-700 transition-colors"
-          >
-            <ChevronUp className="w-6 h-6" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {/* FLOATING ACTION BUTTONS (MOBILE) */}
+      <div className="fixed bottom-4 right-4 flex flex-col items-end gap-2 z-40 lg:hidden">
+        {/* WhatsApp Icon */}
+        <a 
+          href="https://wa.me/8801919012426" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-11 h-11 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition-colors"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+          </svg>
+        </a>
 
-      {/* QUICK MENU TRIGGER (MOBILE) */}
-      <button 
-        className="fixed bottom-6 right-6 lg:hidden flex items-center gap-2 px-6 py-4 bg-teal-600 text-white rounded-full shadow-2xl z-40 font-bold"
-        onClick={() => setIsMobileDrawerOpen(true)}
-      >
-        <Sliders className="w-5 h-5" /> Quick Menu
-      </button>
+        {/* Quick Menu */}
+        <button 
+          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white rounded-full shadow-lg font-bold text-sm hover:bg-indigo-700 transition"
+          onClick={() => setIsMobileDrawerOpen(true)}
+        >
+          <Sliders className="w-4 h-4" /> Quick Menu
+        </button>
+      </div>
 
       {/* ANNIVERSARY POPUP */}
       <AnimatePresence>

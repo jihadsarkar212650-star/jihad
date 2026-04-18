@@ -10,6 +10,8 @@ export interface GlobalSettings {
     phone: string;
   }[];
   systemActive: boolean;
+  globalBanner: string;
+  scrollingTicker?: string;
 }
 
 const DEFAULT_SETTINGS: GlobalSettings = {
@@ -23,7 +25,9 @@ const DEFAULT_SETTINGS: GlobalSettings = {
     { role: "টিম লিডার", name: "Nurjahan Islam", phone: "01785613673" },
     { role: "ট্রেইনার", name: "Sadia Akter", phone: "01636276634" }
   ],
-  systemActive: true
+  systemActive: true,
+  globalBanner: "",
+  scrollingTicker: ""
 };
 
 export function useSettings() {
