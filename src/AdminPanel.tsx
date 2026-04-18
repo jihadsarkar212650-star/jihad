@@ -24,6 +24,7 @@ export function AdminPanel({ logout }: AdminPanelProps) {
   const [editSupport, setEditSupport] = useState(settings.supportTeam);
   const [editGlobalBanner, setEditGlobalBanner] = useState('');
   const [editScrollingTicker, setEditScrollingTicker] = useState('');
+  const [editSocialLinks, setEditSocialLinks] = useState(settings.socialLinks || {facebook:'', youtube:'', telegram:'', whatsapp:'', gmail:''});
 
   // Student Search State
   const [searchPhone, setSearchPhone] = useState('');
@@ -41,6 +42,9 @@ export function AdminPanel({ logout }: AdminPanelProps) {
       setEditSupport(settings.supportTeam || []);
       setEditGlobalBanner(settings.globalBanner || '');
       setEditScrollingTicker(settings.scrollingTicker || '');
+      if (settings.socialLinks) {
+        setEditSocialLinks(settings.socialLinks);
+      }
     }
   }, [settings]);
 
@@ -50,7 +54,8 @@ export function AdminPanel({ logout }: AdminPanelProps) {
         notices: editNotices,
         supportTeam: editSupport,
         globalBanner: editGlobalBanner,
-        scrollingTicker: editScrollingTicker
+        scrollingTicker: editScrollingTicker,
+        socialLinks: editSocialLinks
       });
       Swal.fire({
         icon: 'success',
@@ -304,6 +309,67 @@ export function AdminPanel({ logout }: AdminPanelProps) {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* SOCIAL MEDIA LINKS SECTION */}
+        <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-20">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-black text-gray-800 flex items-center gap-2">
+              <Megaphone className="w-6 h-6 text-purple-600" /> সোশ্যাল মিডিয়া লিংক (Social Links)
+            </h3>
+          </div>
+          <div className="grid gap-4">
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="w-24 text-sm font-bold text-gray-600 flex-shrink-0">Facebook</div>
+              <input 
+                type="text" 
+                value={editSocialLinks.facebook || ''}
+                onChange={(e) => setEditSocialLinks({...editSocialLinks, facebook: e.target.value})}
+                placeholder="https://facebook.com/..."
+                className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
+              />
+            </div>
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="w-24 text-sm font-bold text-gray-600 flex-shrink-0">YouTube</div>
+              <input 
+                type="text" 
+                value={editSocialLinks.youtube || ''}
+                onChange={(e) => setEditSocialLinks({...editSocialLinks, youtube: e.target.value})}
+                placeholder="https://youtube.com/..."
+                className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
+              />
+            </div>
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="w-24 text-sm font-bold text-gray-600 flex-shrink-0">Telegram</div>
+              <input 
+                type="text" 
+                value={editSocialLinks.telegram || ''}
+                onChange={(e) => setEditSocialLinks({...editSocialLinks, telegram: e.target.value})}
+                placeholder="https://t.me/..."
+                className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
+              />
+            </div>
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="w-24 text-sm font-bold text-gray-600 flex-shrink-0">WhatsApp</div>
+              <input 
+                type="text" 
+                value={editSocialLinks.whatsapp || ''}
+                onChange={(e) => setEditSocialLinks({...editSocialLinks, whatsapp: e.target.value})}
+                placeholder="https://wa.me/..."
+                className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
+              />
+            </div>
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="w-24 text-sm font-bold text-gray-600 flex-shrink-0">Gmail</div>
+              <input 
+                type="text" 
+                value={editSocialLinks.gmail || ''}
+                onChange={(e) => setEditSocialLinks({...editSocialLinks, gmail: e.target.value})}
+                placeholder="mailto:example@gmail.com"
+                className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
+              />
+            </div>
           </div>
         </section>
       </div>

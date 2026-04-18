@@ -28,9 +28,35 @@ export default function App() {
   // Sub Admin Login State
   const [isSubAdminModalOpen, setIsSubAdminModalOpen] = useState(false);
   const [subAdminType, setSubAdminType] = useState('');
+  const [isSubAdminTypeOpen, setIsSubAdminTypeOpen] = useState(false);
   const [subAdminId, setSubAdminId] = useState('');
   const [subAdminPass, setSubAdminPass] = useState('');
   const [showSubPass, setShowSubPass] = useState(false);
+
+  const DEPARTMENT_OPTIONS = [
+    { value: 'photo_editing', label: 'Photo Editing Teacher' },
+    { value: 'team_leader', label: 'Team Leader' },
+    { value: 'video_editing', label: 'Video Editing Teacher' },
+    { value: 'trainer', label: 'Trainer' },
+    { value: 'counsellor', label: 'Counsellor' },
+    { value: 'senior_counsellor', label: 'Senior Counsellor' },
+    { value: 'helpline', label: 'Help-Line' },
+    { value: 'social_marketing', label: 'Social Marketing Teacher' },
+    { value: 'web_developer', label: 'Web-Developer' },
+    { value: 'selling_team', label: 'Selling Team' },
+    { value: 'marketing_team', label: 'Marketing Team' },
+    { value: 'qualification_team', label: 'Qualification Team' },
+    { value: 'manager', label: 'Manager' },
+    { value: 'controller', label: 'Controller' },
+    { value: 'teacher', label: 'Teacher' },
+    { value: 'checker', label: 'Checker' },
+    { value: 'senior_team_leader', label: 'Senior Team Leader' },
+    { value: 'senior_controller', label: 'Senior Controller' },
+    { value: 'counsellor_manager', label: 'Counsellor Manager' },
+    { value: 'marketing_manager', label: 'Marketing Manager' },
+    { value: 'senior_teacher', label: 'Senior Teacher' },
+    { value: 'account', label: 'Account' }
+  ];
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -279,17 +305,67 @@ export default function App() {
                   <div>
                     <label className="block text-base font-semibold text-[#0D0B3D] mb-2 font-sans tracking-wide">Account Type</label>
                     <div className="relative">
-                      <select 
-                        value={subAdminType}
-                        onChange={(e) => setSubAdminType(e.target.value)}
-                        className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-gray-600 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%239CA3AF%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M19%209l-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px_20px] bg-no-repeat bg-[position:right_1rem_center]"
-                        required
+                      
+                      <div 
+                        onClick={() => setIsSubAdminTypeOpen(true)}
+                        className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-lg cursor-pointer flex justify-between items-center text-gray-800 font-sans"
                       >
-                        <option value="" disabled>Select Department</option>
-                        <option value="support">Support Admin</option>
-                        <option value="trainer">Trainer</option>
-                        <option value="teacher">Teacher</option>
-                      </select>
+                        <span className={subAdminType ? "text-gray-800" : "text-gray-500"}>
+                          {subAdminType ? DEPARTMENT_OPTIONS.find(opt => opt.value === subAdminType)?.label : "Select Department"}
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#9CA3AF" className="w-5 h-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                      
+                      <AnimatePresence>
+                        {isSubAdminTypeOpen && (
+                          <div className="fixed inset-0 z-[300] flex flex-col justify-end">
+                            <motion.div 
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              onClick={() => setIsSubAdminTypeOpen(false)}
+                              className="absolute inset-0 bg-black/60"
+                            />
+                            <motion.div 
+                              initial={{ y: "100%" }}
+                              animate={{ y: 0 }}
+                              exit={{ y: "100%" }}
+                              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                              className="relative bg-[#231F32] h-[100dvh] flex flex-col w-full z-10"
+                            >
+                              <div className="sticky top-0 bg-[#231F32] z-20 border-b border-white/10 flex items-center justify-between p-5 shadow-sm">
+                                <h3 className="text-white text-xl font-bold font-sans tracking-wide">Select Department</h3>
+                                <button type="button" onClick={() => setIsSubAdminTypeOpen(false)} className="p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors">
+                                  <X className="w-6 h-6" />
+                                </button>
+                              </div>
+                              <div className="flex-1 overflow-y-auto pb-6">
+                                {DEPARTMENT_OPTIONS.map((option, i) => (
+                                  <label key={i} className="flex items-center justify-between p-5 border-b border-white/10 cursor-pointer hover:bg-white/5 transition-colors">
+                                    <span className="text-white text-lg font-sans tracking-wide">{option.label}</span>
+                                    <div className="relative flex items-center justify-center">
+                                      <input 
+                                        type="radio" 
+                                        name="department" 
+                                        value={option.value}
+                                        checked={subAdminType === option.value}
+                                        onChange={(e) => {
+                                          setSubAdminType(e.target.value);
+                                          setTimeout(() => setIsSubAdminTypeOpen(false), 200);
+                                        }}
+                                        className="appearance-none w-6 h-6 border-2 border-gray-400 rounded-full checked:border-[#A188FF] checked:bg-transparent transition-all outline-none cursor-pointer peer"
+                                      />
+                                      <div className="absolute w-3 h-3 bg-[#A188FF] rounded-full opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                                    </div>
+                                  </label>
+                                ))}
+                              </div>
+                            </motion.div>
+                          </div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
 

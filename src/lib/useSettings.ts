@@ -12,6 +12,13 @@ export interface GlobalSettings {
   systemActive: boolean;
   globalBanner: string;
   scrollingTicker?: string;
+  socialLinks?: {
+    facebook?: string;
+    youtube?: string;
+    telegram?: string;
+    whatsapp?: string;
+    gmail?: string;
+  };
 }
 
 const DEFAULT_SETTINGS: GlobalSettings = {
@@ -27,7 +34,14 @@ const DEFAULT_SETTINGS: GlobalSettings = {
   ],
   systemActive: true,
   globalBanner: "",
-  scrollingTicker: ""
+  scrollingTicker: "",
+  socialLinks: {
+    facebook: "",
+    youtube: "",
+    telegram: "",
+    whatsapp: "",
+    gmail: ""
+  }
 };
 
 export function useSettings() {
