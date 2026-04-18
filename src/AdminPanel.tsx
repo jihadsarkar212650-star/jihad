@@ -4,7 +4,7 @@ import {
   Menu, X, LogOut, LayoutGrid, Users, UserPlus, GraduationCap, 
   Store, BookOpen, CreditCard, Settings, MessageSquare, 
   ChevronDown, Bell, Search, Wallet, ArrowDownCircle, 
-  Activity, UserX, UserCheck, Inbox, ShieldCheck, Plus, Trash2, Save
+  Activity, UserX, UserCheck, Inbox, ShieldCheck, Plus, Trash2, Save, Key, Filter
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { useSettings } from './lib/useSettings';
@@ -22,6 +22,16 @@ export function AdminPanel({ logout }: AdminPanelProps) {
   // Local state for editing settings
   const [editNotices, setEditNotices] = useState<string[]>([]);
   const [editSupport, setEditSupport] = useState(settings.supportTeam);
+
+  // Student Search State
+  const [searchPhone, setSearchPhone] = useState('');
+  const [mockStudents, setMockStudents] = useState([
+    { id: '3255889', name: 'Tanha Islam Mim', phone: '01919012423', status: 'Active', balance: '6,991.22' },
+    { id: '3255890', name: 'Jihad Sarkar', phone: '01900000000', status: 'Active', balance: '1,200.00' },
+    { id: '3255891', name: 'Student Three', phone: '01800000000', status: 'Pending', balance: '0.00' },
+  ]);
+
+  const filteredStudents = mockStudents.filter(s => s.phone.includes(searchPhone) || s.id.includes(searchPhone));
 
   useEffect(() => {
     if (settings) {
@@ -243,6 +253,131 @@ export function AdminPanel({ logout }: AdminPanelProps) {
     </div>
   );
 
+  const handleChangePassword = (studentId: string) => {
+    Swal.fire({
+      title: 'Change Password',
+      input: 'password',
+      inputLabel: `Enter new password for student ID: ${studentId}`,
+      inputPlaceholder: 'New Password',
+      showCancelButton: true,
+      confirmButtonText: 'Update Now',
+      confirmButtonColor: '#2563eb',
+      inputAttributes: {
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      }
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: `Password updated for ID ${studentId}`,
+          timer: 1500,
+          showConfirmButton: false,
+          toast: true,
+          position: 'top-end'
+        });
+      }
+    });
+  };
+
+  const renderMembers = () => (
+    <div className="p-6 lg:p-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <div>
+          <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Student Management</h2>
+          <p className="text-gray-500 font-bold">Search, filter, and manage all student accounts</p>
+        </div>
+        <div className="flex bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5 w-full md:w-96 ring-4 ring-gray-100/50">
+          <div className="flex items-center justify-center pl-4 text-gray-400">
+            <Search className="w-5 h-5" />
+          </div>
+          <input 
+            type="text" 
+            placeholder="Search by Phone or Student ID..." 
+            value={searchPhone}
+            onChange={(e) => setSearchPhone(e.target.value)}
+            className="w-full px-4 py-3 bg-transparent outline-none font-bold text-gray-700"
+          />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-[32px] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase tracking-widest border-b border-gray-100">
+                <th className="px-8 py-6">ID & Name</th>
+                <th className="px-8 py-6">Phone Number</th>
+                <th className="px-8 py-6">Status</th>
+                <th className="px-8 py-6">Balance</th>
+                <th className="px-8 py-6 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {filteredStudents.length > 0 ? filteredStudents.map((s, i) => (
+                <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-black">
+                        {s.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="font-black text-gray-900 leading-none mb-1">{s.name}</p>
+                        <p className="text-xs font-bold text-gray-400">#{s.id}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6 font-bold text-gray-600">
+                    {s.phone}
+                  </td>
+                  <td className="px-8 py-6">
+                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                      s.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-amber-50 text-amber-600 border border-amber-100'
+                    }`}>
+                      {s.status}
+                    </span>
+                  </td>
+                  <td className="px-8 py-6 font-black text-gray-900">
+                    Tk {s.balance}
+                  </td>
+                  <td className="px-8 py-6">
+                    <div className="flex items-center justify-center gap-2">
+                      <button 
+                        onClick={() => handleChangePassword(s.id)}
+                        className="p-3 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                        title="Change Password"
+                      >
+                        <Key className="w-4 h-4" />
+                      </button>
+                      <button className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={5} className="px-8 py-20 text-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="p-6 bg-slate-50 rounded-full text-slate-300">
+                        <Users className="w-12 h-12" />
+                      </div>
+                      <div>
+                        <p className="text-xl font-black text-slate-900 mb-1">No Students Found</p>
+                        <p className="text-slate-400 font-bold">Try searching with another number</p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderDashboard = () => (
     <div className="p-6 lg:p-10">
       <div className="bg-slate-900 rounded-2xl p-6 mb-8 flex items-center justify-between text-white shadow-xl">
@@ -384,7 +519,8 @@ export function AdminPanel({ logout }: AdminPanelProps) {
 
         <main className="flex-grow overflow-y-auto">
           {activeView === 'dashboard' ? renderDashboard() : 
-           activeView === 'settings' ? renderSettings() : (
+           activeView === 'settings' ? renderSettings() :
+           activeView.startsWith('members') ? renderMembers() : (
             <div className="p-10 flex flex-col items-center justify-center min-h-[60vh] text-center">
               <div className="p-6 bg-amber-50 rounded-3xl text-amber-600 mb-6">
                 <ShieldCheck className="w-12 h-12" />

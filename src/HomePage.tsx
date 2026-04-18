@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Menu, X, LogIn, UserPlus, Store, UserCog, ShieldCheck, 
   ArrowRight, Phone, HelpCircle, MessageCircle, BookOpen,
-  ChevronUp, Star, PenSquare, Sliders
+  ChevronUp, Star, PenSquare, Sliders, Users, Trophy, Briefcase
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -128,9 +128,9 @@ export function HomePage({
               <a href="https://www.unityearning.com/shop" className="nav-pill pill-store">
                 <Store className="w-4 h-4" /><span>Store</span>
               </a>
-              <a href="https://unityearning.com/subadmin-login" className="nav-pill pill-sub">
-                <UserCog className="w-4 h-4" /><span>Sub Admin</span>
-              </a>
+              <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-sub">
+                <UserCog className="w-4 h-4" /><span>Agent Login</span>
+              </button>
               <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-admin">
                 <ShieldCheck className="w-4 h-4" /><span>Admin</span>
               </button>
@@ -138,7 +138,7 @@ export function HomePage({
 
             {/* Mobile Hamburger */}
             <button 
-              className="lg:hidden p-2 text-white bg-green-700/50 rounded-lg"
+              className="lg:hidden p-2 text-white bg-blue-600/50 rounded-lg"
               onClick={() => setIsHeaderDrawerOpen(true)}
             >
               <Menu className="w-6 h-6" />
@@ -147,62 +147,164 @@ export function HomePage({
         </div>
       </div>
 
-      {/* BANNER 1 */}
-      <section className="banner_area_one py-12 lg:py-24 bg-[#0b8f2d]">
-        <div className="container mx-auto px-4 lg:px-12">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/3 text-white">
-              <p className="text-xl lg:text-2xl font-bold uppercase tracking-wider">
-                WELCOME TO <br/>
-                <span className="text-yellow-300">UNITY EARNING E-LEARNING PLATFORM</span>
-              </p>
+      {/* BANNER 1 (HERO) */}
+      <section className="relative min-h-[80vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-32 overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-[#020617] z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-indigo-900/30 to-slate-900/50" />
+          
+          {/* Floating Blobs */}
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.2, 1],
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 blur-[120px] rounded-full"
+          />
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.3, 1],
+              x: [0, -150, 0],
+              y: [0, -100, 0],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-indigo-600/20 blur-[150px] rounded-full"
+          />
+          
+          {/* Grid Pattern overlay */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-12 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2 text-left">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-xs font-black tracking-widest uppercase mb-8 backdrop-blur-md">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                  Leading Skill Platform
+                </div>
+                
+                <h1 className="text-4xl lg:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8 uppercase">
+                  WELCOME TO <br/>
+                  <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">UNITY EARNING</span> <br/>
+                  <span className="text-2xl lg:text-4xl font-bold tracking-normal normal-case text-slate-400">E-Learning Platform</span>
+                </h1>
+                
+                <p className="text-slate-400 font-bold mb-10 text-lg lg:text-xl leading-relaxed max-w-xl">
+                  বাংলাদেশের অন্যতম বিশ্বস্ত ডিজিটাল লার্নিং প্ল্যাটফর্ম। দক্ষ মেন্টরদের তত্ত্বাবধানে আধুনিক স্কিল অর্জন করুন এবং স্বাবলম্বী হোন।
+                </p>
+
+                <div className="flex flex-wrap gap-4">
+                  <button onClick={() => setIsLoginModalOpen(true)} className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-1 transition-all group">
+                    <span className="flex items-center gap-2">লগইন করুন <ArrowRight className="w-4 h-4 group-hover:translateX-1 transition-transform" /></span>
+                  </button>
+                  <a href="https://unityearning.com/sign-up" className="px-8 py-4 bg-slate-800 text-white border border-slate-700 rounded-2xl font-black uppercase tracking-widest hover:border-blue-500/50 hover:bg-slate-800/80 transition-all">
+                    রেজিস্ট্রেশন
+                  </a>
+                  <a href="https://www.unityearning.com/shop" className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-1 transition-all flex items-center gap-2">
+                    <Store className="w-5 h-5" /> স্টোর
+                  </a>
+                  <button onClick={() => setIsLoginModalOpen(true)} className="px-8 py-4 bg-slate-900 text-white border border-slate-700 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center gap-2">
+                    <UserCog className="w-5 h-5" /> এজেন্ট লগইন
+                  </button>
+                </div>
+              </motion.div>
             </div>
-            <div className="lg:w-2/3">
-              <img 
-                src="https://unityearning.com/assets/img/banner-img/skill.webp" 
-                alt="Skills" 
-                className="w-full max-w-2xl mx-auto rounded-2xl shadow-2xl" 
-                referrerPolicy="no-referrer"
-              />
+            
+            <div className="lg:w-1/2 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, type: "spring" }}
+                className="relative z-20 group"
+              >
+                <div className="absolute inset-0 bg-blue-600/30 blur-[60px] rounded-full group-hover:scale-125 transition-transform duration-1000" />
+                <div className="relative p-2 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[40px] shadow-2xl overflow-hidden">
+                  <img 
+                    src="https://unityearning.com/assets/img/banner-img/skill.webp" 
+                    alt="Skills" 
+                    className="w-full h-auto rounded-[32px] group-hover:scale-105 transition-transform duration-700" 
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/80 via-transparent to-transparent" />
+                </div>
+                
+                {/* Floating elements */}
+                <motion.div 
+                  animate={{ y: [0, -20, 0] }} 
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-10 -right-10 p-6 bg-white rounded-3xl shadow-2xl hidden lg:block"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
+                      <ShieldCheck className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Trusted by</p>
+                      <p className="text-xl font-black text-slate-900 tracking-tighter">10,000+ Students</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* BANNER 2 / CTA */}
-      <section className="banner_area_tow py-8 bg-[#0b8f2d]">
+      {/* QUICK STATS / OVERVIEW */}
+      <section className="py-8 bg-[#020617] border-y border-white/5 relative z-10 overflow-hidden">
         <div className="container mx-auto px-4 lg:px-12">
-          <div className="flex flex-wrap gap-4">
-            <button onClick={() => setIsLoginModalOpen(true)} className="ue-pill-btn ue-pill-teal">
-              <LogIn className="w-4 h-4" /> <span>Login</span> <ArrowRight className="w-4 h-4" />
-            </button>
-            <a href="https://unityearning.com/sign-up" className="ue-pill-btn">
-              <UserPlus className="w-4 h-4" /> <span>Sign Up</span> <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href="https://www.unityearning.com/shop" className="ue-pill-btn ue-pill-emerald">
-              <Store className="w-4 h-4" /> <span>Store</span> <ArrowRight className="w-4 h-4" />
-            </a>
-            <button onClick={() => setIsLoginModalOpen(true)} className="ue-pill-btn ue-pill-lime">
-              <UserCog className="w-4 h-4" /> <span>Agent Login</span> <ArrowRight className="w-4 h-4" />
-            </button>
+          <div className="flex flex-wrap justify-center lg:justify-between items-center gap-8 lg:gap-0">
+            {STATS.map((stat, i) => (
+              <div key={i} className="flex items-center gap-4 group">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
+                   {stat.icon === 'book' ? <BookOpen /> : stat.icon === 'user' ? <Users /> : stat.icon === 'trophy' ? <Trophy /> : <Briefcase />}
+                </div>
+                <div>
+                  <p className="text-xl font-black text-white tracking-tighter">{stat.target.toLocaleString()}{stat.suffix}</p>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{stat.label}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ABOUT / ACHIEVE */}
-      <section className="achieve-area text-white">
-        <div className="container mx-auto px-4 lg:px-12">
-          <div className="max-w-4xl mx-auto">
-            <p className="text-lg leading-relaxed font-hind">
-              এটি বাংলাদেশের একটি বিশ্বস্ত অনলাইন প্ল্যাটফর্ম। এখানে আপনার ঘরে বসে শুধুমাত্র একটি স্মার্টফোন ব্যবহার করেই অবসর সময়কে কাজে লাগিয়ে শেখা এবং উপার্জনের সুযোগ রয়েছে।
-              <br/><br/>
-              শেখার প্রক্রিয়াটি অত্যন্ত সহজ, কারণ এখানে আপনি নিজের মাতৃভাষায় শেখার সুযোগ পাবেন। ফলে নতুন কিছু শেখা বা দক্ষতা অর্জন করতে আপনার কোনো সমস্যাই হবে না। পাশাপাশি, শেখার পাশাপাশি আমাদের কমিউনিটির মাধ্যমে আপনি কোর্স, সেবা বা বিভিন্ন প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন।
-              <br/><br/>
-              এখানে আপনার জন্য একটি সহজ, নির্ভরযোগ্য এবং দীর্ঘমেয়াদি ক্যারিয়ার গড়ে তোলার সুযোগ রয়েছে। ধাপে ধাপে শিখে এবং প্রয়োগের মাধ্যমে আপনি নিজের ক্যারিয়ারকে সুন্দর ও সফলভাবে এগিয়ে নিতে পারবেন।
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="container mx-auto px-4 lg:px-12 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <span className="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">Our Commitment</span>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter mb-12 uppercase leading-none">
+              বাংলাদেশের এক নম্বর <br/>
+              <span className="text-blue-600">ডিজিটাল লার্নিং প্ল্যাটফর্ম</span>
+            </h2>
+            
+            <p className="text-lg md:text-xl text-slate-500 font-bold leading-relaxed mb-12">
+               এটি বাংলাদেশের একটি বিশ্বস্ত অনলাইন প্ল্যাটফর্ম। এখানে আপনার ঘরে বসে শুধুমাত্র একটি স্মার্টফোন ব্যবহার করেই অবসর সময়কে কাজে লাগিয়ে শেখা এবং উপার্জনের সুযোগ রয়েছে।
             </p>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-16">
+              <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 hover:bg-blue-50 hover:border-blue-100 transition-all group">
+                <h4 className="text-xl font-black text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">সহজ শেখার পদ্ধতি</h4>
+                <p className="text-slate-500 font-bold leading-relaxed">শেখার প্রক্রিয়াটি অত্যন্ত সহজ, কারণ এখানে আপনি নিজের মাতৃভাষায় শেখার সুযোগ পাবেন। ফলে নতুন কিছু শেখা বা দক্ষতা অর্জন করতে আপনার কোনো সমস্যাই হবে না।</p>
+              </div>
+              <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 hover:bg-emerald-50 hover:border-emerald-100 transition-all group">
+                <h4 className="text-xl font-black text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">উপার্জনের সুযোগ</h4>
+                <p className="text-slate-500 font-bold leading-relaxed">শেখার পাশাপাশি আমাদের কমিউনিটির মাধ্যমে আপনি কোর্স, সেবা বা বিভিন্ন প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন। এখানে দীর্ঘমেয়াদি ক্যারিয়ার গড়ার সুযোগ রয়েছে।</p>
+              </div>
+            </div>
+
             <button 
-              className="ue-help-btn mt-8"
+              className="px-10 py-5 bg-slate-900 text-white rounded-full font-black uppercase tracking-[0.2em] text-sm hover:bg-blue-600 hover:shadow-2xl transition-all shadow-xl shadow-slate-900/10"
               onClick={() => setIsHelpModalOpen(true)}
             >
               সহায়তা দরকার?
@@ -212,13 +314,16 @@ export function HomePage({
       </section>
 
       {/* POPULAR COURSES */}
-      <section className="courses-area bg-white py-16">
+      <section className="bg-slate-50 py-24 border-y border-slate-100">
         <div className="container mx-auto px-4 lg:px-12">
-          <div className="text-center mb-16">
-            <span className="text-green-700 font-bold uppercase tracking-widest text-sm block mb-4">Popular Courses</span>
-            <h2 className="bg-green-700 text-white px-8 py-6 rounded-xl inline-block text-2xl lg:text-3xl font-bold uppercase">
-              Our Popular Courses
-            </h2>
+          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-4">
+            <div>
+              <span className="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">Expert Mentors</span>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-none">
+                আমাদের জনপ্রিয় <span className="text-blue-600">কোর্সসমূহ</span>
+              </h2>
+            </div>
+            <p className="text-slate-500 font-bold max-w-md md:text-right">আধুনিক ক্যারিয়ার গড়ার জন্য আমরা নিয়ে এসেছি সেরা সব স্কিল ভিত্তিক প্রফেশনাল কোর্স।</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -230,19 +335,19 @@ export function HomePage({
               >
                 <div className="aspect-[16/10] overflow-hidden relative">
                   <div className="absolute top-4 left-4 z-10">
-                    <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg">Premium Course</span>
+                    <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg">Premium Course</span>
                   </div>
                   <img src={course.img} alt={course.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 <div className="p-8">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex text-amber-400">
+                    <div className="flex text-blue-500">
                       {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
                     </div>
                     <span className="text-[10px] font-bold text-slate-400">({course.rating})</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-4 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-800 mb-4 line-clamp-1 group-hover:text-blue-600 transition-colors">
                     {course.title}
                   </h3>
                   <div className="flex items-center justify-between pt-6 border-t border-slate-50">
@@ -252,7 +357,7 @@ export function HomePage({
                       </div>
                       <span className="text-xs font-bold text-slate-500">{course.mentor}</span>
                     </div>
-                    <span className="text-lg font-black text-emerald-600 tracking-tighter">{course.price}</span>
+                    <span className="text-lg font-black text-blue-600 tracking-tighter">{course.price}</span>
                   </div>
                 </div>
               </motion.div>

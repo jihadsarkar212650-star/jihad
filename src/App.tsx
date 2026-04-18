@@ -28,7 +28,7 @@ export default function App() {
     e.preventDefault();
     
     // Admin Check
-    if (loginNumber === '01919012426' && loginPass === 'jihaD123') {
+    if (loginNumber === '01919012424' && loginPass === 'jihad123') {
       setIsAuthenticated(true);
       setIsAdmin(true);
       setIsLoginModalOpen(false);
@@ -157,7 +157,7 @@ export default function App() {
                exit={{ scale: 0.9, opacity: 0, y: 20 }}
                className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden z-20"
             >
-              <div className="bg-green-700 p-8 text-white relative">
+              <div className="bg-blue-600 p-8 text-white relative">
                 <button 
                   onClick={() => setIsLoginModalOpen(false)}
                   className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -166,7 +166,7 @@ export default function App() {
                 </button>
                 <div className="text-center">
                   <h3 className="text-2xl font-black mb-2 font-hind">Login to System</h3>
-                  <p className="text-green-100/80 font-bold font-hind">Welcome Back!</p>
+                  <p className="text-blue-100/80 font-bold font-hind">Welcome Back!</p>
                 </div>
               </div>
               
@@ -180,7 +180,7 @@ export default function App() {
                       value={loginNumber}
                       onChange={(e) => setLoginNumber(e.target.value)}
                       placeholder="Enter Number"
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none font-bold"
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none font-bold"
                       required
                     />
                   </div>
@@ -195,7 +195,7 @@ export default function App() {
                       value={loginPass}
                       onChange={(e) => setLoginPass(e.target.value)}
                       placeholder="Enter Password"
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-green-500 focus:bg-white transition-all outline-none font-bold"
+                      className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none font-bold"
                       required
                     />
                   </div>
@@ -203,7 +203,7 @@ export default function App() {
 
                 <button 
                   type="submit"
-                  className="w-full py-4 bg-green-700 text-white rounded-2xl font-black text-lg shadow-xl shadow-green-900/20 hover:bg-green-800 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-900/20 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
                 >
                   <LogIn className="w-5 h-5" /> Login Now
                 </button>
@@ -220,7 +220,7 @@ export default function App() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsHeaderDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col">
               <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                <h3 className="text-xl font-bold text-green-700 font-hind">মেনু</h3>
+                <h3 className="text-xl font-bold text-blue-700 font-hind">মেনু</h3>
                 <button onClick={() => setIsHeaderDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button>
               </div>
               <div className="p-6 overflow-y-auto flex-grow">
@@ -229,8 +229,8 @@ export default function App() {
                     { icon: LogIn, label: "Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: UserPlus, label: "Sign Up", href: "https://unityearning.com/sign-up" },
                     { icon: Store, label: "Store", href: "https://www.unityearning.com/shop" },
-                    { icon: ShieldCheck, label: "Customer Login", href: "https://unityearning.com/customer-login" },
-                    { icon: UserCog, label: "Student Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: UserCog, label: "Agent Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: ShieldCheck, label: "Student Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Sub Admin Login", href: "https://unityearning.com/subadmin-login" },
                     { icon: ShieldCheck, label: "Admin Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: BookOpen, label: "All Courses", href: "#" },
@@ -239,7 +239,7 @@ export default function App() {
                     { icon: ShieldCheck, label: "Privacy Policy", href: "#" },
                   ].map((item: any, i) => (
                     <button key={i} onClick={item.onClick} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 shadow-sm hover:bg-gray-50 transition-colors font-bold text-gray-800 cursor-pointer w-full text-left">
-                      <div className="p-2 bg-green-50 text-green-600 rounded-lg"><item.icon className="w-5 h-5" /></div>
+                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg"><item.icon className="w-5 h-5" /></div>
                       <span className="font-hind">{item.label}</span>
                     </button>
                   ))}
@@ -256,14 +256,14 @@ export default function App() {
           <div className="fixed inset-0 z-[100]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
             <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100"><h3 className="text-xl font-bold text-green-700 font-hind">দ্রুত মেনু</h3><button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button></div>
+              <div className="flex items-center justify-between p-6 border-b border-gray-100"><h3 className="text-xl font-bold text-blue-700 font-hind">দ্রুত মেনু</h3><button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button></div>
               <div className="p-6 grid gap-3">
                 {[
                   { icon: LogIn, label: "Login", color: "ue-pill-teal", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: UserPlus, label: "Sign Up", color: "", href: "https://unityearning.com/sign-up" },
                   { icon: Store, label: "Store", color: "ue-pill-emerald", href: "https://www.unityearning.com/shop" },
-                  { icon: ShieldCheck, label: "Customer Login", color: "ue-pill-lime", href: "https://unityearning.com/customer-login" },
-                  { icon: UserCog, label: "Student Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: UserCog, label: "Agent Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Student Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: ShieldCheck, label: "Sub Admin Login", color: "", href: "https://unityearning.com/subadmin-login" },
                   { icon: ShieldCheck, label: "Admin Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                 ].map((item: any, i) => (
