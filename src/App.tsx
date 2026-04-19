@@ -22,6 +22,7 @@ export default function App() {
   
   // Normal Login State
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [loginModalType, setLoginModalType] = useState<'student'|'agent'|'admin'>('student');
   const [loginNumber, setLoginNumber] = useState('');
   const [loginPass, setLoginPass] = useState('');
 
@@ -179,6 +180,7 @@ export default function App() {
         isAnnivPopupOpen={isAnnivPopupOpen}
         closeAnnivPopup={closeAnnivPopup}
         setIsLoginModalOpen={setIsLoginModalOpen}
+        setLoginModalType={setLoginModalType}
       />
 
       {/* LOGIN MODAL */}
@@ -216,7 +218,12 @@ export default function App() {
                   <h3 className="text-3xl font-black text-gray-900 mb-3 tracking-tight font-hind">লগইন প্যানেল</h3>
                   <p className="text-[13px] text-gray-600 font-bold font-hind leading-relaxed bg-blue-50/80 text-blue-800 p-4 rounded-2xl border border-blue-100 shadow-sm relative overflow-hidden">
                     <span className="absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-2xl"></span>
-                    স্টুডেন্ট আইডিতে লগইন করার জন্য আপনার <span className="font-black text-green-600">WhatsApp নাম্বার</span> এবং <span className="font-black">পাসওয়ার্ড</span> দিয়ে লগইন এ ক্লিক করুন।
+                    {loginModalType === 'agent' 
+                      ? "এজেন্ট আইডিতে লগইন করার জন্য আপনার " 
+                      : loginModalType === 'admin' 
+                        ? "এডমিন প্যানেলে লগইন করার জন্য আপনার " 
+                        : "স্টুডেন্ট আইডিতে লগইন করার জন্য আপনার "}
+                    <span className="font-black text-green-600">WhatsApp নাম্বার</span> এবং <span className="font-black">পাসওয়ার্ড</span> দিয়ে লগইন এ ক্লিক করুন।
                   </p>
                 </div>
                 
@@ -432,13 +439,13 @@ export default function App() {
               <div className="p-6 overflow-y-auto flex-grow">
                 <div className="grid gap-3">
                   {[
-                    { icon: LogIn, label: "Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: UserPlus, label: "Sign Up", onClick: () => { window.location.href="https://unityearning.com/sign-up" } },
                     { icon: Store, label: "Store", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
-                    { icon: UserCog, label: "Agent Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
-                    { icon: ShieldCheck, label: "Student Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: UserCog, label: "Agent Login", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: ShieldCheck, label: "Student Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Sub Admin Login", onClick: () => { setIsSubAdminModalOpen(true); setIsHeaderDrawerOpen(false); } },
-                    { icon: ShieldCheck, label: "Admin Login", onClick: () => { setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: ShieldCheck, label: "Admin Login", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: BookOpen, label: "All Courses", onClick: () => {} },
                     { icon: HelpCircle, label: "About us", onClick: () => {} },
                     { icon: ShieldCheck, label: "Terms & Conditions", onClick: () => {} },
@@ -465,13 +472,13 @@ export default function App() {
               <div className="flex items-center justify-between p-6 border-b border-gray-100"><h3 className="text-xl font-bold text-blue-700 font-hind">দ্রুত মেনু</h3><button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button></div>
               <div className="p-6 grid gap-3">
                 {[
-                  { icon: LogIn, label: "Login", color: "ue-pill-teal", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: LogIn, label: "Login", color: "ue-pill-teal", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: UserPlus, label: "Sign Up", color: "", onClick: () => { window.location.href="https://unityearning.com/sign-up" } },
                   { icon: Store, label: "Store", color: "ue-pill-emerald", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
-                  { icon: UserCog, label: "Agent Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Student Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: UserCog, label: "Agent Login", color: "", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Student Login", color: "", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: ShieldCheck, label: "Sub Admin Login", color: "", onClick: () => { setIsSubAdminModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Admin Login", color: "", onClick: () => { setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Admin Login", color: "", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                 ].map((item: any, i) => (
                   <button key={i} onClick={item.onClick} className={`ue-pill-btn ${item.color} justify-center w-full py-4 cursor-pointer`}><item.icon className="w-5 h-5" /> <span>{item.label}</span> <ArrowRight className="w-4 h-4" /></button>
                 ))}

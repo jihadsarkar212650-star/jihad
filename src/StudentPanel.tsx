@@ -63,23 +63,35 @@ interface StudentPanelProps {
 }
 
 function LiveViewerCount() {
-  const [count, setCount] = useState(358);
-  
+  const [count, setCount] = useState(() => Math.floor(Math.random() * 200) + 300);
+  const [status, setStatus] = useState<'up' | 'down' | 'neutral'>('neutral');
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCount(prev => {
-        const diff = Math.floor(Math.random() * 5) - 2;
-        const newCount = prev + diff;
-        return newCount < 300 ? 300 : newCount > 600 ? 550 : newCount;
+        const isUp = Math.random() > 0.4; // Slightly more chance to go up or equal
+        const diff = Math.floor(Math.random() * 30) + 5; // Change by 5 to 35
+        
+        const newCount = isUp ? prev + diff : prev - diff;
+        setStatus(isUp ? 'up' : 'down');
+        
+        // Boundaries
+        return newCount < 150 ? 150 : newCount > 1500 ? 1200 : newCount;
       });
-    }, 4000);
+    }, 1000); // changes every 1 second
     return () => clearInterval(interval);
   }, []);
 
+  const styles = status === 'up' 
+    ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 shadow-emerald-500/10'
+    : status === 'down'
+      ? 'bg-rose-500/10 text-rose-600 border-rose-500/20 shadow-rose-500/10'
+      : 'bg-blue-500/10 text-blue-600 border-blue-500/20 shadow-blue-500/10';
+
   return (
-    <div className="flex items-center gap-1.5 bg-red-600/10 text-red-600 border border-red-600/10 px-2 py-1 rounded-lg text-[10px] font-black">
-      <Eye className="w-3 h-3 animate-pulse" />
-      <span className="tabular-nums">{count}</span>
+    <div className={`flex items-center gap-1.5 border px-2.5 py-1 rounded-xl text-[10px] font-black transition-all duration-500 shadow-sm ${styles}`}>
+      <Eye className="w-3.5 h-3.5 animate-pulse" />
+      <span className="tabular-nums min-w-[32px] text-center">{count}</span>
     </div>
   );
 }
@@ -1063,7 +1075,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mt-6">
                     {LIVE_CLASSES.map((item, i) => (
                       <motion.div 
                         key={i} 
@@ -1071,22 +1083,35 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.05 }}
-                        className="bg-white rounded-[24px] p-4 border border-gray-100 flex items-center justify-between group hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1 transition-all duration-300"
+                        className="bg-white rounded-[24px] p-5 border border-transparent hover:border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-2 group shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(59,130,246,0.15)] hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden"
                       >
-                        <div className="flex flex-col gap-1 min-w-0 pr-4">
-                          <h4 className="font-black text-slate-800 text-xs md:text-sm truncate uppercase tracking-tight">{item.topic}</h4>
-                          <div className="flex items-center gap-2">
-                             <div className="w-6 h-6 bg-blue-50 rounded-lg flex items-center justify-center">
-                               <User className="w-3 h-3 text-blue-600" />
+                        <div className="absolute top-0 left-0 sm:w-1.5 h-1.5 sm:h-full w-full bg-gradient-to-r sm:bg-gradient-to-b from-blue-400 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        
+                        <div className="flex flex-col gap-2 min-w-0 sm:pr-4 z-10 w-full">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="px-2.5 py-1 bg-red-50 text-red-600 rounded-lg text-[8px] font-black tracking-widest uppercase flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" /> Live
+                            </span>
+                            <span className="px-2 py-1 bg-slate-50 text-slate-500 rounded-lg text-[8px] font-black tracking-widest uppercase border border-slate-100">
+                              Class {(i + 1).toString().padStart(2, '0')}
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-sm md:text-base tracking-tight leading-snug break-words">{item.topic}</h4>
+                          <div className="flex items-center gap-2.5 mt-1 border-t border-slate-50 pt-2">
+                             <div className="w-7 h-7 bg-blue-50 rounded-full flex items-center justify-center ring-2 ring-white shadow-sm shrink-0">
+                               <User className="w-3.5 h-3.5 text-blue-600" />
                              </div>
-                             <span className="text-[10px] font-bold text-slate-500 truncate">টিচার: <span className="text-blue-600">{item.teacher}</span></span>
+                             <div className="flex flex-col">
+                               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Instructor</span>
+                               <span className="text-[12px] font-bold text-slate-800 tracking-tight leading-none whitespace-nowrap">{item.teacher}</span>
+                             </div>
                           </div>
                         </div>
                         
-                        <div className="flex flex-col items-end gap-3 shrink-0">
+                        <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-3 shrink-0 z-10 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-50">
                           <LiveViewerCount />
-                          <button className="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-slate-200">
-                            জয়েন
+                          <button className="bg-slate-900 hover:bg-blue-600 text-white px-6 sm:px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all active:scale-95 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] hover:shadow-blue-500/25 flex items-center gap-1.5 group-hover:bg-blue-600">
+                            জয়েন <ArrowRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                           </button>
                         </div>
                       </motion.div>

@@ -105,6 +105,7 @@ interface HomePageProps {
   isAnnivPopupOpen: boolean;
   closeAnnivPopup: () => void;
   setIsLoginModalOpen: (open: boolean) => void;
+  setLoginModalType: (type: 'student' | 'agent' | 'admin') => void;
 }
 
 const getValidUrl = (url?: string) => {
@@ -187,7 +188,8 @@ export function HomePage({
   setIsMobileDrawerOpen, 
   isAnnivPopupOpen, 
   closeAnnivPopup, 
-  setIsLoginModalOpen
+  setIsLoginModalOpen,
+  setLoginModalType
 }: HomePageProps) {
   const { settings } = useSettings();
   
@@ -203,7 +205,7 @@ export function HomePage({
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-4">
-              <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-login">
+              <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="nav-pill pill-login">
                 <LogIn className="w-4 h-4" /><span>Login</span>
               </button>
               <a href="https://unityearning.com/sign-up" className="nav-pill pill-signup">
@@ -212,10 +214,10 @@ export function HomePage({
               <a href="https://www.unityearning.com/shop" className="nav-pill pill-store">
                 <Store className="w-4 h-4" /><span>Store</span>
               </a>
-              <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-sub">
+              <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="nav-pill pill-sub">
                 <UserCog className="w-4 h-4" /><span>Agent Login</span>
               </button>
-              <button onClick={() => setIsLoginModalOpen(true)} className="nav-pill pill-admin">
+              <button onClick={() => { setLoginModalType('admin'); setIsLoginModalOpen(true); }} className="nav-pill pill-admin">
                 <ShieldCheck className="w-4 h-4" /><span>Admin</span>
               </button>
             </div>
@@ -286,7 +288,7 @@ export function HomePage({
                 </p>
 
                 <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 mt-8">
-                  <button onClick={() => setIsLoginModalOpen(true)} className="w-full sm:w-auto px-4 py-3.5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5 group">
+                  <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-3.5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5 group">
                     লগইন করুন <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <a href="https://unityearning.com/sign-up" className="w-full sm:w-auto px-4 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
@@ -295,7 +297,7 @@ export function HomePage({
                   <a href="https://www.unityearning.com/shop" className="w-full sm:w-auto px-4 py-3.5 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5">
                     <Store className="w-4 h-4" /> স্টোর
                   </a>
-                  <button onClick={() => setIsLoginModalOpen(true)} className="w-full sm:w-auto px-4 py-3.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-1.5">
+                  <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-3.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-1.5">
                     <UserCog className="w-4 h-4" /> এজেন্ট লগইন
                   </button>
                 </div>
