@@ -113,6 +113,73 @@ const getValidUrl = (url?: string) => {
   return `https://${url}`;
 };
 
+function MemberReviewsSlider() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % REVIEWS.length);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="py-12 bg-slate-50 border-t border-gray-100 overflow-hidden">
+      <div className="container mx-auto px-4 lg:px-12 mb-8">
+        <h2 className="text-3xl font-black text-slate-800 text-center uppercase tracking-tighter">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            Member
+          </span> Reviews
+        </h2>
+        <p className="text-center text-slate-500 font-bold mt-2">আমাদের শিক্ষার্থীদের কিছু অনুভূতি</p>
+      </div>
+      
+      <div className="container mx-auto px-4 max-w-2xl relative">
+        <div className="relative h-[280px] w-full flex items-center justify-center perspective-[1000px]">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentIndex}
+              initial={{ opacity: 0, x: 50, rotateY: -20 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              exit={{ opacity: 0, x: -50, rotateY: 20 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="absolute w-full bg-white p-6 md:p-8 rounded-[32px] shadow-xl border border-slate-100/50 flex flex-col justify-between h-[250px]"
+            >
+              <div>
+                <div className="flex gap-1 mb-4 justify-center text-yellow-400">
+                  {[...Array(REVIEWS[currentIndex].rating)].map((_, idx) => (
+                    <Star key={idx} className="w-4 h-4 md:w-5 md:h-5 fill-current" />
+                  ))}
+                </div>
+                <p className="text-slate-700 font-bold text-center text-base md:text-lg leading-relaxed line-clamp-3">
+                  "{REVIEWS[currentIndex].text}"
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2 pt-4 border-t border-slate-50">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-lg md:text-xl shadow-inner">
+                  {REVIEWS[currentIndex].name.charAt(0)}
+                </div>
+                <div className="text-center">
+                  <h4 className="font-black text-slate-800 text-sm md:text-base">{REVIEWS[currentIndex].name}</h4>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        
+        <div className="flex justify-center mt-6 gap-2">
+          {REVIEWS.map((_, idx) => (
+            <div 
+              key={idx} 
+              className={`h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-6 bg-blue-600' : 'w-2 bg-slate-200'}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function HomePage({ 
   isScrolled, 
   setIsHelpModalOpen, 
@@ -384,46 +451,7 @@ export function HomePage({
       </section>
 
       {/* MEMBER REVIEWS CAROUSEL */}
-      <section className="py-12 bg-slate-50 border-t border-gray-100 overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-12 mb-8">
-          <h2 className="text-3xl font-black text-slate-800 text-center uppercase tracking-tighter">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-              Member
-            </span> Reviews
-          </h2>
-          <p className="text-center text-slate-500 font-bold mt-2">আমাদের শিক্ষার্থীদের কিছু অনুভূতি</p>
-        </div>
-        
-        <div className="relative w-full flex overflow-hidden group">
-          {/* Duplicate the reviews array to ensure continuous scrolling effect */}
-          <div className="animate-marquee flex gap-6 px-3">
-            {[...REVIEWS, ...REVIEWS, ...REVIEWS].map((review, i) => (
-              <div 
-                key={i} 
-                className="w-[300px] shrink-0 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="flex gap-1 mb-3 text-yellow-400">
-                  {[...Array(review.rating)].map((_, idx) => (
-                    <Star key={idx} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <p className="text-slate-600 font-bold mb-4 line-clamp-3">
-                  "{review.text}"
-                </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-slate-50">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className="font-black text-slate-800 text-sm">{review.name}</h4>
-                    <p className="text-xs font-bold text-slate-400">Student</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MemberReviewsSlider />
 
       {/* STATS */}
       <section className="py-16 bg-white border-t border-gray-100">
