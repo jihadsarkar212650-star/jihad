@@ -834,6 +834,12 @@ function ChangePassword() {
   );
 }
 
+const getValidUrl = (url?: string) => {
+  if (!url) return "#";
+  if (url.startsWith('mailto:') || url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `https://${url}`;
+};
+
 export function StudentPanel({ logout }: StudentPanelProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -1100,27 +1106,27 @@ export function StudentPanel({ logout }: StudentPanelProps) {
           
           {/* SOCIAL MEDIA LINKS */}
           <div className="flex justify-center items-center gap-4 mb-8">
-            <a href={settings?.socialLinks?.facebook || "#"} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-blue-500 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
+            <a href={getValidUrl(settings?.socialLinks?.facebook)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-blue-500 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
               </svg>
             </a>
-            <a href={settings?.socialLinks?.youtube || "#"} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-red-500 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
+            <a href={getValidUrl(settings?.socialLinks?.youtube)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-red-500 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <path d="M21.582 6.186a2.722 2.722 0 0 0-1.92-1.92C18.006 3.8 12 3.8 12 3.8s-6.006 0-7.662.466a2.722 2.722 0 0 0-1.92 1.92C1.95 7.848 1.95 12 1.95 12s0 4.152.468 5.814a2.722 2.722 0 0 0 1.92 1.92C5.994 20.2 12 20.2 12 20.2s6.006 0 7.662-.466a2.722 2.722 0 0 0 1.92-1.92c.468-1.662.468-5.814.468-5.814s0-4.152-.468-5.814zM9.996 15.005V8.995L15.26 12z"/>
               </svg>
             </a>
-            <a href={settings?.socialLinks?.telegram || "#"} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
+            <a href={getValidUrl(settings?.socialLinks?.telegram)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
               </svg>
             </a>
-            <a href={settings?.socialLinks?.whatsapp || "#"} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-green-500 rounded-full hover:bg-green-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
+            <a href={getValidUrl(settings?.socialLinks?.whatsapp)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-green-500 rounded-full hover:bg-green-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <path d="M12.031 0C5.39 0 0 5.39 0 12.031c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624c1.782.96 3.791 1.47 5.831 1.47h.004c6.641 0 12.031-5.39 12.031-12.031C24.066 5.39 18.672 0 12.031 0zm0 21.846h-.004c-1.802 0-3.565-.487-5.111-1.408l-.367-.217-3.805.998 1.016-3.71-.238-.378a9.855 9.855 0 0 1-1.503-5.244c0-5.45 4.436-9.885 9.885-9.885h.004c5.449 0 9.884 4.435 9.884 9.885 0 5.45-4.435 9.885-9.884 9.885zm5.421-7.403c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.199.297-.768.966-.94 1.164-.173.199-.347.223-.644.075-.298-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.298-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51h-.57c-.198 0-.52.074-.792.372-.272.298-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.075-.124-.272-.198-.57-.347z" />
               </svg>
             </a>
-            <a href={settings?.socialLinks?.gmail || "#"} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
+            <a href={getValidUrl(settings?.socialLinks?.gmail)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-50 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-all shadow-sm hover:shadow-lg border border-gray-100 hover:-translate-y-1">
               <Mail className="w-[22px] h-[22px]" />
             </a>
           </div>
@@ -1134,7 +1140,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
       {/* Floating Action Buttons */}
       <div className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3">
         <a 
-          href={settings?.socialLinks?.whatsapp || "https://wa.me/8801919012426"} 
+          href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801919012426"} 
           target="_blank" 
           rel="noopener noreferrer" 
           className="w-12 h-12 bg-[#25D366] flex items-center justify-center text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:bg-[#20bd5a] hover:scale-110 active:scale-95 transition-all outline-none"

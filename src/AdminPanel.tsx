@@ -370,6 +370,15 @@ export function AdminPanel({ logout }: AdminPanelProps) {
                 className="flex-1 p-3 bg-white border border-gray-200 rounded-xl outline-none font-bold text-gray-800"
               />
             </div>
+            
+            <div className="flex justify-end mt-4">
+              <button 
+                onClick={handleSaveSettings}
+                className="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-blue-700 active:scale-95 transition-all"
+              >
+                <Save className="w-4 h-4" /> সেভ করুন (Save Links)
+              </button>
+            </div>
           </div>
         </section>
       </div>
