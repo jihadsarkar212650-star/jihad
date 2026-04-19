@@ -394,6 +394,32 @@ export function HomePage({
               সহায়তা দরকার?
             </button>
           </div>
+          
+          {/* YOUTUBE VIDEO EMBED */}
+          <div className="max-w-4xl mx-auto mt-24 relative group">
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                Featured Video
+              </span>
+              <h3 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">
+                সাফল্যের পথে আপনার প্রথম ধাপ - <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-rose-600">বিস্তারিত দেখুন</span>
+              </h3>
+            </div>
+            
+            <div className="relative w-full aspect-video rounded-[32px] overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)] border-8 border-white group-hover:shadow-[0_30px_60px_-15px_rgba(220,38,38,0.2)] transition-all duration-500">
+              <iframe 
+                className="w-full h-full object-cover"
+                src="https://www.youtube.com/embed/hV1TRZu3yIc?si=k3-c6TbX4ustk_zi" 
+                title="Unity Earning Video"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+
         </div>
       </section>
 
