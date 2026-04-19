@@ -3,9 +3,9 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot
 } from 'lucide-react';
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
 import { useSettings } from './lib/useSettings';
 import Swal from 'sweetalert2';
@@ -22,6 +22,8 @@ const MENU_ITEMS = [
   { label: "Store", icon: Store, href: "#" },
   { label: "Video Tutorial", icon: Video, href: "https://support-unityearning.vercel.app/" },
   { label: "Typing Work", icon: Keyboard, href: "https://unity-earning-typing.vercel.app" },
+  { label: "Help Line", icon: Phone, href: "https://wa.me/8801919012426" },
+  { label: "Email Marketing", icon: Mail, href: "#" },
   { label: "Change Password", icon: Lock, href: "#" },
 ];
 
@@ -816,6 +818,127 @@ function UnityStoreView() {
   );
 }
 
+function EmailMarketing() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [savedEmails, setSavedEmails] = useState<{email: string, password: string, date: string}[]>([]);
+
+  const handleSave = (e: FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    
+    const newEntry = {
+      email,
+      password, // Intentionally saving/displaying for the context requested by user
+      date: new Date().toLocaleDateString('en-GB')
+    };
+    
+    setSavedEmails([newEntry, ...savedEmails]);
+    setEmail('');
+    setPassword('');
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Email saved successfully.',
+      timer: 1500,
+      showConfirmButton: false,
+      position: 'top-end',
+      toast: true
+    });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8 lg:py-16">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-gray-100 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-100 transition-colors pointer-events-none" />
+          
+          <div className="relative z-10 text-center mb-10">
+            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-4 ring-white">
+              <Mail className="w-10 h-10" />
+            </div>
+            <h2 className="text-3xl font-black text-slate-800 tracking-tight">Sell Your Email</h2>
+            <p className="text-slate-500 font-bold mt-2">Enter your email and password below to sell.</p>
+          </div>
+          
+          <form onSubmit={handleSave} className="space-y-6 relative z-10">
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-widest">Enter Your Email</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-slate-400" />
+                </div>
+                <input 
+                  type="email" 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)} 
+                  required 
+                  placeholder="e.g. example@gmail.com" 
+                  className="w-full pl-12 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent transition-all font-semibold" 
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-widest">Password</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-slate-400" />
+                </div>
+                <input 
+                  type="text" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  required 
+                  placeholder="Enter password" 
+                  className="w-full pl-12 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent transition-all font-semibold" 
+                />
+              </div>
+            </div>
+            
+            <button type="submit" className="w-full bg-slate-900 hover:bg-blue-600 text-white font-black py-4 rounded-xl shadow-lg shadow-slate-900/20 hover:shadow-blue-600/30 transition-all hover:-translate-y-1 mt-4 text-sm uppercase tracking-widest flex items-center justify-center gap-2">
+              <CheckCircle2 className="w-5 h-5" /> Save Email
+            </button>
+          </form>
+        </div>
+
+        {savedEmails.length > 0 && (
+          <div className="mt-8 bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 relative overflow-hidden">
+            <h3 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <CheckCircle2 className="w-6 h-6 text-green-500" /> Saved Emails History
+            </h3>
+            <div className="space-y-4">
+              <AnimatePresence>
+                {savedEmails.map((item, i) => (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    key={i} 
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
+                        <Mail className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <div className="font-black text-slate-800 text-sm md:text-base">{item.email}</div>
+                        <div className="text-xs text-slate-500 font-bold mt-0.5 tracking-tight">Added on: {item.date}</div>
+                      </div>
+                    </div>
+                    <div className="bg-green-100 text-green-700 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest flex items-center gap-1.5 shrink-0 self-start sm:self-auto border border-green-200">
+                      <CheckCircle2 className="w-4 h-4" /> Saved
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -955,6 +1078,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   else if (item.label === 'Withdrawals') navigateTo('withdrawals');
                   else if (item.label === 'Notice') navigateTo('notice');
                   else if (item.label === 'Store') navigateTo('store');
+                  else if (item.label === 'Email Marketing') navigateTo('email-marketing');
                   else if (item.label === 'Change Password') navigateTo('change-password');
                   else navigateTo('dashboard');
                 }}>
@@ -987,6 +1111,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                       else if (item.label === 'Withdrawals') navigateTo('withdrawals');
                       else if (item.label === 'Notice') navigateTo('notice');
                       else if (item.label === 'Store') navigateTo('store');
+                      else if (item.label === 'Email Marketing') navigateTo('email-marketing');
                       else if (item.label === 'Change Password') navigateTo('change-password');
                       else navigateTo('dashboard');
                     }}><a href={item.href} target={item.href !== '#' ? "_blank" : "_self"} rel={item.href !== '#' ? "noopener noreferrer" : ""}><item.icon className="w-4 h-4 mr-2" /> {item.label}</a></li>
@@ -1007,55 +1132,55 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <div className="bg-white p-6 rounded-2xl shadow-xl mb-8"><p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p></div>
               
               {/* Refined Support Team UI */}
-              <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[2rem] p-6 lg:p-8 mb-8 shadow-xl shadow-indigo-500/20 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-indigo-500 via-purple-600 to-fuchsia-600 rounded-[2rem] p-6 lg:p-8 mb-8 shadow-2xl shadow-indigo-500/30 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                  <ShieldCheck className="w-32 h-32 text-white" />
+                  <ShieldCheck className="w-40 h-40 text-white" />
                 </div>
 
-                <h6 className="text-white/90 font-black uppercase mb-6 tracking-widest text-sm flex items-center gap-2 relative z-10">
-                  <ShieldCheck className="w-5 h-5" /> সাপোর্ট টিম
+                <h6 className="text-white font-black uppercase mb-6 tracking-widest text-lg flex items-center gap-2 relative z-10 drop-shadow-md">
+                  <ShieldCheck className="w-6 h-6" /> সাপোর্ট টিম
                 </h6>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
                   {settings.supportTeam.map((member, i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all flex items-center gap-4 group">
-                      <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-                        <User className="w-5 h-5 text-white" />
+                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/30 hover:bg-white/20 transition-all flex items-center gap-4 group">
+                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
+                        <User className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <div className="text-white font-black text-sm">{member.role}</div>
-                        <div className="text-white/80 text-xs font-semibold mt-0.5">{member.name}</div>
+                        <div className="text-white font-black text-sm lg:text-base drop-shadow-sm">{member.role}</div>
+                        <div className="text-white/90 text-xs lg:text-sm font-bold mt-0.5">{member.name}</div>
                       </div>
                       <a 
                         href={`https://wa.me/88${member.phone.replace(/[^0-9]/g, '')}`} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="w-10 h-10 bg-green-500/90 hover:bg-green-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-green-500/20 transition-all group-hover:scale-110 active:scale-95"
+                        className="w-12 h-12 bg-[#25D366] hover:bg-[#1DA851] rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-[#25D366]/40 transition-all group-hover:scale-110 active:scale-95 border border-[#25D366]/50"
                       >
-                        <MessageCircle className="w-5 h-5" />
+                        <MessageCircle className="w-6 h-6" />
                       </a>
                     </div>
                   ))}
                 </div>
 
                 {/* Helpline option */}
-                <div className="mt-6 pt-6 border-t border-white/10 relative z-10">
-                  <a href="https://wa.me/8801919012426" target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-5 transition-all group gap-4">
+                <div className="mt-6 pt-6 border-t border-white/20 relative z-10">
+                  <a href="https://wa.me/8801919012426" target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 sm:p-5 transition-all group gap-4 shadow-sm hover:shadow-lg">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-[#25D366] flex items-center justify-center rounded-xl shadow-lg shadow-[#25D366]/30 group-hover:scale-110 transition-transform shrink-0">
-                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.16c0-5.458 4.438-9.896 9.896-9.896 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.006 5.45-4.437 9.888-9.89 9.898m8.997-18.88C18.606 1.042 15.429 0 12.046 0 5.433 0 .052 5.376.046 11.983c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624a11.88 11.88 0 005.848 1.53h.004c6.611 0 11.986-5.385 11.992-11.996 0-3.203-1.246-6.216-3.51-8.487"/></svg>
-                      </div>
-                      <div>
-                        <div className="text-white/80 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5">সব সময় সাহায্যে প্রস্তুত</div>
-                        <div className="text-white text-base sm:text-xl font-black">হেল্পলাইন এ যোগাযোগ করুন</div>
-                      </div>
+                      <div className="w-14 h-14 bg-[#25D366] flex items-center justify-center rounded-xl shadow-xl shadow-[#25D366]/40 group-hover:scale-110 transition-transform shrink-0 border border-white/20">
+                        <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.16c0-5.458 4.438-9.896 9.896-9.896 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.006 5.45-4.437 9.888-9.89 9.898m8.997-18.88C18.606 1.042 15.429 0 12.046 0 5.433 0 .052 5.376.046 11.983c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624a11.88 11.88 0 005.848 1.53h.004c6.611 0 11.986-5.385 11.992-11.996 0-3.203-1.246-6.216-3.51-8.487"/></svg>
                     </div>
-                    <div className="hidden sm:flex w-10 h-10 bg-white/10 rounded-full items-center justify-center -rotate-45 group-hover:bg-white/20 group-hover:rotate-0 transition-all duration-300">
-                      <ArrowRight className="w-5 h-5 text-white" />
+                    <div>
+                      <div className="text-white/90 text-xs sm:text-sm font-black uppercase tracking-widest mb-0.5 drop-shadow-sm">সব সময় সাহায্যে প্রস্তুত</div>
+                      <div className="text-white text-lg sm:text-2xl font-black drop-shadow-md">হেল্পলাইন এ যোগাযোগ করুন</div>
                     </div>
-                  </a>
-                </div>
+                  </div>
+                  <div className="hidden sm:flex w-12 h-12 bg-white/20 rounded-full items-center justify-center -rotate-45 group-hover:bg-[#25D366] group-hover:rotate-0 transition-all duration-300 border border-white/30 group-hover:border-[#25D366]">
+                    <ArrowRight className="w-6 h-6 text-white" />
+                  </div>
+                </a>
               </div>
+            </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center h-full"><h3 className="text-2xl font-black text-gray-900 mb-6 text-center">কিভাবে সাহায্য করতে পারি?</h3><div className="w-full bg-slate-900 p-6 rounded-2xl text-center mt-auto"><h5 className="text-white font-black mb-4">যেকোনো সমস্যা</h5><span className="inline-block bg-teal-600 text-white px-6 py-2 rounded-full font-black text-sm mb-6">সময়ঃ ৮:৩০AM – ১১:৩০PM</span><a href="https://www.facebook.com/share/1MAceX7uXW/" className="ue-join-btn ue-pill-teal"><ArrowRight className="w-5 h-5" /> Join Meeting</a></div></div>
@@ -1122,7 +1247,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               </div>
               <div className="mt-16"><div className="grid grid-cols-2 lg:grid-cols-4 gap-8">{CATEGORIES.map((cat, i) => (<div key={i} onClick={() => navigateTo(cat.title === "Product Selling." ? 'store' : 'dashboard')} className="ue-cat-card block group cursor-pointer overflow-hidden"><img src={cat.img} alt={cat.title} className="thumb transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" /><div className="bdy text-center"><h5 className="title text-xl mb-1 font-black">{cat.title}</h5><div className="meta font-bold">({cat.count}) কোর্স</div></div></div>))}</div></div>
             </div></>
-        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : <MyHomeworks />}
+        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16">
         <div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold">
@@ -1164,6 +1289,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
       
       {/* Floating Action Buttons */}
       <div className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3">
+        <UnityChatAgent />
         <a 
           href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801919012426"} 
           target="_blank" 
@@ -1181,6 +1307,106 @@ export function StudentPanel({ logout }: StudentPanelProps) {
           <ChevronUp className="w-6 h-6" />
         </button>
       </div>
+    </div>
+  );
+}
+
+function UnityChatAgent() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<{text: string, isUser: boolean}[]>([
+    { text: "হ্যালো! ইউনিটি আর্নিং-এ আপনাকে স্বাগতম। আপনার কিভাবে সাহায্য করতে পারি?", isUser: false }
+  ]);
+  const [input, setInput] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isOpen]);
+
+  const handleSend = (e: FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    
+    setMessages(prev => [...prev, { text: input, isUser: true }]);
+    setInput('');
+    
+    setTimeout(() => {
+      setMessages(prev => [...prev, { 
+        text: "যেকোনো সমস্যা হয়ে থাকলে অনুগ্রহ করে আমাদের এই হোয়াটসঅ্যাপ নাম্বারে যোগাযোগ করুন: 01600602084", 
+        isUser: false 
+      }]);
+    }, 600);
+  };
+
+  return (
+    <div className="relative">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute bottom-16 right-0 w-[300px] sm:w-[320px] bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden origin-bottom-right"
+          >
+            {/* Header */}
+            <div className="bg-blue-600 p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm leading-tight">Unity Earning Agent</h4>
+                  <p className="text-blue-100 text-xs">Always here to help</p>
+                </div>
+              </div>
+              <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Chat Area */}
+            <div className="p-4 h-[300px] overflow-y-auto bg-slate-50 flex flex-col gap-3">
+              {messages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${msg.isUser ? 'bg-blue-600 text-white rounded-br-sm' : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-sm'}`}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+            
+            {/* Input Form */}
+            <form onSubmit={handleSend} className="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
+              <input 
+                type="text" 
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                placeholder="Type your message..." 
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              />
+              <button 
+                type="submit" 
+                disabled={!input.trim()}
+                className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shrink-0 hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:hover:bg-blue-600"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="w-12 h-12 bg-blue-600 flex items-center justify-center text-white rounded-full shadow-lg shadow-blue-600/30 hover:bg-blue-700 hover:scale-110 active:scale-95 transition-all outline-none"
+      >
+        {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+      </button>
     </div>
   );
 }
