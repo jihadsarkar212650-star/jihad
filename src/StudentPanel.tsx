@@ -1426,6 +1426,130 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               </div>
               </div>
               <div className="mt-16"><div className="grid grid-cols-2 lg:grid-cols-4 gap-8">{CATEGORIES.map((cat, i) => (<div key={i} onClick={() => navigateTo(cat.title === "Product Selling." ? 'store' : 'dashboard')} className="ue-cat-card block group cursor-pointer overflow-hidden"><img src={cat.img} alt={cat.title} className="thumb transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" /><div className="bdy text-center"><h5 className="title text-xl mb-1 font-black">{cat.title}</h5><div className="meta font-bold">({cat.count}) কোর্স</div></div></div>))}</div></div>
+              
+              {/* Additional Company Info & Terms */}
+              <div className="mt-16 bg-white p-6 sm:p-10 md:p-12 rounded-[32px] md:rounded-[40px] shadow-sm border border-slate-100 font-bengali">
+                
+                <div className="text-center mb-12">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-800 mb-3 tracking-tight">Unity Earning E-learning Platform</h3>
+                  <div className="inline-block bg-blue-50 text-blue-700 px-6 py-2 rounded-full font-bold text-sm sm:text-base border border-blue-100">
+                    স্কিল শিখুন • কাজ করুন • ইনকাম শুরু করুন
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                  
+                  {/* Left Column */}
+                  <div className="space-y-10">
+                    <section>
+                      <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="text-blue-500 text-2xl">❖</span> Joining হলে কী কী পাবেন?
+                      </h4>
+                      <ul className="space-y-3">
+                        {["টপ পপুলার ও আপডেটেড প্রফেশনাল কোর্স", "প্র্যাকটিক্যাল প্রজেক্ট ও রিয়েল কাজের অভিজ্ঞতা", "Trainer, Team Leader ও Live Support", "ক্যারিয়ার গাইডলাইন ও ইনকাম রোডম্যাপ"].map((item, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
+                            <span className="text-slate-700 font-medium leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+
+                    <section>
+                      <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="text-indigo-500 text-2xl">❖</span> কেন আমাদের কোম্পানিতে জয়েন করবেন?
+                      </h4>
+                      <p className="text-indigo-900 font-bold mb-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100">আমরা শুধু কোর্স বিক্রি করি না — আমরা আপনাকে একটি পূর্ণ প্রফেশনাল ক্যারিয়ার রোডম্যাপ দেই।</p>
+                      <p className="text-slate-600 font-medium mt-3 px-2">স্বল্প খরচে টপ পপুলার স্কিল শিখে কাজ ও ইনকামের সুযোগ।</p>
+                    </section>
+
+                    <section>
+                      <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="text-blue-500 text-2xl">❖</span> আমাদের কোর্সের সুবিধা
+                      </h4>
+                      <ul className="space-y-3">
+                        <li className="flex gap-3 text-slate-700 font-medium"><div className="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0" /> প্রফেশনাল ও আপডেটেড সিলেবাস</li>
+                        <li className="flex gap-3 text-slate-700 font-medium"><div className="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0" /> প্র্যাকটিক্যাল প্রজেক্ট ও রিয়েল উদাহরণ</li>
+                        <li className="flex gap-3 text-slate-700 font-medium"><div className="w-2 h-2 rounded-full bg-blue-500 mt-2 shrink-0" /> কোম্পানি পলিসি অনুযায়ী কোর্স এক্সেস</li>
+                      </ul>
+                    </section>
+                  </div>
+
+                  {/* Right Column */}
+                  <div className="space-y-10">
+                    <section className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Income Opportunity</p>
+                      <h4 className="text-xl font-bold text-slate-900 mb-4">ইনকাম করা কি সম্ভব?</h4>
+                      <div className="bg-white border border-blue-100 p-4 rounded-xl mb-4 shadow-sm">
+                        <p className="text-blue-800 font-bold">হ্যাঁ, আমাদের প্ল্যাটফর্ম থেকে শেখা স্কিল ব্যবহার করে <span className="text-blue-600">বাস্তব কাজের মাধ্যমে ইনকাম করা সম্ভব।</span></p>
+                      </div>
+                      <ul className="space-y-3 mb-5">
+                        {["শুধু ভিডিও নয় — হাতে-কলমে কাজ শেখানো হয়", "রিয়েল টাস্ক ও প্র্যাকটিক্যাল কাজ করানো হয়", "কাজ করার সঠিক গাইডলাইন ও সাপোর্ট দেওয়া হয়", "নিয়মিত কাজ করলে ইনকামের সুযোগ তৈরি হয়"].map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="text-blue-500 font-bold shrink-0">·</span>
+                            <span className="text-slate-600 font-medium text-sm sm:text-base">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="bg-emerald-50 text-emerald-800 font-bold p-3 rounded-lg border border-emerald-100 text-center text-sm md:text-base">
+                        ✅ স্কিল + সময় + নিয়মিত কাজ = ইনকাম করার বাস্তব সম্ভাবনা
+                      </div>
+                    </section>
+
+                    <section>
+                      <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="text-blue-500 text-2xl">❖</span> Trainer • Team Leader • Live Support
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="flex gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm"><span className="text-emerald-500 font-bold">✔</span> <p className="text-slate-700 font-medium"><span className="font-bold text-slate-900">Trainer</span> – স্টেপ বাই স্টেপ স্কিল শেখাবে</p></div>
+                        <div className="flex gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm"><span className="text-emerald-500 font-bold">✔</span> <p className="text-slate-700 font-medium"><span className="font-bold text-slate-900">Team Leader</span> – কাজ ও গ্রোথ মনিটর করবে</p></div>
+                        <div className="flex gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm"><span className="text-emerald-500 font-bold">✔</span> <p className="text-slate-700 font-medium"><span className="font-bold text-slate-900">Live Support</span> – ইনবক্স ও গ্রুপে সাপোর্ট</p></div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+
+                <div className="mt-10 lg:mt-12 space-y-6">
+                  {/* Company Overview & Warning side by side on large screens */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <section className="bg-slate-900 text-white p-6 sm:p-8 rounded-2xl relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+                      <h4 className="text-lg sm:text-xl font-bold mb-4 relative z-10 flex items-center gap-2"><span className="text-blue-400">❖</span> কোম্পানি সম্পর্কে</h4>
+                      <p className="text-blue-300 font-bold mb-1 relative z-10">Unity Earning E-learning Platform</p>
+                      <p className="text-slate-400 text-sm mb-4 relative z-10 border-b border-slate-700 pb-4">২০২১ সাল থেকে সততা ও দায়িত্বের সাথে পরিচালিত।</p>
+                      <ul className="space-y-2 relative z-10">
+                        <li className="flex gap-3 text-slate-300 font-medium"><span className="text-blue-400">▹</span> নিজস্ব টিম ও ম্যানেজমেন্ট সিস্টেম</li>
+                        <li className="flex gap-3 text-slate-300 font-medium"><span className="text-blue-400">▹</span> টেকনোলজি ভিত্তিক কাজ ও সার্ভিস</li>
+                        <li className="flex gap-3 text-slate-300 font-medium"><span className="text-blue-400">▹</span> দীর্ঘমেয়াদী ইনকাম সুযোগ</li>
+                      </ul>
+                    </section>
+
+                    <div className="space-y-6">
+                      <section className="bg-red-50 p-6 sm:p-8 rounded-2xl border border-red-100 h-full flex flex-col justify-center">
+                        <h4 className="text-lg sm:text-xl font-bold text-red-700 mb-4 flex items-center gap-2">
+                          <AlertTriangle className="w-5 h-5" /> গুরুত্বপূর্ণ কোম্পানি কন্ডিশন
+                        </h4>
+                        <div className="space-y-3">
+                          <div className="bg-white p-4 rounded-xl border border-red-100 shadow-sm flex gap-3 items-start">
+                            <span className="text-xl shrink-0">⚠️</span>
+                            <div>
+                              <p className="text-red-900 font-bold text-sm sm:text-base leading-tight">কোর্স বা সার্ভিস ফি পেমেন্ট করার পর কোনো অবস্থাতেই টাকা রিফান্ড দেওয়া হবে না।</p>
+                            </div>
+                          </div>
+                          <p className="text-red-800/80 font-medium text-sm leading-relaxed px-1">
+                            ইনকাম ব্যক্তিভেদে ভিন্ন হতে পারে এবং তা সম্পূর্ণভাবে নিজের কাজ ও সময় দেওয়ার উপর নির্ভরশীল।
+                          </p>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl flex items-center gap-3 text-sm sm:text-base font-bold shadow-sm justify-center text-center">
+                    <span className="text-xl">⛔</span> প্রতিদিন নিয়মিত মিটিং অংশগ্রহণ করতে হবে না হলে গ্রুপ থেকে রিমুভ করা হতে পারে।
+                  </div>
+                </div>
+
+              </div>
             </div></>
         ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : <MyHomeworks />}
       </main>

@@ -9,10 +9,12 @@ import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
 import { AdminPanel } from './AdminPanel';
 import { RegisterPage } from './RegisterPage';
+import { TermsModal } from './TermsModal';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
   const [isAnnivPopupOpen, setIsAnnivPopupOpen] = useState(false);
@@ -188,6 +190,7 @@ export default function App() {
         setIsLoginModalOpen={setIsLoginModalOpen}
         setLoginModalType={setLoginModalType}
         openRegisterPage={() => setIsRegisterRouteOpen(true)}
+        openTermsModal={() => setIsTermsModalOpen(true)}
       />
 
       {/* LOGIN MODAL */}
@@ -455,7 +458,7 @@ export default function App() {
                     { icon: ShieldCheck, label: "Admin Login", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: BookOpen, label: "All Courses", onClick: () => {} },
                     { icon: HelpCircle, label: "About us", onClick: () => {} },
-                    { icon: ShieldCheck, label: "Terms & Conditions", onClick: () => {} },
+                    { icon: ShieldCheck, label: "Terms & Conditions", onClick: () => { setIsTermsModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Privacy Policy", onClick: () => {} },
                   ].map((item: any, i) => (
                     <button key={i} onClick={item.onClick} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 shadow-sm hover:bg-gray-50 transition-colors font-bold text-gray-800 cursor-pointer w-full text-left">
@@ -519,6 +522,9 @@ export default function App() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* TERMS MODAL */}
+      <TermsModal isOpen={isTermsModalOpen} onClose={() => setIsTermsModalOpen(false)} />
     </>
   );
 }

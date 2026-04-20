@@ -107,6 +107,7 @@ interface HomePageProps {
   setIsLoginModalOpen: (open: boolean) => void;
   setLoginModalType: (type: 'student' | 'agent' | 'admin') => void;
   openRegisterPage: () => void;
+  openTermsModal: () => void;
 }
 
 const getValidUrl = (url?: string) => {
@@ -191,7 +192,8 @@ export function HomePage({
   closeAnnivPopup, 
   setIsLoginModalOpen,
   setLoginModalType,
-  openRegisterPage
+  openRegisterPage,
+  openTermsModal
 }: HomePageProps) {
   const { settings } = useSettings();
   
@@ -578,7 +580,7 @@ export function HomePage({
               <ul className="space-y-4">
                 <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">All Courses</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">About us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Terms & Conditions</a></li>
+                <li><button onClick={openTermsModal} className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Terms & Conditions</button></li>
                 <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Privacy Policy</a></li>
               </ul>
             </div>
