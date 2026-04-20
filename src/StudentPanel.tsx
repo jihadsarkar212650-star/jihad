@@ -3,7 +3,7 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, MessageSquare, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond
 } from 'lucide-react';
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
@@ -1356,6 +1356,9 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <div className="flex items-center justify-between p-6 border-b border-gray-100">
                 <img src="https://unityearning.com/assets/img/unityearning.png" alt="Logo" className="h-10 w-auto" />
                 <div className="flex items-center gap-2">
+                  <button onClick={() => { window.open(getValidUrl(settings?.socialLinks?.community || "https://whatsapp.com"), "_blank"); setIsMobileMenuOpen(false); }} className="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors">
+                    <Users className="w-6 h-6" />
+                  </button>
                   <button onClick={() => { navigateTo('ranking'); setIsMobileMenuOpen(false); }} className="p-2 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-100 transition-colors">
                     <Trophy className="w-6 h-6" />
                   </button>
@@ -1399,7 +1402,15 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <div className="container mx-auto px-4 lg:px-12 relative z-10"><h3 className="text-3xl lg:text-5xl font-black drop-shadow-lg">UNITY EARNING <br/> E-LEARNING PLATFORM</h3></div>
             </div>
             <div className="container mx-auto px-4 lg:px-12 -mt-12 relative z-20">
-              <div className="bg-white p-6 rounded-2xl shadow-xl mb-8"><p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p></div>
+              <div className="bg-white p-6 rounded-2xl shadow-xl mb-8">
+                <div className="flex justify-center mb-6">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-500 rounded-lg text-emerald-700 font-bold uppercase tracking-wide text-[10px] shadow-sm">
+                    <CheckCircle2 className="w-3 h-3" />
+                    Active Account
+                  </div>
+                </div>
+                <p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p>
+              </div>
               
               {/* Refined Support Team UI */}
               <div className="bg-gradient-to-br from-[#8b2bfa] via-[#912ce6] to-[#af20f7] rounded-[2rem] p-6 lg:p-8 mb-8 shadow-2xl relative overflow-hidden font-bengali">
@@ -1626,22 +1637,32 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                         <h4 className="text-lg sm:text-xl font-bold text-red-700 mb-4 flex items-center gap-2">
                           <AlertTriangle className="w-5 h-5" /> গুরুত্বপূর্ণ কোম্পানি কন্ডিশন
                         </h4>
-                        <div className="space-y-3">
-                          <div className="bg-white p-4 rounded-xl border border-red-100 shadow-sm flex gap-3 items-start">
-                            <span className="text-xl shrink-0">💰</span>
-                            <div>
-                              <p className="text-red-900 font-bold text-sm sm:text-base leading-tight">আমাদের মেইন এডমিশন ফি ১১০০ টাকা। যদি অফারে আইডি একটিভ করে থাকেন তাহলে বাকি ৫০০ টাকা পরবর্তীতে কোম্পানিকে পরিশোধ করে দিতে হবে কাজ করার মাধ্যমে।</p>
+                        <div className="space-y-4">
+                          <button 
+                            onClick={() => window.open("tel:+8801XXXXXXXXX", "_self")}
+                            className="bg-white p-4 rounded-2xl border border-blue-100 shadow-sm flex items-center gap-4 w-full group hover:border-blue-300 transition-all"
+                          >
+                            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                              <Phone className="w-6 h-6" />
                             </div>
-                          </div>
-                          <div className="bg-white p-4 rounded-xl border border-red-100 shadow-sm flex gap-3 items-start">
-                            <span className="text-xl shrink-0">⚠️</span>
-                            <div>
-                              <p className="text-red-900 font-bold text-sm sm:text-base leading-tight">কোর্স বা সার্ভিস ফি পেমেন্ট করার পর কোনো অবস্থাতেই টাকা রিফান্ড দেওয়া হবে না।</p>
+                            <div className="text-left">
+                              <p className="text-slate-900 font-black text-sm">সরাসরি কথা বলুন</p>
+                              <p className="text-xs text-slate-500 font-bold">কল করুন বাটন ক্লিক করে</p>
                             </div>
-                          </div>
-                          <p className="text-red-800/80 font-medium text-sm leading-relaxed px-1">
-                            ইনকাম ব্যক্তিভেদে ভিন্ন হতে পারে এবং তা সম্পূর্ণভাবে নিজের কাজ ও সময় দেওয়ার উপর নির্ভরশীল।
-                          </p>
+                          </button>
+                          
+                          <button 
+                            onClick={() => window.open("https://wa.me/8801XXXXXXXXX", "_blank")}
+                            className="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-4 w-full group hover:border-emerald-300 transition-all"
+                          >
+                            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                              <MessageSquare className="w-6 h-6" />
+                            </div>
+                            <div className="text-left">
+                              <p className="text-slate-900 font-black text-sm">হোয়াটসঅ্যাপ মেসেজ</p>
+                              <p className="text-xs text-slate-500 font-bold">সরাসরি মেসেজ করুন</p>
+                            </div>
+                          </button>
                         </div>
                       </section>
                     </div>

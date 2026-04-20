@@ -3,7 +3,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Swal from 'sweetalert2';
 import { 
-  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff
+  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare
 } from 'lucide-react';
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
@@ -509,11 +509,23 @@ export default function App() {
                 <div className="flex items-center gap-4 mb-8"><div className="p-3 bg-blue-50 text-blue-600 rounded-xl"><Phone className="w-6 h-6" /></div><h3 className="text-2xl font-bold text-blue-900 font-hind">সহায়তা কেন্দ্র</h3></div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { icon: HelpCircle, title: "সাধারণ সহায়তা", desc: "লার্নিং/লগইন/পেমেন্ট–সংক্রান্ত প্রশ্নের দ্রুত সমাধান।" },
+                    { icon: HelpCircle, title: "সাধারণ সহায়তা", desc: "লার্নিং/লগইন/পেমেন্ট–সংক্রান্ত প্রশ্নের দ্রুত সমাধান।", cta: "কল দিন", phoneCall: "tel:+8801XXXXXXXXX" },
                     { icon: MessageCircle, title: "মেসেঞ্জার সাপোর্ট", desc: "লাইভ চ্যাটে এজেন্টের সাথে কথা বলুন。", cta: "মেসেঞ্জারে চ্যাট করুন", url: "https://m.me/yourpage" },
+                    { icon: Phone, title: "সরাসরি কল", desc: "কোনো সমস্যা বা জরুরি প্রয়োজনে সরাসরি কল করুন।", cta: "কল দিন", phoneCall: "tel:+8801XXXXXXXXX" },
+                    { icon: MessageSquare, title: "সরাসরি মেসেজ (WhatsApp)", desc: "সরাসরি হোয়াটসঅ্যাপে টেক্সট করুন।", cta: "মেসেজ দিন", whatsApp: "https://wa.me/8801XXXXXXXXX" },
                     { icon: BookOpen, title: "সহায়তা ডকস", desc: "স্টেপ–বাই–স্টেপ গাইড, FAQ ও ভিডিও টিউটোরিয়াল。" }
                   ].map((item, i) => (
-                    <div key={i} className="p-6 bg-gray-50 rounded-2xl flex gap-4"><div className="p-2 bg-white rounded-lg h-fit text-blue-600 shadow-sm"><item.icon className="w-5 h-5" /></div><div><h4 className="font-bold text-gray-900 mb-1 font-hind">{item.title}</h4><p className="text-sm text-gray-500 mb-3 font-hind">{item.desc}</p></div></div>
+                    <div key={i} className="p-6 bg-gray-50 rounded-2xl flex flex-col gap-4">
+                      <div className="flex gap-4">
+                        <div className="p-2 bg-white rounded-lg h-fit text-blue-600 shadow-sm"><item.icon className="w-5 h-5" /></div>
+                        <div><h4 className="font-bold text-gray-900 mb-1 font-hind">{item.title}</h4><p className="text-sm text-gray-500 mb-3 font-hind">{item.desc}</p></div>
+                      </div>
+                      {item.cta && (
+                        <a href={item.url || item.phoneCall || item.whatsApp} target="_blank" rel="noopener noreferrer" className="mt-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm text-center transition-colors">
+                          {item.cta}
+                        </a>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
