@@ -5,7 +5,7 @@ import {
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
   Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, MessageSquare, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond
 } from 'lucide-react';
-import { useState, FormEvent, useEffect, useRef } from 'react';
+import React, { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
 import { useSettings } from './lib/useSettings';
 import { PhotoGallery } from './components/PhotoGallery';
@@ -102,9 +102,21 @@ function LiveViewerCount() {
 
 function StudentProfile() {
   const [copied, setCopied] = useState(false);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
   const studentId = "3255889";
   const referralCode = `UE-${studentId}`;
   const referralLink = `https://unityearning.com/register?ref=${referralCode}`;
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const info = [
     { label: "Phone", value: "01919012423", icon: Phone },
@@ -189,9 +201,19 @@ function StudentProfile() {
           </div>
           
           <div className="flex flex-col md:flex-row gap-5 md:gap-8 items-center mb-8 border-b border-gray-50 pb-8 text-center md:text-left">
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-slate-900 rounded-2xl md:rounded-[32px] flex items-center justify-center text-white text-2xl md:text-3xl font-black shadow-lg ring-4 md:ring-[8px] ring-slate-50">
-              TM
-            </div>
+            <label className="relative cursor-pointer group">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-slate-900 rounded-full overflow-hidden flex items-center justify-center text-white text-2xl md:text-3xl font-black shadow-lg ring-4 md:ring-[8px] ring-slate-50 transition-transform group-hover:scale-105">
+                {profilePic ? (
+                  <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400" alt="Default Freelancer" className="w-full h-full object-cover" />
+                )}
+              </div>
+              <div className="absolute -bottom-1 -right-1 bg-white p-1.5 rounded-full shadow-md border border-slate-100">
+                <ImageIcon className="w-4 h-4 text-slate-600" />
+              </div>
+              <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+            </label>
             <div>
               <h2 className="text-xl md:text-2xl font-black text-slate-900 mb-1 leading-none">Tanha Islam Mim</h2>
               <div className="flex items-center justify-center md:justify-start gap-2 bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100 w-fit mx-auto md:mx-0">
@@ -232,6 +254,10 @@ function StudentProfile() {
             </p>
 
             <div className="space-y-4">
+              <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3">
+                <AlertTriangle className="w-6 h-6 text-red-500 shrink-0" />
+                <p className="text-red-200 font-bold text-xs leading-relaxed">আপনার অ্যাকাউন্টের পাসওয়ার্ড কোনো অবস্থাতেই কাউকে শেয়ার করবেন না।</p>
+              </div>
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
                 <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-500 mb-1 ">Unique Referral Code</p>
                 <div className="flex items-center justify-between gap-4">
@@ -1232,11 +1258,13 @@ export function StudentPanel({ logout }: StudentPanelProps) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showBanner, setShowBanner] = useState(true);
   const { settings } = useSettings();
+  
   const navigateTo = (tab: string) => {
     setActiveTab(tab);
     setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-hind">
       {settings.globalBanner && showBanner && (
