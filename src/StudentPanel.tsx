@@ -3,7 +3,7 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot, Brain, Award
 } from 'lucide-react';
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
@@ -22,9 +22,10 @@ const MENU_ITEMS = [
   { label: "Store", icon: Store, href: "#" },
   { label: "Video Tutorial", icon: Video, href: "https://support-unityearning.vercel.app/" },
   { label: "Typing Work", icon: Keyboard, href: "https://unity-earning-typing.vercel.app" },
-  { label: "Help Line", icon: Phone, href: "https://wa.me/8801919012426" },
+  { label: "Help Line", icon: Phone, href: "#" },
   { label: "Email Marketing", icon: Mail, href: "#" },
   { label: "Change Password", icon: Lock, href: "#" },
+  { label: "Daily Quiz", icon: Brain, href: "#" },
 ];
 
 const CATEGORIES = [
@@ -975,6 +976,174 @@ const getValidUrl = (url?: string) => {
   return `https://${url}`;
 };
 
+function DailyQuiz() {
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  const questions = [
+    { question: "বাংলাদেশের রাজধানীর নাম কী?", options: ["ঢাকা", "চট্টগ্রাম", "সিলেট", "রাজশাহী"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় পাখির নাম কী?", options: ["দোয়েল", "ময়না", "কাক", "শালিক"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় ফুল কী?", options: ["শাপলা", "গোলাপ", "জবা", "পদ্ম"], answer: 0 },
+    { question: "বাংলাদেশের স্বাধীনতা দিবস কবে?", options: ["২৬ মার্চ", "১৬ ডিসেম্বর", "২১ ফেব্রুয়ারি", "১ বৈশাখ"], answer: 0 },
+    { question: "বাংলাদেশের বিজয় দিবস কবে?", options: ["১৬ ডিসেম্বর", "২৬ মার্চ", "২১ ফেব্রুয়ারি", "১৭ মার্চ"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় ফলের নাম কী?", options: ["কাঁঠাল", "আম", "জাম", "লিচু"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় পশুর নাম কী?", options: ["রয়েল বেঙ্গল টাইগার", "হরিণ", "হাতি", "বানর"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় কবি কে?", options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "জীবনানন্দ দাশ"], answer: 0 },
+    { question: "বাংলাদেশের দীর্ঘতম নদী কোনটি?", options: ["মেঘনা", "পদ্মা", "যমুনা", "সুরমা"], answer: 0 },
+    { question: "বাংলাদেশের সর্বোচ্চ পর্বতশৃঙ্গ কোনটি?", options: ["তাজিংডং", "কেওক্রাডং", "চন্দ্রনাথ", "চিম্বুক"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় মাছের নাম কী?", options: ["ইলিশ", "রুই", "কাতলা", "পাঙ্গাশ"], answer: 0 },
+    { question: "বাংলাদেশের প্রথম রাষ্ট্রপতি কে ছিলেন?", options: ["বঙ্গবন্ধু শেখ মুজিবুর রহমান", "তাজউদ্দীন আহমদ", "জিয়াউর রহমান", "সৈয়দ নজরুল ইসলাম"], answer: 0 },
+    { question: "ভাষা আন্দোলন কত সালে হয়েছিল?", options: ["১৯৫২", "১৯৭১", "১৯৬৯", "১৯৪৭"], answer: 0 },
+    { question: "শহীদ মিনার কে নকশা করেছিলেন?", options: ["হামিদুর রহমান", "জয়নুল আবেদিন", "কামরুল হাসান", "শামীম সিকদার"], answer: 0 },
+    { question: "বাংলাদেশের মুক্তিযুদ্ধের সময় কয়টি সেক্টর ছিল?", options: ["১১টি", "৭টি", "৯টি", "১২টি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় সংসদের আসন সংখ্যা কত?", options: ["৩৫০", "৩০০", "৩৩০", "৩২০"], answer: 0 },
+    { question: "ঢাকা বিশ্ববিদ্যালয় কত সালে প্রতিষ্ঠিত হয়?", options: ["১৯২১", "১৯১১", "১৯৩১", "১৯৪৭"], answer: 0 },
+    { question: "বাংলাদেশের মুদ্রার নাম কী?", options: ["টাকা", "রুপি", "ডলার", "পাউন্ড"], answer: 0 },
+    { question: "বাংলাদেশের বর্তমান বিভাগ কয়টি?", options: ["৮টি", "৭টি", "৬টি", "৯টি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় পতাকার নকশাকার কে?", options: ["কামরুল হাসান", "জয়নুল আবেদিন", "হামিদুর রহমান", "হাশেম খান"], answer: 0 }
+  ];
+
+  const handleStart = () => {
+    setQuizStarted(true);
+    setCurrentQuestion(0);
+    setScore(0);
+    setQuizCompleted(false);
+    setSelectedAnswer(null);
+  };
+
+  const handleNext = () => {
+    if (selectedAnswer === questions[currentQuestion].answer) {
+      setScore(score + 1);
+    }
+    
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(null);
+    } else {
+      setQuizCompleted(true);
+      // In a real app, logic to add 20 BDT to user's balance would go here
+    }
+  };
+
+  if (!quizStarted) {
+    return (
+      <div className="container mx-auto px-4 lg:px-12 py-12 max-w-4xl">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden text-center border border-gray-100 p-12">
+          <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Brain className="w-12 h-12 text-indigo-600" />
+          </div>
+          <h2 className="text-3xl font-black mb-4 font-bengali">কুইজ খেলে ইনকাম করুন</h2>
+          <p className="text-gray-600 mb-8 max-w-lg mx-auto text-lg leading-relaxed font-bengali">
+            সাধারণ জ্ঞানের ২০টি প্রশ্নের সঠিক উত্তর দিন। কুইজটি সফলভাবে সম্পন্ন করলে আপনার একাউন্টে ২০ টাকা পুরস্কার হিসেবে যোগ করা হবে।
+          </p>
+          <button 
+            onClick={handleStart}
+            className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 font-bengali"
+          >
+            কুইজ শুরু করুন
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (quizCompleted) {
+    return (
+      <div className="container mx-auto px-4 lg:px-12 py-12 max-w-4xl">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden text-center border border-gray-100 p-12">
+          <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Award className="w-12 h-12 text-green-600" />
+          </div>
+          <h2 className="text-3xl font-black mb-4 text-gray-800 font-bengali">অভিনন্দন!</h2>
+          <p className="text-gray-600 mb-2 text-lg font-bengali">
+            আপনি {questions.length} টি প্রশ্নের মধ্যে {score} টি সঠিক উত্তর দিয়েছেন।
+          </p>
+          <div className="bg-green-50 rounded-2xl p-6 inline-block mt-4 border border-green-100">
+            <h3 className="text-xl font-bold text-green-800 mb-1 font-bengali">আপনার পুরস্কার</h3>
+            <div className="text-4xl font-black text-green-600 font-bengali">২০ টাকা</div>
+            <p className="text-green-700 text-sm mt-2 font-medium font-bengali">আপনার ব্যালেন্সে যোগ করা হয়েছে</p>
+          </div>
+          <div className="mt-8">
+            <button 
+              onClick={handleStart}
+              className="px-6 py-3 bg-gray-100 font-bold text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-bengali"
+            >
+              আবার খেলুন
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const q = questions[currentQuestion];
+
+  return (
+    <div className="container mx-auto px-4 lg:px-12 py-12 max-w-4xl">
+      <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h2 className="text-2xl font-black flex items-center gap-3 text-indigo-900 font-bengali">
+          <div className="bg-indigo-100 p-2 rounded-lg">
+            <Brain className="w-6 h-6 text-indigo-600" />
+          </div>
+          দৈনিক কুইজ
+        </h2>
+        <div className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-bold font-bengali">
+          প্রশ্ন: {currentQuestion + 1} / {questions.length}
+        </div>
+      </div>
+      
+      {/* Progress Bar */}
+      <div className="w-full bg-gray-200 h-2 rounded-full mb-8 overflow-hidden">
+        <div 
+          className="bg-indigo-600 h-full rounded-full transition-all duration-300"
+          style={{ width: `${((currentQuestion) / questions.length) * 100}%` }}
+        />
+      </div>
+
+      <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 sm:p-12 mb-6">
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-8 leading-relaxed font-bengali">
+          {q.question}
+        </h3>
+        
+        <div className="space-y-4">
+          {q.options.map((option, idx) => (
+            <button
+              key={idx}
+              onClick={() => setSelectedAnswer(idx)}
+              className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all duration-200 font-medium text-lg font-bengali flex items-center gap-4 ${
+                selectedAnswer === idx 
+                  ? 'border-indigo-600 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-100 scale-[1.01]' 
+                  : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50 text-gray-700'
+              }`}
+            >
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                selectedAnswer === idx ? 'border-indigo-600' : 'border-gray-300'
+              }`}>
+                {selectedAnswer === idx && <div className="w-3 h-3 bg-indigo-600 rounded-full" />}
+              </div>
+              <span className="flex-grow">{option}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          onClick={handleNext}
+          disabled={selectedAnswer === null}
+          className="flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 transition-colors font-bengali disabled:cursor-not-allowed cursor-pointer"
+        >
+          {currentQuestion === questions.length - 1 ? 'শেষ করুন' : 'পরবর্তী প্রশ্ন'}
+          <ArrowRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function StudentPanel({ logout }: StudentPanelProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -1070,6 +1239,10 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <li onClick={() => navigateTo('dashboard')}><a href="#"><LayoutGrid className="w-4 h-4 mr-2" /> All Course</a></li>
               {MENU_ITEMS.map((item, i) => (
                 <li key={i} onClick={() => {
+                  if (item.label === 'Help Line') {
+                    window.dispatchEvent(new CustomEvent('open-chat-agent'));
+                    return;
+                  }
                   if (item.href !== '#') return;
                   if (item.label === 'Student profile') navigateTo('profile');
                   else if (item.label === 'My Homeworks') navigateTo('homeworks');
@@ -1079,6 +1252,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   else if (item.label === 'Notice') navigateTo('notice');
                   else if (item.label === 'Store') navigateTo('store');
                   else if (item.label === 'Email Marketing') navigateTo('email-marketing');
+                  else if (item.label === 'Daily Quiz') navigateTo('daily-quiz');
                   else if (item.label === 'Change Password') navigateTo('change-password');
                   else navigateTo('dashboard');
                 }}>
@@ -1103,6 +1277,11 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   <li onClick={() => navigateTo('dashboard')}><a href="#"><LayoutGrid className="w-4 h-4 mr-2" /> All Course</a></li>
                   {MENU_ITEMS.map((item, i) => (
                     <li key={i} onClick={() => {
+                      if (item.label === 'Help Line') {
+                        window.dispatchEvent(new CustomEvent('open-chat-agent'));
+                        setIsMobileMenuOpen(false);
+                        return;
+                      }
                       if (item.href !== '#') return;
                       if (item.label === 'Student profile') navigateTo('profile');
                       else if (item.label === 'My Homeworks') navigateTo('homeworks');
@@ -1112,6 +1291,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                       else if (item.label === 'Notice') navigateTo('notice');
                       else if (item.label === 'Store') navigateTo('store');
                       else if (item.label === 'Email Marketing') navigateTo('email-marketing');
+                      else if (item.label === 'Daily Quiz') navigateTo('daily-quiz');
                       else if (item.label === 'Change Password') navigateTo('change-password');
                       else navigateTo('dashboard');
                     }}><a href={item.href} target={item.href !== '#' ? "_blank" : "_self"} rel={item.href !== '#' ? "noopener noreferrer" : ""}><item.icon className="w-4 h-4 mr-2" /> {item.label}</a></li>
@@ -1165,20 +1345,20 @@ export function StudentPanel({ logout }: StudentPanelProps) {
 
                 {/* Helpline option */}
                 <div className="mt-6 pt-6 border-t border-white/20 relative z-10">
-                  <a href="https://wa.me/8801919012426" target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 sm:p-5 transition-all group gap-4 shadow-sm hover:shadow-lg">
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-chat-agent'))} className="w-full text-left flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 sm:p-5 transition-all group gap-4 shadow-sm hover:shadow-lg">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-[#25D366] flex items-center justify-center rounded-xl shadow-xl shadow-[#25D366]/40 group-hover:scale-110 transition-transform shrink-0 border border-white/20">
-                        <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.16c0-5.458 4.438-9.896 9.896-9.896 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.006 5.45-4.437 9.888-9.89 9.898m8.997-18.88C18.606 1.042 15.429 0 12.046 0 5.433 0 .052 5.376.046 11.983c0 2.112.553 4.175 1.6 5.992L0 24l6.2-1.624a11.88 11.88 0 005.848 1.53h.004c6.611 0 11.986-5.385 11.992-11.996 0-3.203-1.246-6.216-3.51-8.487"/></svg>
+                      <div className="w-14 h-14 bg-blue-500 flex items-center justify-center rounded-xl shadow-xl shadow-blue-500/40 group-hover:scale-110 transition-transform shrink-0 border border-white/20">
+                        <Bot className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-white/90 text-xs sm:text-sm font-black uppercase tracking-widest mb-0.5 drop-shadow-sm">সব সময় সাহায্যে প্রস্তুত</div>
+                        <div className="text-white text-lg sm:text-2xl font-black drop-shadow-md">হেল্পলাইন এ যোগাযোগ করুন</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-white/90 text-xs sm:text-sm font-black uppercase tracking-widest mb-0.5 drop-shadow-sm">সব সময় সাহায্যে প্রস্তুত</div>
-                      <div className="text-white text-lg sm:text-2xl font-black drop-shadow-md">হেল্পলাইন এ যোগাযোগ করুন</div>
+                    <div className="hidden sm:flex w-12 h-12 bg-white/20 rounded-full items-center justify-center -rotate-45 group-hover:bg-blue-500 group-hover:rotate-0 transition-all duration-300 border border-white/30 group-hover:border-blue-500">
+                      <ArrowRight className="w-6 h-6 text-white" />
                     </div>
-                  </div>
-                  <div className="hidden sm:flex w-12 h-12 bg-white/20 rounded-full items-center justify-center -rotate-45 group-hover:bg-[#25D366] group-hover:rotate-0 transition-all duration-300 border border-white/30 group-hover:border-[#25D366]">
-                    <ArrowRight className="w-6 h-6 text-white" />
-                  </div>
-                </a>
+                  </button>
               </div>
             </div>
 
@@ -1247,7 +1427,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               </div>
               <div className="mt-16"><div className="grid grid-cols-2 lg:grid-cols-4 gap-8">{CATEGORIES.map((cat, i) => (<div key={i} onClick={() => navigateTo(cat.title === "Product Selling." ? 'store' : 'dashboard')} className="ue-cat-card block group cursor-pointer overflow-hidden"><img src={cat.img} alt={cat.title} className="thumb transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" /><div className="bdy text-center"><h5 className="title text-xl mb-1 font-black">{cat.title}</h5><div className="meta font-bold">({cat.count}) কোর্স</div></div></div>))}</div></div>
             </div></>
-        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : <MyHomeworks />}
+        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16">
         <div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold">
@@ -1291,7 +1471,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
       <div className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3">
         <UnityChatAgent />
         <a 
-          href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801919012426"} 
+          href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801600602084"} 
           target="_blank" 
           rel="noopener noreferrer" 
           className="w-12 h-12 bg-[#25D366] flex items-center justify-center text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:bg-[#20bd5a] hover:scale-110 active:scale-95 transition-all outline-none"
@@ -1319,6 +1499,12 @@ function UnityChatAgent() {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-chat-agent', handleOpen as EventListener);
+    return () => window.removeEventListener('open-chat-agent', handleOpen as EventListener);
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -1336,7 +1522,7 @@ function UnityChatAgent() {
     
     setTimeout(() => {
       setMessages(prev => [...prev, { 
-        text: "যেকোনো সমস্যা হয়ে থাকলে অনুগ্রহ করে আমাদের এই হোয়াটসঅ্যাপ নাম্বারে যোগাযোগ করুন: 01600602084", 
+        text: "হ্যালো! আমি ইউনিটি এজেন্ট, আপনাকে স্বাগতম। আশা করি আপনি ভালোভাবে স্টাডি ও লার্নিং করতে পারবেন। আপনার যদি কোনো সমস্যা হয়ে থাকে তাহলে আমাদের হেল্প লাইনে (WhatsApp: 01600602084) যোগাযোগ করুন।", 
         isUser: false 
       }]);
     }, 600);

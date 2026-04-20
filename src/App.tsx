@@ -8,6 +8,7 @@ import {
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
 import { AdminPanel } from './AdminPanel';
+import { RegisterPage } from './RegisterPage';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,8 +21,9 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   
-  // Normal Login State
+  // Modal & Route States
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterRouteOpen, setIsRegisterRouteOpen] = useState(false);
   const [loginModalType, setLoginModalType] = useState<'student'|'agent'|'admin'>('student');
   const [loginNumber, setLoginNumber] = useState('');
   const [loginPass, setLoginPass] = useState('');
@@ -170,6 +172,10 @@ export default function App() {
     return isAdmin ? <AdminPanel logout={logout} /> : <StudentPanel logout={logout} />;
   }
 
+  if (isRegisterRouteOpen) {
+    return <RegisterPage onBack={() => setIsRegisterRouteOpen(false)} />;
+  }
+
   return (
     <>
       <HomePage 
@@ -181,6 +187,7 @@ export default function App() {
         closeAnnivPopup={closeAnnivPopup}
         setIsLoginModalOpen={setIsLoginModalOpen}
         setLoginModalType={setLoginModalType}
+        openRegisterPage={() => setIsRegisterRouteOpen(true)}
       />
 
       {/* LOGIN MODAL */}
@@ -440,7 +447,7 @@ export default function App() {
                 <div className="grid gap-3">
                   {[
                     { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
-                    { icon: UserPlus, label: "Sign Up", onClick: () => { window.location.href="https://unityearning.com/sign-up" } },
+                    { icon: UserPlus, label: "Sign Up", onClick: () => { setIsRegisterRouteOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: Store, label: "Store", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
                     { icon: UserCog, label: "Agent Login", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Student Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },

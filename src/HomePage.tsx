@@ -106,6 +106,7 @@ interface HomePageProps {
   closeAnnivPopup: () => void;
   setIsLoginModalOpen: (open: boolean) => void;
   setLoginModalType: (type: 'student' | 'agent' | 'admin') => void;
+  openRegisterPage: () => void;
 }
 
 const getValidUrl = (url?: string) => {
@@ -189,7 +190,8 @@ export function HomePage({
   isAnnivPopupOpen, 
   closeAnnivPopup, 
   setIsLoginModalOpen,
-  setLoginModalType
+  setLoginModalType,
+  openRegisterPage
 }: HomePageProps) {
   const { settings } = useSettings();
   
@@ -208,9 +210,9 @@ export function HomePage({
               <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="nav-pill pill-login">
                 <LogIn className="w-4 h-4" /><span>Login</span>
               </button>
-              <a href="https://unityearning.com/sign-up" className="nav-pill pill-signup">
+              <button onClick={openRegisterPage} className="nav-pill pill-signup">
                 <UserPlus className="w-4 h-4" /><span>Sign Up</span>
-              </a>
+              </button>
               <a href="https://www.unityearning.com/shop" className="nav-pill pill-store">
                 <Store className="w-4 h-4" /><span>Store</span>
               </a>
@@ -291,9 +293,9 @@ export function HomePage({
                   <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-3.5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5 group">
                     লগইন করুন <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
-                  <a href="https://unityearning.com/sign-up" className="w-full sm:w-auto px-4 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
+                  <button onClick={openRegisterPage} className="w-full sm:w-auto px-4 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
                     রেজিস্ট্রেশন
-                  </a>
+                  </button>
                   <a href="https://www.unityearning.com/shop" className="w-full sm:w-auto px-4 py-3.5 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5">
                     <Store className="w-4 h-4" /> স্টোর
                   </a>
