@@ -170,6 +170,10 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                   </div>
                   <div className="space-y-4">
                     <p className="text-red-900 font-bold flex items-start gap-2">
+                      <span className="text-xl">💰</span> 
+                      <span>আমাদের মেইন এডমিশন ফি ১১০০ টাকা। যদি অফারে আইডি একটিভ করে থাকেন তাহলে বাকি ৫০০ টাকা পরবর্তীতে কোম্পানিকে পরিশোধ করে দিতে হবে কাজ করার মাধ্যমে।</span>
+                    </p>
+                    <p className="text-red-900 font-bold flex items-start gap-2 border-t border-red-200/50 pt-4">
                       <span className="text-xl">⚠️</span> 
                       <span>কোর্স বা সার্ভিস ফি পেমেন্ট করার পর কোনো অবস্থাতেই টাকা রিফান্ড দেওয়া হবে না।</span>
                     </p>

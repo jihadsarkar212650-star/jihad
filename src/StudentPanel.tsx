@@ -3,7 +3,7 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot, Brain, Award
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond
 } from 'lucide-react';
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
@@ -1144,6 +1144,88 @@ function DailyQuiz() {
   );
 }
 
+function CareerRanking() {
+  const RANKS = [
+    { name: "Member", desc: "ক্যারিয়ারের শুরু, কাজ শেখা ও বেসিক ইনকাম।", bg: "bg-slate-50", border: "border-slate-200", text: "text-slate-800", icon: User, iconBg: "bg-slate-200 text-slate-700" },
+    { name: "Trainer", desc: "অন্যদের শেখানোর যোগ্যতা ও ট্রেইনিং ইনসেনটিভ।", bg: "bg-green-50", border: "border-green-200", text: "text-green-800", icon: Award, iconBg: "bg-green-200 text-green-700" },
+    { name: "Counsellor", desc: "মেম্বারদের গাইড করা ও স্পেশাল বোনাস।", bg: "bg-teal-50", border: "border-teal-200", text: "text-teal-800", icon: HeartHandshake, iconBg: "bg-teal-200 text-teal-700" },
+    { name: "Team Leader", desc: "নিজস্ব টিম পরিচালনা ও টিম বোনাস অর্জন।", bg: "bg-indigo-50", border: "border-indigo-200", text: "text-indigo-800", icon: Users, iconBg: "bg-indigo-200 text-indigo-700" },
+    { name: "Senior Counsellor", desc: "বড় টিমের দায়িত্ব ও সম্মানজনক রিওয়ার্ড।", bg: "bg-orange-50", border: "border-orange-200", text: "text-orange-800", icon: Star, iconBg: "bg-orange-200 text-orange-700" },
+    { name: "Senior Team Leader", desc: "একাধিক টিমের লিডারশিপ ও হাই ইনকাম।", bg: "bg-pink-50", border: "border-pink-200", text: "text-pink-800", icon: Zap, iconBg: "bg-pink-200 text-pink-700" },
+    { name: "Manager", desc: "কোম্পানির ম্যানেজমেন্ট টায়ার ও ফিক্সড বেনিফিট।", bg: "bg-red-50", border: "border-red-200", text: "text-red-800", icon: Briefcase, iconBg: "bg-red-200 text-red-700" },
+    { name: "Senior Manager", desc: "টপ লেভেল ম্যানেজমেন্ট ও বিশেষ কর্পোরেট সুযোগ।", bg: "bg-gradient-to-r from-yellow-50 to-amber-50", border: "border-yellow-300", text: "text-yellow-900", icon: Crown, iconBg: "bg-yellow-400 text-yellow-900 shadow-lg shadow-yellow-200", premium: true },
+    { name: "Admin/CEO", desc: "কোম্পানির সর্বোচ্চ সম্মান ও সিদ্ধান্ত গ্রহণকারী।", bg: "bg-gradient-to-r from-slate-900 via-gray-900 to-black", border: "border-gray-800", text: "text-white", icon: Diamond, iconBg: "bg-slate-800 text-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.3)]", apex: true }
+  ];
+
+  return (
+    <div className="container mx-auto px-4 lg:px-12 mt-8 pb-20 font-bengali">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center p-4 bg-yellow-100 rounded-full mb-4 shadow-inner">
+            <Trophy className="w-10 h-10 text-yellow-600" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">ক্যারিয়ার র‍্যাংকিং</h2>
+          <p className="text-gray-600 font-medium text-lg max-w-2xl mx-auto leading-relaxed">
+            Unity Earning-এ আপনার ক্যারিয়ার গড়ুন! নিবেদিত কাজ ও দক্ষতার মাধ্যমে আপনিও অর্জন করতে পারেন সর্বোচ্চ সম্মান ও রিওয়ার্ড। ধাপে ধাপে নিজেকে উন্নীত করুন।
+          </p>
+        </div>
+
+        <div className="relative">
+          {/* Vertical tracking line */}
+          <div className="absolute left-[39px] sm:left-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-slate-200 via-indigo-200 to-yellow-400 -translate-x-1/2 rounded-full hidden sm:block" />
+
+          <div className="space-y-4 sm:space-y-8 relative">
+            {RANKS.map((rank, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`relative flex flex-col sm:flex-row items-center gap-4 sm:gap-8 ${i % 2 === 0 ? 'sm:flex-row-reverse' : ''}`}
+              >
+                {/* Timeline connector dot for medium+ screens */}
+                <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full border-4 border-white bg-slate-200 shadow-md z-10 items-center justify-center text-[10px] font-black text-slate-500">
+                  {i + 1}
+                </div>
+
+                <div className={`w-full sm:w-1/2 flex ${i % 2 === 0 ? 'sm:justify-start' : 'sm:justify-end'}`}>
+                  <div className={`w-full max-w-sm p-5 md:p-6 rounded-2xl border-2 shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group ${rank.bg} ${rank.border} ${rank.apex ? 'ring-2 ring-yellow-400 ring-offset-2' : ''}`}>
+                    {rank.premium && <div className="absolute top-0 right-0 w-16 h-16 bg-white/20 blur-2xl rounded-full pointer-events-none" />}
+                    {rank.apex && <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 blur-[40px] rounded-full pointer-events-none animate-pulse" />}
+                    
+                    <div className="flex items-start gap-4 relative z-10">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${rank.iconBg} transition-transform group-hover:scale-110`}>
+                        <rank.icon className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] sm:text-xs font-black uppercase tracking-widest opacity-60 mb-1 flex items-center gap-1">
+                          Level {i + 1} {rank.apex && <span className="text-yellow-400 ml-1">★</span>}
+                        </div>
+                        <h3 className={`text-xl font-black mb-1.5 ${rank.text}`}>{rank.name}</h3>
+                        <p className={`text-sm font-medium leading-snug ${rank.apex ? 'text-gray-300' : 'text-gray-600'}`}>
+                          {rank.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="hidden sm:block w-1/2" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-16 bg-blue-50 border border-blue-100 p-8 rounded-[32px] text-center shadow-inner relative overflow-hidden">
+           <div className="absolute top-0 right-0 p-8 opacity-5"><Zap className="w-32 h-32 text-blue-900" /></div>
+           <h4 className="text-2xl font-black text-blue-900 mb-3 relative z-10">আপনার পরবর্তী লক্ষ্য কোনটি?</h4>
+           <p className="text-blue-800 font-medium max-w-lg mx-auto relative z-10">কঠোর পরিশ্রম এবং সঠিক গাইডলাইনের মাধ্যমে আপনিও পৌঁছাতে পারেন আপনার কাঙ্ক্ষিত র‍্যাংকে। কাজ শুরু করুন আজই!</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function StudentPanel({ logout }: StudentPanelProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -1271,7 +1353,15 @@ export function StudentPanel({ logout }: StudentPanelProps) {
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-[100]"><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileMenuOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100"><img src="https://unityearning.com/assets/img/unityearning.png" alt="Logo" className="h-10 w-auto" /><button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button></div>
+              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                <img src="https://unityearning.com/assets/img/unityearning.png" alt="Logo" className="h-10 w-auto" />
+                <div className="flex items-center gap-2">
+                  <button onClick={() => { navigateTo('ranking'); setIsMobileMenuOpen(false); }} className="p-2 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-100 transition-colors">
+                    <Trophy className="w-6 h-6" />
+                  </button>
+                  <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button>
+                </div>
+              </div>
               <div className="p-6 overflow-y-auto">
                 <ul className="gradient-menu">
                   <li onClick={() => navigateTo('dashboard')}><a href="#"><LayoutGrid className="w-4 h-4 mr-2" /> All Course</a></li>
@@ -1312,55 +1402,62 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               <div className="bg-white p-6 rounded-2xl shadow-xl mb-8"><p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p></div>
               
               {/* Refined Support Team UI */}
-              <div className="bg-gradient-to-br from-indigo-500 via-purple-600 to-fuchsia-600 rounded-[2rem] p-6 lg:p-8 mb-8 shadow-2xl shadow-indigo-500/30 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                  <ShieldCheck className="w-40 h-40 text-white" />
+              <div className="bg-gradient-to-br from-[#8b2bfa] via-[#912ce6] to-[#af20f7] rounded-[2rem] p-6 lg:p-8 mb-8 shadow-2xl relative overflow-hidden font-bengali">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
+                  <ShieldCheck className="w-80 h-80 text-white" />
                 </div>
 
-                <h6 className="text-white font-black uppercase mb-6 tracking-widest text-lg flex items-center gap-2 relative z-10 drop-shadow-md">
-                  <ShieldCheck className="w-6 h-6" /> সাপোর্ট টিম
+                <h6 className="text-white font-black mb-6 text-xl sm:text-2xl flex items-center gap-2 relative z-10">
+                  <ShieldCheck className="w-7 h-7" /> সাপোর্ট টিম
                 </h6>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
-                  {settings.supportTeam.map((member, i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/30 hover:bg-white/20 transition-all flex items-center gap-4 group">
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 shadow-inner">
-                        <User className="w-6 h-6 text-white" />
+                <div className="flex flex-col gap-4 relative z-10 w-full sm:max-w-md">
+                  {settings.supportTeam.map((member, i) => {
+                    const isTeamLeader = member.role === 'Team Leader';
+                    const RoleIcon = isTeamLeader ? Crown : User;
+                    return (
+                    <div key={i} className={`${isTeamLeader ? 'bg-gradient-to-r from-yellow-500/20 to-amber-500/10 border-yellow-400/30' : 'bg-white/[0.08] border-white/10'} rounded-2xl p-4 border flex items-center gap-4 transition-all hover:bg-white/[0.12] group relative overflow-hidden`}>
+                      {isTeamLeader && <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 blur-[30px] rounded-full pointer-events-none" />}
+                      <div className={`w-14 h-14 ${isTeamLeader ? 'bg-gradient-to-br from-yellow-400 to-amber-600 text-slate-900 shadow-lg shadow-yellow-500/30' : 'bg-white/20 text-white'} rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110`}>
+                        <RoleIcon className={`w-7 h-7 ${isTeamLeader ? 'drop-shadow-sm' : ''}`} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-white font-black text-sm lg:text-base drop-shadow-sm">{member.role}</div>
-                        <div className="text-white/90 text-xs lg:text-sm font-bold mt-0.5">{member.name}</div>
+                        <div className={`${isTeamLeader ? 'text-yellow-400' : 'text-white'} font-bold text-lg sm:text-xl drop-shadow-sm leading-tight inline-flex items-center gap-1.5`}>
+                          {isTeamLeader ? 'টিম লিডার' : member.role === 'Trainer' ? 'ট্রেইনার' : member.role}
+                          {isTeamLeader && <Star className="w-4 h-4 fill-current animate-pulse" />}
+                        </div>
+                        <div className="text-white/80 text-sm font-medium mt-0.5">{member.name}</div>
                       </div>
                       <a 
                         href={`https://wa.me/88${member.phone.replace(/[^0-9]/g, '')}`} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="w-12 h-12 bg-[#25D366] hover:bg-[#1DA851] rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-[#25D366]/40 transition-all group-hover:scale-110 active:scale-95 border border-[#25D366]/50"
+                        className="w-12 h-12 bg-[#25D366] hover:bg-[#1DA851] rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg transition-transform hover:scale-105 active:scale-95 z-10"
                       >
                         <MessageCircle className="w-6 h-6" />
                       </a>
                     </div>
-                  ))}
+                  )})}
                 </div>
 
                 {/* Helpline option */}
-                <div className="mt-6 pt-6 border-t border-white/20 relative z-10">
-                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-chat-agent'))} className="w-full text-left flex flex-col sm:flex-row sm:items-center justify-between bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 sm:p-5 transition-all group gap-4 shadow-sm hover:shadow-lg">
+                <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full sm:max-w-md">
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-chat-agent'))} className="w-full text-left flex items-center justify-between bg-white/[0.08] hover:bg-white/[0.12] border border-white/10 rounded-2xl p-4 transition-all gap-4 shadow-sm group">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-blue-500 flex items-center justify-center rounded-xl shadow-xl shadow-blue-500/40 group-hover:scale-110 transition-transform shrink-0 border border-white/20">
+                      <div className="w-14 h-14 bg-blue-500 flex items-center justify-center rounded-2xl shrink-0 group-hover:scale-105 transition-transform shadow-lg shadow-blue-500/30">
                         <Bot className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <div className="text-white/90 text-xs sm:text-sm font-black uppercase tracking-widest mb-0.5 drop-shadow-sm">সব সময় সাহায্যে প্রস্তুত</div>
-                        <div className="text-white text-lg sm:text-2xl font-black drop-shadow-md">হেল্পলাইন এ যোগাযোগ করুন</div>
+                        <div className="text-white/90 text-xs sm:text-sm font-bold mb-1">সব সময় সাহায্যে প্রস্তুত</div>
+                        <div className="text-white text-base sm:text-xl font-bold leading-tight">হেল্পলাইন এ যোগাযোগ<br/>করুন</div>
                       </div>
                     </div>
-                    <div className="hidden sm:flex w-12 h-12 bg-white/20 rounded-full items-center justify-center -rotate-45 group-hover:bg-blue-500 group-hover:rotate-0 transition-all duration-300 border border-white/30 group-hover:border-blue-500">
-                      <ArrowRight className="w-6 h-6 text-white" />
+                    <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-lg">
+                      <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                   </button>
+                </div>
               </div>
-            </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center h-full"><h3 className="text-2xl font-black text-gray-900 mb-6 text-center">কিভাবে সাহায্য করতে পারি?</h3><div className="w-full bg-slate-900 p-6 rounded-2xl text-center mt-auto"><h5 className="text-white font-black mb-4">যেকোনো সমস্যা</h5><span className="inline-block bg-teal-600 text-white px-6 py-2 rounded-full font-black text-sm mb-6">সময়ঃ ৮:৩০AM – ১১:৩০PM</span><a href="https://www.facebook.com/share/1MAceX7uXW/" className="ue-join-btn ue-pill-teal"><ArrowRight className="w-5 h-5" /> Join Meeting</a></div></div>
@@ -1531,6 +1628,12 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                         </h4>
                         <div className="space-y-3">
                           <div className="bg-white p-4 rounded-xl border border-red-100 shadow-sm flex gap-3 items-start">
+                            <span className="text-xl shrink-0">💰</span>
+                            <div>
+                              <p className="text-red-900 font-bold text-sm sm:text-base leading-tight">আমাদের মেইন এডমিশন ফি ১১০০ টাকা। যদি অফারে আইডি একটিভ করে থাকেন তাহলে বাকি ৫০০ টাকা পরবর্তীতে কোম্পানিকে পরিশোধ করে দিতে হবে কাজ করার মাধ্যমে।</p>
+                            </div>
+                          </div>
+                          <div className="bg-white p-4 rounded-xl border border-red-100 shadow-sm flex gap-3 items-start">
                             <span className="text-xl shrink-0">⚠️</span>
                             <div>
                               <p className="text-red-900 font-bold text-sm sm:text-base leading-tight">কোর্স বা সার্ভিস ফি পেমেন্ট করার পর কোনো অবস্থাতেই টাকা রিফান্ড দেওয়া হবে না।</p>
@@ -1551,7 +1654,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
 
               </div>
             </div></>
-        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : <MyHomeworks />}
+        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : activeTab === 'ranking' ? <CareerRanking /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16">
         <div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold">
