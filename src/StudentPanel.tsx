@@ -1413,13 +1413,9 @@ export function StudentPanel({ logout }: StudentPanelProps) {
               </div>
               
               {/* Refined Support Team UI */}
-              <div className="bg-gradient-to-br from-[#8b2bfa] via-[#912ce6] to-[#af20f7] rounded-[2rem] p-6 lg:p-8 mb-8 shadow-2xl relative overflow-hidden font-bengali">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
-                  <ShieldCheck className="w-80 h-80 text-white" />
-                </div>
-
-                <h6 className="text-white font-black mb-6 text-xl sm:text-2xl flex items-center gap-2 relative z-10">
-                  <ShieldCheck className="w-7 h-7" /> সাপোর্ট টিম
+              <div className="bg-white rounded-[2rem] p-6 lg:p-8 mb-8 shadow-sm border border-slate-100 font-bengali">
+                <h6 className="text-slate-950 font-black mb-6 text-xl sm:text-2xl flex items-center gap-2">
+                  <ShieldCheck className="w-7 h-7 text-indigo-600" /> সাপোর্ট টিম
                 </h6>
                 
                 <div className="flex flex-col gap-4 relative z-10 w-full sm:max-w-md">
@@ -1427,44 +1423,42 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                     const isTeamLeader = member.role === 'Team Leader';
                     const RoleIcon = isTeamLeader ? Crown : User;
                     return (
-                    <div key={i} className={`${isTeamLeader ? 'bg-gradient-to-r from-yellow-500/20 to-amber-500/10 border-yellow-400/30' : 'bg-white/[0.08] border-white/10'} rounded-2xl p-4 border flex items-center gap-4 transition-all hover:bg-white/[0.12] group relative overflow-hidden`}>
-                      {isTeamLeader && <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 blur-[30px] rounded-full pointer-events-none" />}
-                      <div className={`w-14 h-14 ${isTeamLeader ? 'bg-gradient-to-br from-yellow-400 to-amber-600 text-slate-900 shadow-lg shadow-yellow-500/30' : 'bg-white/20 text-white'} rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110`}>
-                        <RoleIcon className={`w-7 h-7 ${isTeamLeader ? 'drop-shadow-sm' : ''}`} />
+                    <div key={i} className="group p-4 bg-white rounded-2xl border border-slate-100 flex items-center gap-4 transition-all hover:border-indigo-100 shadow-sm">
+                      <div className={`w-12 h-12 ${isTeamLeader ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'} rounded-xl flex items-center justify-center shrink-0`}>
+                        <RoleIcon className="w-5 h-5" />
                       </div>
-                      <div className="flex-1">
-                        <div className={`${isTeamLeader ? 'text-yellow-400' : 'text-white'} font-bold text-lg sm:text-xl drop-shadow-sm leading-tight inline-flex items-center gap-1.5`}>
+                      <div className="flex-1 min-w-0 pr-2">
+                        <div className="text-slate-900 font-bold text-sm whitespace-normal break-words">{member.name}</div>
+                        <div className="text-xs text-indigo-600 font-black uppercase tracking-wider mt-0.5 whitespace-nowrap">
                           {isTeamLeader ? 'টিম লিডার' : member.role === 'Trainer' ? 'ট্রেইনার' : member.role}
-                          {isTeamLeader && <Star className="w-4 h-4 fill-current animate-pulse" />}
                         </div>
-                        <div className="text-white/80 text-sm font-medium mt-0.5">{member.name}</div>
                       </div>
                       <a 
                         href={`https://wa.me/88${member.phone.replace(/[^0-9]/g, '')}`} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="w-12 h-12 bg-[#25D366] hover:bg-[#1DA851] rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg transition-transform hover:scale-105 active:scale-95 z-10"
+                        className="w-10 h-10 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 border border-emerald-100 transition-all shrink-0"
                       >
-                        <MessageCircle className="w-6 h-6" />
+                        <MessageSquare className="w-5 h-5" />
                       </a>
                     </div>
                   )})}
                 </div>
 
                 {/* Helpline option */}
-                <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full sm:max-w-md">
-                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-chat-agent'))} className="w-full text-left flex items-center justify-between bg-white/[0.08] hover:bg-white/[0.12] border border-white/10 rounded-2xl p-4 transition-all gap-4 shadow-sm group">
+                <div className="mt-8 pt-8 border-t border-slate-100 w-full">
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-chat-agent'))} className="w-full text-left flex items-center justify-between bg-indigo-600 hover:bg-indigo-700 rounded-2xl p-4 transition-all gap-4 shadow-lg shadow-indigo-500/20 group">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-blue-500 flex items-center justify-center rounded-2xl shrink-0 group-hover:scale-105 transition-transform shadow-lg shadow-blue-500/30">
+                      <div className="w-14 h-14 bg-white/10 backdrop-blur flex items-center justify-center rounded-2xl shrink-0">
                         <Bot className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <div className="text-white/90 text-xs sm:text-sm font-bold mb-1">সব সময় সাহায্যে প্রস্তুত</div>
-                        <div className="text-white text-base sm:text-xl font-bold leading-tight">হেল্পলাইন এ যোগাযোগ<br/>করুন</div>
+                        <p className="text-indigo-100 font-bold text-xs uppercase tracking-widest mb-0.5">সব সময় সাহায্যে প্রস্তুত</p>
+                        <p className="text-white font-black text-lg">হেল্পলাইন এ যোগাযোগ করুন</p>
                       </div>
                     </div>
-                    <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-lg">
-                      <MessageCircle className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                      <ArrowRight className="w-5 h-5" />
                     </div>
                   </button>
                 </div>
