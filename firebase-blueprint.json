@@ -41,6 +41,19 @@
         "price": { "type": "string" },
         "img": { "type": "string" }
       }
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Student success stories and photos",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string" },
+        "message": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentName", "message", "status", "createdAt"]
     }
   },
   "firestore": {
@@ -55,6 +68,10 @@
     "/products/{productId}": {
       "schema": "Product",
       "description": "Store products"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Student success stories and photos"
     }
   }
 }

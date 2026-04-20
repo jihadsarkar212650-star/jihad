@@ -8,6 +8,7 @@ import {
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
 import { useSettings } from './lib/useSettings';
+import { PhotoGallery } from './components/PhotoGallery';
 import Swal from 'sweetalert2';
 
 const MENU_ITEMS = [
@@ -1328,6 +1329,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   if (item.href !== '#') return;
                   if (item.label === 'Student profile') navigateTo('profile');
                   else if (item.label === 'My Homeworks') navigateTo('homeworks');
+                  else if (item.label === 'Photo Gallery') navigateTo('gallery');
                   else if (item.label === 'Edit Profile') navigateTo('edit-profile');
                   else if (item.label === 'My Passbook') navigateTo('passbook');
                   else if (item.label === 'Withdrawals') navigateTo('withdrawals');
@@ -1378,6 +1380,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                       if (item.href !== '#') return;
                       if (item.label === 'Student profile') navigateTo('profile');
                       else if (item.label === 'My Homeworks') navigateTo('homeworks');
+                      else if (item.label === 'Photo Gallery') navigateTo('gallery');
                       else if (item.label === 'Edit Profile') navigateTo('edit-profile');
                       else if (item.label === 'My Passbook') navigateTo('passbook');
                       else if (item.label === 'Withdrawals') navigateTo('withdrawals');
@@ -1423,7 +1426,13 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                     const isTeamLeader = member.role === 'Team Leader';
                     const RoleIcon = isTeamLeader ? Crown : User;
                     return (
-                    <div key={i} className="group p-4 bg-white rounded-2xl border border-slate-100 flex items-center gap-4 transition-all hover:border-indigo-100 shadow-sm">
+                    <motion.div 
+                      key={i} 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="group p-4 bg-white rounded-2xl border border-slate-100 flex items-center gap-4 transition-all hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-500/5 shadow-sm"
+                    >
                       <div className={`w-12 h-12 ${isTeamLeader ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'} rounded-xl flex items-center justify-center shrink-0`}>
                         <RoleIcon className="w-5 h-5" />
                       </div>
@@ -1433,15 +1442,17 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                           {isTeamLeader ? 'টিম লিডার' : member.role === 'Trainer' ? 'ট্রেইনার' : member.role}
                         </div>
                       </div>
-                      <a 
+                      <motion.a 
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         href={`https://wa.me/88${member.phone.replace(/[^0-9]/g, '')}`} 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="w-10 h-10 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 border border-emerald-100 transition-all shrink-0"
                       >
                         <MessageSquare className="w-5 h-5" />
-                      </a>
-                    </div>
+                      </motion.a>
+                    </motion.div>
                   )})}
                 </div>
 
@@ -1669,7 +1680,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
 
               </div>
             </div></>
-        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : activeTab === 'ranking' ? <CareerRanking /> : <MyHomeworks />}
+        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'gallery' ? <PhotoGallery /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : activeTab === 'ranking' ? <CareerRanking /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16">
         <div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold">
