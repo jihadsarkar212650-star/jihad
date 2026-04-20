@@ -1817,7 +1817,7 @@ function UnityChatAgent() {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute bottom-16 right-0 w-[300px] sm:w-[320px] bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden origin-bottom-right"
+            className="absolute -bottom-20 right-0 w-[calc(100vw-2rem)] sm:w-[320px] bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden origin-bottom-right max-h-[80vh]"
           >
             {/* Header */}
             <div className="bg-blue-600 p-4 flex items-center justify-between">
