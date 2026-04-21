@@ -5,6 +5,7 @@ import {
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
   Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, MessageSquare, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond,
   Smartphone, Signal, ShoppingBag, PlayCircle, Layers, FilePlus, Target, Banknote, Book, Dice5, BookOpen,
+  Dice1, Dice2, Dice3, Dice4, Dice6,
   UserPlus,
   Search, ShoppingCart, Filter, Heart
 } from 'lucide-react';
@@ -23,7 +24,7 @@ const MENU_ITEMS = [
   { label: "My Passbook", icon: CreditCard, href: "#" },
   { label: "Withdrawals", icon: ArrowDownCircle, href: "#" },
   { label: "Notice", icon: Bell, href: "#" },
-  { label: "Store", icon: Store, href: "https://unityearning.com/shop" },
+  { label: "Store", icon: Store, href: "#" },
   { label: "Video Tutorial", icon: Video, href: "https://support-unityearning.vercel.app/" },
   { label: "Typing Work", icon: Keyboard, href: "https://unity-earning-typing.vercel.app" },
   { label: "Help Line", icon: Phone, href: "#" },
@@ -48,6 +49,9 @@ const EXTRA_MENU_ITEMS = [
   { label: "মাসিক বেতন", icon: Banknote, color: "bg-blue-600", desc: "আপনার কাজের মাসিক সম্মানী।" },
   { label: "কুরআন শিক্ষা", icon: Book, color: "bg-blue-800", desc: "সহজ পদ্ধতিতে কুরআন শিক্ষা।" },
   { label: "Micro Jobs Dice", icon: Dice5, color: "bg-blue-500", desc: "ডাইস রোল করে মাইক্রো টাস্ক সম্পন্ন করুন।" },
+  { label: "মজার লুডু", icon: Dice6, color: "bg-purple-600", desc: "কোম্পানি সম্পর্কে জানুন মজার মাধ্যমে।" },
+  { label: "মেমোরি গেম", icon: Brain, color: "bg-emerald-600", desc: "আপনার বুদ্ধি পরীক্ষা করুন।" },
+  { label: "Unity Crush", icon: Diamond, color: "bg-pink-600", desc: "কালারফুল ক্যান্ডি ম্যাচ করুন।" },
   { label: "মেম্বার র‍্যাঙ্কিং", icon: Trophy, color: "bg-blue-600", desc: "সেরা মেম্বারদের তালিকা এবং র‍্যাঙ্কিং।" },
 ];
 
@@ -70,6 +74,29 @@ const RANKING_MEMBERS = [
   ...member,
   converts: Math.max(5, 40 - Math.floor(i / 2.5))
 })).sort((a, b) => b.converts - a.converts);
+
+const DICE_JOB_TASKS = [
+  { title: "Facebook Page Follow", reward: "2 Tk", icon: Users },
+  { title: "YouTube Video Watch (2 min)", reward: "1 Tk", icon: Video },
+  { title: "Facebook Post Like & Share", reward: "2 Tk", icon: Share2 },
+  { title: "YouTube Channel Subscribe", reward: "2 Tk", icon: PlayCircle },
+  { title: "Instagram Profile Follow", reward: "1 Tk", icon: User },
+  { title: "Telegram Channel Join", reward: "1 Tk", icon: MessageSquare },
+  { title: "Website Visit (60 sec)", reward: "1 Tk", icon: ExternalLink },
+  { title: "Download & Install App", reward: "5 Tk", icon: ArrowDownCircle },
+  { title: "Google Map 5 Star Review", reward: "3 Tk", icon: Star },
+  { title: "LinkedIn Company Follow", reward: "1 Tk", icon: Briefcase },
+  { title: "Twitter (X) Profile Follow", reward: "1 Tk", icon: Zap },
+  { title: "TikTok Video Like & Follow", reward: "1 Tk", icon: HeartHandshake },
+  { title: "Facebook Group Join", reward: "1 Tk", icon: Users },
+  { title: "Share Post in 10 Groups", reward: "5 Tk", icon: Share2 },
+  { title: "Newsletter Email Subscribe", reward: "2 Tk", icon: Mail },
+  { title: "Blog Post Comment", reward: "1 Tk", icon: MessageCircle },
+  { title: "Join WhatsApp Community", reward: "1 Tk", icon: Phone },
+  { title: "Pinterest Board Follow", reward: "1 Tk", icon: Layers },
+  { title: "Reddit Post Upvote", reward: "1 Tk", icon: ChevronUp },
+  { title: "Quora Answer Upvote", reward: "1 Tk", icon: ChevronUp },
+];
 
 const MICRO_JOB_TASKS = [
   { title: "Facebook Page Follow", reward: "2 Tk", icon: Users },
@@ -1451,11 +1478,485 @@ const getValidUrl = (url?: string) => {
   return `https://${url}`;
 };
 
+function MicroJobsDiceView({ onBack, item }: { onBack: () => void, item: any }) {
+  const [isRolling, setIsRolling] = useState(false);
+  const [rolledTask, setRolledTask] = useState<any>(null);
+  const [diceValue, setDiceValue] = useState(1);
+
+  const rollDice = () => {
+    if (isRolling) return;
+    setIsRolling(true);
+    setRolledTask(null);
+    let counter = 0;
+    const interval = setInterval(() => {
+      setDiceValue(Math.floor(Math.random() * 6) + 1);
+      counter++;
+      if (counter > 15) {
+        clearInterval(interval);
+        setIsRolling(false);
+        const randomTask = DICE_JOB_TASKS[Math.floor(Math.random() * DICE_JOB_TASKS.length)];
+        setRolledTask(randomTask);
+        Swal.fire({
+          title: 'অভিনন্দন!',
+          text: `আপনি রোল করে "${randomTask.title}" টাস্কটি পেয়েছেন।`,
+          icon: 'success',
+          confirmButtonText: 'কাজ শুরু করুন',
+          confirmButtonColor: '#3b82f6',
+          customClass: {
+            popup: 'rounded-[2rem] font-hind',
+            confirmButton: 'rounded-xl font-black px-8 py-3'
+          }
+        });
+      }
+    }, 80);
+  };
+
+  const DiceIcons = [undefined, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6];
+  const DiceIcon = DiceIcons[diceValue] || Dice5;
+
+  return (
+    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+      <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+        <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+      </button>
+
+      <div className="text-center mb-10">
+        <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+          <Dice5 className="w-10 h-10" />
+        </div>
+        <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+        <p className="text-gray-500 font-bold">ডাইস রোল করুন এবং লাকি মাইক্রো টাস্ক উইন করুন!</p>
+      </div>
+
+      <div className="max-w-4xl mx-auto flex flex-col items-center gap-12">
+        <motion.div 
+          animate={isRolling ? { 
+            rotate: [0, 90, 180, 270, 360],
+            scale: [1, 1.2, 1],
+            y: [0, -20, 0]
+          } : {}}
+          transition={isRolling ? { duration: 0.4, repeat: Infinity } : {}}
+          className={`w-32 h-32 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center border-4 border-blue-100 ${isRolling ? 'text-blue-600' : 'text-gray-800'}`}
+        >
+          <DiceIcon className="w-20 h-20" />
+        </motion.div>
+
+        <button 
+          onClick={rollDice}
+          disabled={isRolling}
+          className="px-12 py-5 bg-blue-600 text-white rounded-[2rem] font-black text-xl shadow-xl shadow-blue-200 hover:bg-blue-700 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:translate-y-0"
+        >
+          {isRolling ? "Rolling..." : "Roll Dice"}
+        </button>
+
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+          {DICE_JOB_TASKS.map((task, i) => (
+            <div key={i} className={`p-4 bg-white rounded-2xl border ${rolledTask?.title === task.title ? 'border-blue-500 bg-blue-50 shadow-lg scale-105' : 'border-gray-50 opacity-60'} transition-all flex items-center gap-3`}>
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${rolledTask?.title === task.title ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400'}`}>
+                <task.icon className="w-4 h-4" />
+              </div>
+              <span className="text-[10px] font-black leading-tight">{task.title}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function UnityLudoGame({ onBack, item }: { onBack: () => void, item: any }) {
+  const [diceValue, setDiceValue] = useState(1);
+  const [isRolling, setIsRolling] = useState(false);
+  const [message, setMessage] = useState("রোল করুন এবং কোম্পানি সম্পর্কে জানুন!");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const facts = [
+    "Unity Earning এ আপনি শিখবেন এবং আয় করবেন একসাথে!",
+    "জানেন কি? আমাদের প্ল্যাটফর্মে ৫০০০+ স্টুডেন্ট সফলভাবে কাজ করছে।",
+    "ধৈর্য ধরুন, সাফল্য আপনার দরজায় কড়া নাড়বে!",
+    "Unity Earning এ প্রতিদিন নতুন কিছু শিখুন এবং নিজেকে দক্ষ করে তুলুন।",
+    "কঠোর পরিশ্রম কখনো বিফলে যায় না, আজই শুরু করুন আপনার ক্যারিয়ার!",
+    "স্মার্টলি কাজ করুন, স্মার্টলি আয় করুন Unity Earning এর সাথে।",
+    "সাফল্যের মূল চাবিকাঠি হলো ধারাবাহিকতা ও সঠিক গাইডলাইন।",
+    "আপনার স্বপ্নকে বাস্তবে রূপ দিতে আমরা আছি আপনার পাশে।"
+  ];
+
+  const rollDice = () => {
+    if (isRolling) return;
+    setIsRolling(true);
+    let counter = 0;
+    const interval = setInterval(() => {
+      setDiceValue(Math.floor(Math.random() * 6) + 1);
+      counter++;
+      if (counter > 15) {
+        clearInterval(interval);
+        setIsRolling(false);
+        const randomFact = facts[Math.floor(Math.random() * facts.length)];
+        setMessage(randomFact);
+        Swal.fire({
+          title: 'মজার তথ্য!',
+          text: randomFact,
+          icon: 'info',
+          confirmButtonText: 'ধন্যবাদ',
+          confirmButtonColor: '#9333ea',
+          customClass: {
+             popup: 'rounded-[2rem] font- hind'
+          }
+        });
+      }
+    }, 80);
+  };
+
+  const DiceIcon = [undefined, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6][diceValue] || Dice6;
+
+  return (
+    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="container mx-auto px-4 mt-8 pb-20">
+      <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-purple-600 transition-all">
+        <ArrowRight className="w-5 h-5 rotate-180" /> Back
+      </button>
+
+      <div className="bg-white p-8 lg:p-12 rounded-[3rem] shadow-2xl border border-purple-100 text-center max-w-2xl mx-auto relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl -z-10" />
+        <div className={`w-28 h-28 ${item.color} text-white rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-xl shadow-purple-500/20`}>
+          <Dice6 className="w-14 h-14" />
+        </div>
+        <h2 className="text-4xl font-black text-gray-900 tracking-tighter mb-4">{item.label}</h2>
+        <p className="text-lg text-gray-500 font-bold mb-10 leading-relaxed italic h-20 flex items-center justify-center">"{message}"</p>
+
+        <motion.div 
+          animate={isRolling ? { rotate: [0, 90, 180, 270, 360], scale: [1, 1.2, 1] } : {}}
+          transition={isRolling ? { duration: 0.4, repeat: Infinity } : {}}
+          className="w-32 h-32 bg-purple-50 text-purple-600 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 border-4 border-purple-200 shadow-inner"
+        >
+          <DiceIcon className="w-16 h-16" />
+        </motion.div>
+
+        <button onClick={rollDice} disabled={isRolling} className="px-12 py-5 bg-purple-600 text-white rounded-3xl font-black text-xl shadow-xl shadow-purple-200 hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50">
+          {isRolling ? "Rolling..." : "Roll Dice"}
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+function MemoryGame({ onBack, item }: { onBack: () => void, item: any }) {
+  const emojis = ['🚀', '💎', '🔥', '⭐️', '🎯', '🍀', '🍕', '🎸'];
+  const [cards, setCards] = useState<{ id: number, emoji: string, isFlipped: boolean, isMatched: boolean }[]>([]);
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [moves, setMoves] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    initializeGame();
+  }, []);
+
+  const initializeGame = () => {
+    const gameCards = [...emojis, ...emojis]
+      .sort(() => Math.random() - 0.5)
+      .map((emoji, index) => ({ id: index, emoji, isFlipped: false, isMatched: false }));
+    setCards(gameCards);
+    setFlippedCards([]);
+    setMoves(0);
+  };
+
+  const handleCardClick = (id: number) => {
+    if (flippedCards.length === 2 || cards[id].isFlipped || cards[id].isMatched) return;
+
+    const newCards = [...cards];
+    newCards[id].isFlipped = true;
+    setCards(newCards);
+
+    const newFlipped = [...flippedCards, id];
+    setFlippedCards(newFlipped);
+
+    if (newFlipped.length === 2) {
+      setMoves(prev => prev + 1);
+      const [first, second] = newFlipped;
+      if (cards[first].emoji === cards[second].emoji) {
+        setTimeout(() => {
+          const matchedCards = [...cards];
+          matchedCards[first].isMatched = true;
+          matchedCards[second].isMatched = true;
+          setCards(matchedCards);
+          setFlippedCards([]);
+          if (matchedCards.every(c => c.isMatched)) {
+             Swal.fire({ icon: 'success', title: 'বিজয়!', text: `আপনি ${moves + 1} টি মুভে গেমটি শেষ করেছেন।`, confirmButtonText: 'আবার খেলুন' }).then(initializeGame);
+          }
+        }, 500);
+      } else {
+        setTimeout(() => {
+          const resetCards = [...cards];
+          resetCards[first].isFlipped = false;
+          resetCards[second].isFlipped = false;
+          setCards(resetCards);
+          setFlippedCards([]);
+        }, 800);
+      }
+    }
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+      <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-emerald-600 transition-all">
+        <ArrowRight className="w-5 h-5 rotate-180" /> Back
+      </button>
+
+      <div className="bg-white p-8 lg:p-12 rounded-[3.5rem] shadow-2xl border border-emerald-100 max-w-2xl mx-auto text-center">
+        <div className={`w-24 h-24 ${item.color} text-white rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-emerald-500/20`}>
+          <Brain className="w-12 h-12" />
+        </div>
+        <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+        <div className="flex items-center justify-center gap-4 mb-8">
+           <span className="bg-emerald-50 text-emerald-600 px-4 py-1 rounded-full font-black text-sm border border-emerald-100">Moves: {moves}</span>
+           <button onClick={initializeGame} className="text-emerald-600 hover:underline font-bold text-sm">Reset Game</button>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 sm:gap-6">
+          {cards.map((card) => (
+            <motion.div
+              key={card.id}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => handleCardClick(card.id)}
+              className={`aspect-square rounded-2xl sm:rounded-3xl cursor-pointer flex items-center justify-center text-3xl sm:text-4xl transition-all duration-300 shadow-sm border-2 ${card.isFlipped || card.isMatched ? 'bg-white border-emerald-200 rotate-0' : 'bg-emerald-600 border-emerald-500 rotate-y-180'}`}
+            >
+              {(card.isFlipped || card.isMatched) ? card.emoji : ''}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function UnityCandyCrush({ onBack, item }: { onBack: () => void, item: any }) {
+  const width = 6;
+  const candyColors = ['#f472b6', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
+  const [grid, setGrid] = useState<string[]>([]);
+  const [score, setScore] = useState(0);
+  const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    createBoard();
+  }, []);
+
+  const createBoard = () => {
+    const randomGrid = [];
+    for (let i = 0; i < width * width; i++) {
+      const randomColor = candyColors[Math.floor(Math.random() * candyColors.length)];
+      randomGrid.push(randomColor);
+    }
+    setGrid(randomGrid);
+    setScore(0);
+  };
+
+  const moveIntoSquareBelow = () => {
+    setGrid(prevGrid => {
+      const newGrid = [...prevGrid];
+      let changed = false;
+      // Move down
+      for (let i = 0; i < 30; i++) {
+        if (newGrid[i + width] === '') {
+          newGrid[i + width] = newGrid[i];
+          newGrid[i] = '';
+          changed = true;
+        }
+      }
+      // Generate new items in empty top row
+      for (let i = 0; i < 6; i++) {
+        if (newGrid[i] === '') {
+          newGrid[i] = candyColors[Math.floor(Math.random() * candyColors.length)];
+          changed = true;
+        }
+      }
+      return changed ? newGrid : prevGrid;
+    });
+  };
+
+  const checkMatches = () => {
+    let matchFound = false;
+    setGrid(prevGrid => {
+      const newGrid = [...prevGrid];
+      const toRemove: number[] = [];
+
+      // Check rows for 3, 4, 5+
+      for (let row = 0; row < width; row++) {
+        for (let col = 0; col < width - 2; col++) {
+          const i = row * width + col;
+          const color = newGrid[i];
+          if (color === '') continue;
+
+          let matchLength = 1;
+          while (col + matchLength < width && newGrid[i + matchLength] === color) {
+            matchLength++;
+          }
+
+          if (matchLength >= 3) {
+            for (let k = 0; k < matchLength; k++) toRemove.push(i + k);
+            matchFound = true;
+          }
+          if (matchLength > 1) col += matchLength - 1; // Skip ahead
+        }
+      }
+
+      // Check columns for 3, 4, 5+
+      for (let col = 0; col < width; col++) {
+        for (let row = 0; row < width - 2; row++) {
+          const i = row * width + col;
+          const color = newGrid[i];
+          if (color === '') continue;
+
+          let matchLength = 1;
+          while (row + matchLength < width && newGrid[i + matchLength * width] === color) {
+            matchLength++;
+          }
+
+          if (matchLength >= 3) {
+            for (let k = 0; k < matchLength; k++) toRemove.push(i + k * width);
+            matchFound = true;
+          }
+          if (matchLength > 1) row += matchLength - 1; // Skip ahead
+        }
+      }
+
+      if (matchFound) {
+        const uniqueToRemove = Array.from(new Set(toRemove));
+        setScore(s => s + uniqueToRemove.length * 10);
+        uniqueToRemove.forEach(index => newGrid[index] = '');
+        return newGrid;
+      }
+      return prevGrid;
+    });
+    return matchFound;
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const found = checkMatches();
+      if (!found) {
+        moveIntoSquareBelow();
+      }
+    }, 200);
+    return () => clearInterval(timer);
+  }, [grid]);
+
+  const handleSquareClick = (index: number) => {
+    if (selectedSquare === null) {
+      setSelectedSquare(index);
+    } else if (selectedSquare === index) {
+      setSelectedSquare(null);
+    } else {
+      const row1 = Math.floor(selectedSquare / width);
+      const col1 = selectedSquare % width;
+      const row2 = Math.floor(index / width);
+      const col2 = index % width;
+
+      const isAdjacent = (Math.abs(row1 - row2) === 1 && col1 === col2) ||
+                         (Math.abs(col1 - col2) === 1 && row1 === row2);
+
+      if (isAdjacent) {
+        setGrid(prev => {
+          const newGrid = [...prev];
+          const color1 = newGrid[selectedSquare];
+          const color2 = newGrid[index];
+          newGrid[selectedSquare] = color2;
+          newGrid[index] = color1;
+          return newGrid;
+        });
+        // After swap, let the interval handle the matching
+      }
+      setSelectedSquare(null);
+    }
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      className="container mx-auto px-4 mt-8 pb-32"
+    >
+      <button 
+        onClick={onBack} 
+        className="mb-6 flex items-center gap-2 p-3 px-6 bg-white rounded-2xl shadow-md border border-pink-100 font-bold text-gray-700 hover:text-pink-600 transition-all hover:shadow-lg active:scale-95"
+      >
+        <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+      </button>
+
+      <div className="bg-white p-8 lg:p-12 rounded-[4rem] shadow-2xl border border-pink-100 max-w-2xl mx-auto text-center overflow-hidden relative border-b-8">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-pink-100/30 rounded-full blur-[80px] -z-10" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-100/30 rounded-full blur-[80px] -z-10" />
+        
+        <div className={`w-28 h-28 ${item.color} text-white rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-2xl rotate-12`}>
+          <Diamond className="w-14 h-14" />
+        </div>
+        
+        <h2 className="text-4xl font-black text-gray-900 tracking-tighter mb-1">Unity Crush</h2>
+        <div className="flex items-center justify-center gap-2 mb-8">
+           <div className="h-px w-8 bg-pink-200" />
+           <p className="text-pink-600 font-black text-[10px] uppercase tracking-[0.4em]">Official Gaming Portal</p>
+           <div className="h-px w-8 bg-pink-200" />
+        </div>
+        
+        <div className="bg-gradient-to-br from-pink-500 to-rose-600 text-white px-10 py-3 rounded-[2rem] font-black text-2xl mb-10 inline-block shadow-xl shadow-pink-200 border-2 border-white">
+           SCORE: {score}
+        </div>
+
+        <div className="grid grid-cols-6 w-[300px] sm:w-[420px] mx-auto gap-2 border-8 border-slate-100 p-3 rounded-[3rem] bg-white shadow-2xl">
+          {grid.map((color, i) => (
+            <motion.div
+              layout
+              key={i}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => handleSquareClick(i)}
+              className={`aspect-square rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center cursor-pointer transition-all ${selectedSquare === i ? 'ring-4 ring-pink-500 ring-offset-2 scale-110 z-20' : ''}`}
+              style={{ backgroundColor: color }}
+            >
+              <div className="w-[60%] h-[30%] bg-white/20 rounded-full blur-[4px] -mt-4 -ml-2 rotate-45" />
+            </motion.div>
+          ))}
+        </div>
+        
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mt-8 p-6 bg-pink-50 rounded-3xl border border-pink-100"
+        >
+           <p className="text-pink-800 font-bold text-sm mb-1 uppercase tracking-widest">কিভাবে খেলবেন?</p>
+           <p className="text-pink-600 font-bold text-xs">যেকোনো দুটি পাশাপাশি ঘরে ক্লিক করে তাদের অদলবদল (Swap) করুন!</p>
+        </motion.div>
+
+        <button 
+          onClick={createBoard} 
+          className="mt-8 bg-slate-900 text-white px-12 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-pink-600 transition-all shadow-xl active:scale-95 flex items-center gap-2 mx-auto"
+        >
+           Reset Game
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
 function ExtraMenuSubItem({ item, onBack }: { item: any; onBack: () => void }) {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [rankingData] = useState(RANKING_MEMBERS);
   const [selectedSurah, setSelectedSurah] = useState<any>(null);
+
+  if (item.label === "মজার লুডু") {
+    return <UnityLudoGame onBack={onBack} item={item} />;
+  }
+
+  if (item.label === "মেমোরি গেম") {
+    return <MemoryGame onBack={onBack} item={item} />;
+  }
+
+  if (item.label === "Unity Crush") {
+    return <UnityCandyCrush onBack={onBack} item={item} />;
+  }
 
   const showNotReadyAlert = () => {
     Swal.fire({
@@ -2131,6 +2632,12 @@ function ExtraMenuSubItem({ item, onBack }: { item: any; onBack: () => void }) {
     );
   }
 
+  if (item.label === "Micro Jobs Dice") {
+    return (
+      <MicroJobsDiceView onBack={onBack} item={item} />
+    );
+  }
+
   if (item.label === "মাইক্রো জব") {
     return (
       <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
@@ -2682,6 +3189,15 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   </div>
                 </div>
                 <p className="text-gray-700 leading-relaxed font-bold">এটি একটি বিশ্বস্ত বাংলাদেশি অনলাইন প্ল্যাটফর্ম। কেবলমাত্র স্মার্টফোন ব্যবহার করে ঘরে বসে অবসর সময়কে কাজে লাগিয়ে শেখা এবং আয় করার সুযোগ রয়েছে। মাতৃভাষায় সহজভাবে শেখার পাশাপাশি আমাদের কমিউনিটি থেকে কোর্স, সার্ভিস বা প্রোডাক্ট বিক্রির মাধ্যমে আয় করতে পারবেন—ধাপে ধাপে ক্যারিয়ার গড়ুন আত্মবিশ্বাসে।</p>
+              </div>
+
+              <div className="flex justify-center mb-8">
+                <button 
+                  onClick={() => window.open(settings.appDownloadLink || "#", "_blank")}
+                  className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 px-8 py-2 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-sm hover:shadow-md transition-all flex items-center gap-3 active:scale-95"
+                >
+                  <Smartphone className="w-4 h-4 text-blue-600" /> Download App
+                </button>
               </div>
               
               {/* Refined Support Team UI */}
