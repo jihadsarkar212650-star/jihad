@@ -3,7 +3,10 @@ import {
   Menu, X, LogOut, LayoutGrid, FileText, ImageIcon, 
   User, Bell, Video, Lock, Store, HelpCircle, ArrowRight, Phone,
   Users, CreditCard, ArrowDownCircle, UserCog, ChevronUp, AlertTriangle, Send, CheckCircle2,
-  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, MessageSquare, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond
+  Copy, ExternalLink, QrCode, Wallet, Fingerprint, Share2, Keyboard, Eye, MessageCircle, MessageSquare, ShieldCheck, Mail, Bot, Brain, Award, Trophy, HeartHandshake, Star, Zap, Briefcase, Crown, Diamond,
+  Smartphone, Signal, ShoppingBag, PlayCircle, Layers, FilePlus, Target, Banknote, Book, Dice5, BookOpen,
+  UserPlus,
+  Search, ShoppingCart, Filter, Heart
 } from 'lucide-react';
 import React, { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
@@ -27,6 +30,451 @@ const MENU_ITEMS = [
   { label: "Email Marketing", icon: Mail, href: "#" },
   { label: "Change Password", icon: Lock, href: "#" },
   { label: "Daily Quiz", icon: Brain, href: "#" },
+  { label: "Menu", icon: Menu, href: "#" },
+];
+
+const EXTRA_MENU_ITEMS = [
+  { label: "মোবাইল রিচার্জ", icon: Smartphone, color: "bg-blue-600", desc: "মোবাইল রিচার্জ করুন খুব সহজে।" },
+  { label: "ড্রাইভ অফার", icon: Signal, color: "bg-blue-500", desc: "সাশ্রয়ী মূল্যে ড্রাইভ প্যাক পান।" },
+  { label: "অনলাইন শপ", icon: ShoppingBag, color: "bg-blue-700", desc: "আমাদের স্টোর থেকে কেনাকাটা করুন।" },
+  { label: "এডস ভিউ", icon: PlayCircle, color: "bg-blue-400", desc: "ভিডিও অ্যাড দেখে আয় করুন।" },
+  { label: "মাইক্রো জব", icon: Layers, color: "bg-blue-500", desc: "ছোট ছোট কাজ করে অর্থ উপার্জন করুন।" },
+  { label: "জব পোস্ট", icon: FilePlus, color: "bg-blue-600", desc: "আপনার প্রয়োজনে জব পোস্ট করুন।" },
+  { label: "সোশ্যাল মিডিয়া মার্কেটিং", icon: Users, color: "bg-blue-400", desc: "সোশ্যাল মিডিয়ায় আপনার ব্র্যান্ড প্রচার করুন।" },
+  { label: "স্মার্ট আর্নিং", icon: Wallet, color: "bg-blue-800", desc: "স্মার্ট উপায়ে ইনকাম করার সুযোগ।" },
+  { label: "লার্নিং & আর্নিং", icon: BookOpen, color: "bg-blue-600", desc: "শিখুন এবং সাথে সাথে আয় করুন।" },
+  { label: "লিডারশিপ", icon: Trophy, color: "bg-blue-500", desc: "টিম ম্যানেজমেন্ট এবং লিডারশিপ স্কিল।" },
+  { label: "টার্গেট বোনাস", icon: Target, color: "bg-blue-700", desc: "টার্গেট পূরণ করে বোনাস লুফে নিন।" },
+  { label: "মাসিক বেতন", icon: Banknote, color: "bg-blue-600", desc: "আপনার কাজের মাসিক সম্মানী।" },
+  { label: "কুরআন শিক্ষা", icon: Book, color: "bg-blue-800", desc: "সহজ পদ্ধতিতে কুরআন শিক্ষা।" },
+  { label: "Micro Jobs Dice", icon: Dice5, color: "bg-blue-500", desc: "ডাইস রোল করে মাইক্রো টাস্ক সম্পন্ন করুন।" },
+  { label: "মেম্বার র‍্যাঙ্কিং", icon: Trophy, color: "bg-blue-600", desc: "সেরা মেম্বারদের তালিকা এবং র‍্যাঙ্কিং।" },
+];
+
+const RANKING_MEMBERS = [
+  ...[
+    "আরিফ হোসেন", "সাকিব আহমেদ", "রাহাত ইসলাম", "ফাহিম মুনতাসির", "সিয়াম মাহমুদ", "তামিম ইকবাল", "আদনান সামি", "আসিফ রহমান", "ইমরান হাসমি", "সোহেল রানা",
+    "মিলন শেখ", "জাহিদ হাসান", "আকাশ চৌধুরী", "শাওন ইসলাম", "রায়হান আহমেদ", "নয়ন খান", "সজীব হোসেন", "লিমন মাহমুদ", "প্রান্ত বিশ্বাস", "সানি আহমেদ",
+    "বিজয় রহমান", "সজল ইসলাম", "অনিক আহমেদ", "তপু বিশ্বাস", "জিসান খান", "নাজমুল হাসান", "কামরুল ইসলাম", "কবির হোসেন", "রুবেল আহমেদ", "রানা শেখ",
+    "মামুন হাসান", "রাজু আহমেদ", "সালাউদ্দিন খান", "তানভীর আহমেদ", "হাসান মাহামুদ", "মাহিন আলম", "রাফি ইসলাম", "জুবায়ের আহমেদ", "আল-আমিন কবির", "মাসুম বিল্লাহ",
+    "রাজিব হোসেন", "মোস্তফা কামাল", "ইসমাইল হোসেন", "ইউসুফ আলী", "সোলায়মান খান", "ইব্রাহিম আহমেদ", "সাঈদ রহমান", "ওমর ফারুক", "উসমান গনি", "আলী মর্তুজা"
+  ].map((name, i) => ({ id: i + 1, name, gender: 'male' })),
+  ...[
+    "আফরিন আক্তার", "সাদিয়া ইসলাম", "মারিয়া সুলতানা", "মিম চৌধুরী", "নুসরাত তিশা", "সুমি আক্তার", "মিতু ইসলাম", "জান্নাতুল ফেরদৌস", "তানিয়া খাতুন", "সাবিনা ইয়াসমিন",
+    "সুমাইয়া ইসলাম", "খাদিজা বেগম", "আয়শা সিদ্দিকা", "রাবেয়া খাতুন", "ফাতেমা আক্তার", "নুপুর আক্তার", "আঁখি আক্তার", "পলি ইসলাম", "রিয়া আক্তার", "পিয়া জান্নাত",
+    "দিপা রানী", "তন্বী ইসলাম", "লাবনী আক্তার", "বর্না খাতুন", "সোনিয়া আক্তার", "তন্নী খাতুন", "শিলা পারভীন", "শিল্পা রানী", "মেঘলা আক্তার", "জোছনা বেগম",
+    "কবিতা আক্তার", "বৃষ্টি খাতুন", "নিপা খাতুন", "বিথী আক্তার", "তামান্না ইসলাম", "ইভা আক্তার", "পিংকি আক্তার", "রিমা খাতুন", "সীমা আক্তার", "স্মৃতি মন্ডল",
+    "সুপ্তি ইসলাম", "মৌরি আক্তার", "মৌসুমি আক্তার", "তনিমা ইসলাম", "নুসরাত জাহান", "সালমা খাতুন", "পারভীন আক্তার", "ঝর্না বেগম", "তমা আক্তার", "টুম্পা আক্তার"
+  ].map((name, i) => ({ id: i + 51, name, gender: 'female' }))
+].map((member, i) => ({
+  ...member,
+  converts: Math.max(5, 40 - Math.floor(i / 2.5))
+})).sort((a, b) => b.converts - a.converts);
+
+const MICRO_JOB_TASKS = [
+  { title: "Facebook Page Follow", reward: "2 Tk", icon: Users },
+  { title: "YouTube Video Watch (2 min)", reward: "1 Tk", icon: Video },
+  { title: "Facebook Post Like & Share", reward: "2 Tk", icon: Share2 },
+  { title: "YouTube Channel Subscribe", reward: "2 Tk", icon: PlayCircle },
+  { title: "Instagram Profile Follow", reward: "1 Tk", icon: User },
+  { title: "Telegram Channel Join", reward: "1 Tk", icon: MessageSquare },
+  { title: "Website Visit (60 sec)", reward: "1 Tk", icon: ExternalLink },
+  { title: "Download & Install App", reward: "5 Tk", icon: ArrowDownCircle },
+  { title: "Google Map 5 Star Review", reward: "3 Tk", icon: Star },
+  { title: "LinkedIn Company Follow", reward: "1 Tk", icon: Briefcase },
+  { title: "Twitter (X) Profile Follow", reward: "1 Tk", icon: Zap },
+  { title: "TikTok Video Like & Follow", reward: "1 Tk", icon: HeartHandshake },
+  { title: "Facebook Group Join", reward: "1 Tk", icon: Users },
+  { title: "Share Post in 10 Groups", reward: "5 Tk", icon: Share2 },
+  { title: "Newsletter Email Subscribe", reward: "2 Tk", icon: Mail },
+  { title: "Blog Post Comment", reward: "1 Tk", icon: MessageCircle },
+  { title: "Join WhatsApp Community", reward: "1 Tk", icon: Phone },
+  { title: "Pinterest Board Follow", reward: "1 Tk", icon: Layers },
+  { title: "Reddit Post Upvote", reward: "1 Tk", icon: ChevronUp },
+  { title: "Quora Answer Upvote", reward: "1 Tk", icon: ChevronUp },
+  { title: "iPhone App Store Review", reward: "5 Tk", icon: Smartphone },
+  { title: "Android Play Store Review", reward: "5 Tk", icon: Smartphone },
+  { title: "YouTube Video Comment", reward: "1 Tk", icon: MessageSquare },
+  { title: "Refer 1 Friend (Small Task)", reward: "10 Tk", icon: UserPlus },
+  { title: "Fill Survey Form", reward: "5 Tk", icon: FileText },
+];
+
+const SURAH_LIST = [
+  {
+    id: 114,
+    name: "সূরা আন-নাস (An-Nas)",
+    arabic: "النَّاس",
+    meaning: "মানবজাতি",
+    verses: [
+      { ar: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ", bn: "বলুন, আমি আশ্রয় গ্রহণ করছি মানুষের পালনকর্তার," },
+      { ar: "مَلِكِ النَّاسِ", bn: "মানুষের অধিপতির," },
+      { ar: "إِلَٰهِ النَّاسِ", bn: "মানুষের উপাস্যের," },
+      { ar: "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ", bn: "তার অনিষ্ট থেকে, যে কুমন্ত্রণা দেয় ও আত্মগোপন করে," },
+      { ar: "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ", bn: "যে কুমন্ত্রণা দেয় মানুষের অন্তরে," },
+      { ar: "مِنَ الْجِنَّةِ وَالنَّاسِ", bn: "জ্বিনের মধ্য থেকে অথবা মানুষের মধ্য থেকে।" }
+    ]
+  },
+  {
+    id: 113,
+    name: "সূরা আল-ফালাক (Al-Falaq)",
+    arabic: "الْفَلَق",
+    meaning: "ঊষাকাল",
+    verses: [
+      { ar: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ", bn: "বলুন, আমি আশ্রয় গ্রহণ করছি ঊষাকালের পালনকর্তার," },
+      { ar: "مِن شَرِّ مَا خَلَقَ", bn: "তিনি যা সৃষ্টি করেছেন, তার অনিষ্ট থেকে," },
+      { ar: "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", bn: "অন্ধকার রাত্রির অনিষ্ট থেকে, যখন তা সমাগত হয়," },
+      { ar: "وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ", bn: "গ্রন্থিতে ফুৎকারদানকারীনিদের অনিষ্ট থেকে," },
+      { ar: "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", bn: "এবং হিংসুকের অনিষ্ট থেকে যখন সে হিংসা করে।" }
+    ]
+  },
+  {
+    id: 112,
+    name: "সূরা আল-ইখলাস (Al-Ikhlas)",
+    arabic: "الإخْلَاص",
+    meaning: "একত্ববাদ",
+    verses: [
+      { ar: "قُلْ هُوَ اللَّهُ أَحَدٌ", bn: "বলুন, তিনি আল্লাহ, এক," },
+      { ar: "اللَّهُ الصَّمَدُ", bn: "আল্লাহ অমুখাপেক্ষী," },
+      { ar: "لَمْ يَلِدْ وَلَمْ يُولَدْ", bn: "তিনি কাউকে জন্ম দেননি এবং কেউ তাকে জন্ম দেয়নি" },
+      { ar: "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", bn: "এবং তাঁর সমতুল্য কেউ নেই।" }
+    ]
+  },
+  {
+    id: 111,
+    name: "সূরা আল-লাহাব (Al-Lahab)",
+    arabic: "اللَّهَب",
+    meaning: "জ্বলন্ত শিখা",
+    verses: [
+      { ar: "تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ", bn: "আবু লাহাবের হস্তদ্বয় ধ্বংস হোক এবং ধ্বংস হোক সে নিজেও," },
+      { ar: "مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ", bn: "তার ধন-সম্পদ ও যা সে উপার্জন করেছে, তা তার কাজে আসেনি," },
+      { ar: "سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ", bn: "সত্ত্বরই সে প্রবেশ করবে লেলিহান অগ্নিতে," },
+      { ar: "وَامْرَأَتُهُ حَمَّالَةَ الْحَطَبِ", bn: "এবং তার স্ত্রীও-যে ইন্ধন বহন করে," },
+      { ar: "فِي جِيدِهَا حَبْلٌ مِّن مَّسَدٍ", bn: "তার গলায় খুরমার আঁশের রশি।" }
+    ]
+  },
+  {
+    id: 110,
+    name: "সূরা আন-নাসর (An-Nasr)",
+    arabic: "النَّصْر",
+    meaning: "সাহায্য",
+    verses: [
+      { ar: "إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ", bn: "যখন আসবে আল্লাহর সাহায্য ও বিজয়," },
+      { ar: "وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا", bn: "এবং আপনি মানুষকে দলে দলে আল্লাহর দ্বীনে প্রবেশ করতে দেখবেন," },
+      { ar: "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ ۚ إِنَّهُ كَانَ تَوَّابًا", bn: "তখন আপনি আপনার পালনকর্তার সপ্রশংস পবিত্রতা বর্ণনা করুন এবং তাঁর কাছে ক্ষমা প্রার্থনা করুন। নিশ্চয় তিনি ক্ষমাশীল।" }
+    ]
+  },
+  {
+    id: 109,
+    name: "সূরা আল-কাফিরুন (Al-Kafirun)",
+    arabic: "الْكَافِرُون",
+    meaning: "অবিশ্বাসীগণ",
+    verses: [
+      { ar: "قُلْ يَا أَيُّهَا الْكَافِرُونَ", bn: "বলুন, হে কাফেরকুল," },
+      { ar: "لَا أَعْبُدُ مَا تَعْبُدُونَ", bn: "আমি তার এবাদত করি না, যার এবাদত তোমরা কর।" },
+      { ar: "وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ", bn: "এবং তোমরাও তার এবাদতকারী নও, যার এবাদত আমি করি।" },
+      { ar: "وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ", bn: "এবং আমি এবাদতকারী নই তার, যার এবাদত তোমরা করছ।" },
+      { ar: "وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ", bn: "তোমরা তার এবাদতকারী নও, যার এবাদত আমি করি।" },
+      { ar: "لَكُمْ دِينُكُمْ وَلِيَ دِينِ", bn: "তোমাদের কর্মফল তোমাদের জন্যে এবং আমার কর্মফল আমার জন্যে।" }
+    ]
+  },
+  {
+    id: 108,
+    name: "সূরা আল-কাওসার (Al-Kawthar)",
+    arabic: "الْكَوْثَر",
+    meaning: "প্রয়োজনাতিরিক্ত নেয়ামত",
+    verses: [
+      { ar: "إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ", bn: "নিশ্চয় আমি আপনাকে কাউসার (রহমত ও বরকত) দান করেছি।" },
+      { ar: "فَصَلِّ لِرَبِّكَ وَانْحَرْ", bn: "অতএব আপনার পালনকর্তার উদ্দেশ্যে নামায পড়ুন এবং কোরবানী করুন।" },
+      { ar: "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ", bn: "যে আপনার সমালোচনা করে, সে-ই তো লেজকাটা (নির্বংশ)।" }
+    ]
+  },
+  {
+    id: 107,
+    name: "সূরা আল-মাঊন (Al-Ma'un)",
+    arabic: "الْمَاعُون",
+    meaning: "নিত্য ব্যবহার্য বস্তু",
+    verses: [
+      { ar: "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ", bn: "আপনি কি দেখেছেন তাকে, যে বিচার দিবসকে অস্বীকার করে?" },
+      { ar: "فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ", bn: "সে সেই ব্যক্তি, যে এতিমকে তাড়িয়ে দেয়," },
+      { ar: "وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ", bn: "এবং মিসকিনকে অন্নদানে উৎসাহিত করে না।" },
+      { ar: "فَوَيْلٌ لِّلْمُصَلِّينَ", bn: "অতএব দুর্ভোগ সেসব নামাযীর," },
+      { ar: "الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ", bn: "যারা তাদের নামায সম্বন্ধে বেখবর;" },
+      { ar: "الَّذِينَ هُمْ يُرَاءُونَ", bn: "যারা লোক দেখানোর জন্য তা করে," },
+      { ar: "وَيَمْنَعُونَ الْمَاعُونَ", bn: "এবং যারা নিত্য ব্যবহার্য ছোটখাট সাহায্য দানে বিরত থাকে।" }
+    ]
+  },
+  {
+    id: 106,
+    name: "সূরা কুরাইশ (Quraish)",
+    arabic: "قُرَيْش",
+    meaning: "কুরাইশ গোত্র",
+    verses: [
+      { ar: "لِإِيلَافِ قُرَيْشٍ", bn: "কুরাইশদের আসক্তির কারণে," },
+      { ar: "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ", bn: "আসক্তি তাদের শীত ও গ্রীষ্মকালীন সফরের," },
+      { ar: "فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ", bn: "অতএব তারা যেন এই গৃহের (কাবার) পালনকর্তার এবাদত করে," },
+      { ar: "الَّذِي أَطْعَمَهُم مِّن جُوعٍ وَآمَنَهُم مِّنْ خَوْفٍ", bn: "যিনি তাদেরকে ক্ষুধা থেকে মুক্ত করে অন্ন দিয়েছেন এবং ভয় থেকে নিরাপদ করেছেন।" }
+    ]
+  },
+  {
+    id: 105,
+    name: "সূরা আল-ফীল (Al-Fil)",
+    arabic: "الْفِيل",
+    meaning: "হাতি",
+    verses: [
+      { ar: "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ", bn: "আপনি কি দেখেননি আপনার পালনকর্তা হস্তীবাহিনীর সাথে কিরূপ ব্যবহার করেছেন?" },
+      { ar: "أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ", bn: "তিনি কি তাদের চক্রান্ত নস্যাৎ করে দেননি?" },
+      { ar: "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ", bn: "তিনি তাদের ওপর ঝাকে ঝাকে পাখি প্রেরণ করেছিলেন," },
+      { ar: "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ", bn: "যারা তাদের ওপর পাথরের কংকর নিক্ষেপ করছিল।" },
+      { ar: "فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍ", bn: "অতঃপর তিনি তাদেরকে ভক্ষিত তৃণের ন্যায় করে দিয়েছিলেন।" }
+    ]
+  },
+  {
+    id: 104,
+    name: "সূরা আল-হুমাযাহ (Al-Humazah)",
+    arabic: "الْهُمَزَة",
+    meaning: "পরনিন্দাকারী",
+    verses: [
+      { ar: "وَيْلٌ لِّكُلِّ هُمَزَةٍ لُّمَزَةٍ", bn: "দুর্ভোগ প্রত্যেক পশ্চাতে ও সম্মুখে পরনিন্দাকারীর," },
+      { ar: "الَّذِي جَمَعَ مَالًا وَعَدَّدَهُ", bn: "যে অর্থ জমা করে এবং তা বারবার গণনা করে," },
+      { ar: "يَحْسَبُ أَنَّ مَالَهُ أَخْلَدَهُ", bn: "সে মনে করে যে, তার অর্থ তাকে অমর করে রাখবে।" },
+      { ar: "كَلَّا ۖ لَيُنَبَذَنَّ فِي الْحُطَمَةِ", bn: "কখনই নয়, সে অবশ্যই নিক্ষিপ্ত হবে হুতামায় (পিষ্টকারী চূর্ণকারী আগুনে)।" }
+    ]
+  },
+  {
+    id: 103,
+    name: "সূরা আল-আসর (Al-'Asr)",
+    arabic: "الْعَصْر",
+    meaning: "সময়",
+    verses: [
+      { ar: "وَالْعَصْرِ", bn: "সময়ের কসম," },
+      { ar: "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", bn: "নিশ্চয় সকল মানুষ ক্ষতিগ্রস্ততার মধ্যে নিপতিত;" },
+      { ar: "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ", bn: "কিন্তু তারা ব্যতীত, যারা ঈমান এনেছে ও সৎকর্ম করেছে এবং পরস্পরকে সত্যের উপদেশ দিয়েছে ও পরস্পরকে ধৈর্যের উপদেশ দিয়েছে।" }
+    ]
+  },
+  {
+    id: 102,
+    name: "সূরা আত-তাকাসুর (At-Takathur)",
+    arabic: "التَّكَاثُر",
+    meaning: "প্রাচুর্যের প্রতিযোগিতা",
+    verses: [
+      { ar: "أَلْهَاكُمُ التَّكَاثُرُ", bn: "প্রাচুর্যের প্রতিযোগিতা তোমাদেরকে মোহাচ্ছন্ন করে রেখেছে," },
+      { ar: "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ", bn: "যতক্ষণ না তোমরা কবরে উপনীত হও।" },
+      { ar: "كَلَّا سَوْفَ تَعْلَمُونَ", bn: "কখনই নয়, তোমরা শীঘ্রই জানতে পারবে।" }
+    ]
+  },
+  {
+    id: 101,
+    name: "সূরা আল-কারিআহ (Al-Qari'ah)",
+    arabic: "الْقَارِعَة",
+    meaning: "মহা বিপদ",
+    verses: [
+      { ar: "الْقَارِعَةُ", bn: "মহা বিপদ!" },
+      { ar: "مَا الْقَارِعَةُ", bn: "মহা বিপদ কি?" },
+      { ar: "وَمَا أَدْرَاكَ مَا الْقَارِعَةُ", bn: "আপনি কি জানেন মহা বিপদ কি?" },
+      { ar: "يَوْمَ يَكُونُ النَّاسُ كَالْفَرَاشِ الْمَبْثُوثِ", bn: "সেদিন মানুষ হবে বিক্ষিপ্ত পতঙ্গের ন্যায়," },
+      { ar: "وَتَكُونُ الْجِبَالُ كَالْعِهْنِ الْمَنْفُوشِ", bn: "এবং পাহাড়গুলো হবে ধুনিত রঙিন পশমের ন্যায়।" }
+    ]
+  },
+  {
+    id: 100,
+    name: "সূরা আল-আদিয়াত (Al-Adiyat)",
+    arabic: "العاديات",
+    meaning: "অভিযানকারী অশ্ব",
+    verses: [
+      { ar: "وَالْعَادِيَاتِ ضَبْحًا", bn: "শপথ সেই সব অশ্বের, যারা হাঁপাতে হাঁপাতে দৌড়ায়," },
+      { ar: "ফাল মুরিয়াতি ক্বাদহা", bn: "যারা খুরাঘাতে অগ্নিস্ফুলিঙ্গ বিচ্ছুরণ করে," },
+      { ar: "ফাল মুগীরাতি সুবহা", bn: "যারা প্রভাতকালে অভিযান চালায়," },
+      { ar: "ফা আসারনা বিহী নাকআ", bn: "যারা ধুলোবালু উড়ায়," },
+      { ar: "ফাওয়াসাত্না বিহী জামআ", bn: "যারা শত্রুদলের ভেতরে ঢুকে পড়ে।" }
+    ]
+  },
+  {
+    id: 99,
+    name: "সূরা আয-যিলযাল (Az-Zalzalah)",
+    arabic: "الزلزلة",
+    meaning: "প্রকম্পন",
+    verses: [
+      { ar: "إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا", bn: "যখন পৃথিবী তার কম্পনে প্রকম্পিত হবে," },
+      { ar: "ওয়া আখরাজাতিল আরদু আসক্বালাহা", bn: "এবং পৃথিবী তার ভারসমূহ বের করে দেবে," },
+      { ar: "ওয়া ক্বলাল ইনসানু মালাহা", bn: "আর মানুষ বলবে, এর কী হলো?" },
+      { ar: "ইয়াওমাইযিন তুহাদ্দিসু আখবারাহা", bn: "সেদিন সে তার বৃত্তান্ত বর্ণনা করবে।" }
+    ]
+  },
+  {
+    id: 98,
+    name: "সূরা আল-বাইয়্যিনাহ (Al-Bayyinah)",
+    arabic: "البينة",
+    meaning: "সুস্পষ্ট প্রমাণ",
+    verses: [
+      { ar: "لَمْ يَكُنِ الَّذِينَ كَفَرُوا", bn: "আহলে কিতাব ও মুশরিকদের মধ্যে যারা কাফের ছিল তারা পৃথক হওয়ার ছিল না।" },
+      { ar: "রসূলুম মিনাল্লাহি ইয়াতলু সুহুফাম মুতহ্হারাহ", bn: "অর্থাৎ আল্লাহর একজন রসূল, যিনি পবিত্র সহীফা তিলাওয়াত করবেন।" }
+    ]
+  },
+  {
+    id: 97,
+    name: "সূরা আল-কদর (Al-Qadr)",
+    arabic: "القدر",
+    meaning: "মহিমান্বিত রজনী",
+    verses: [
+      { ar: "إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ", bn: "নিশ্চয় আমি এটি নাযিল করেছি কদরের রাত্রিতে।" },
+      { ar: "ওমা আদরাকা মা লায়লাতুল ক্বদর", bn: "আপনি কি জানেন কদরের রাত্রি কি?" },
+      { ar: "লায়লাতুল ক্বদরি খাইরুম মিন আলফি শাহর", bn: "কদরের রাত্রি হাজার মাস অপেক্ষা শ্রেষ্ঠ।" }
+    ]
+  },
+  {
+    id: 96,
+    name: "সূরা আল-আলাক (Al-Alaq)",
+    arabic: "العلق",
+    meaning: "রক্তপিণ্ড",
+    verses: [
+      { ar: "اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ", bn: "পাঠ করুন আপনার পালনকর্তার নামে যিনি সৃষ্টি করেছেন।" },
+      { ar: "খালাকাল ইনসানা মিন আলাক্ব", bn: "সৃষ্টি করেছেন মানুষকে জমাট চটচটে রক্ত থেকে।" },
+      { ar: "ইক্বরা ওয়া রব্বুকাল আকরাম", bn: "পাঠ করুন, আপনার পালনকর্তা মহিমান্বিত।" }
+    ]
+  },
+  {
+    id: 95,
+    name: "সূরা আত-তীন (At-Tin)",
+    arabic: "التين",
+    meaning: "ডুমুর ফল",
+    verses: [
+      { ar: "وَالتِّينِ وَالزَّيْتُونِ", bn: "শপথ ডুমুর ও যয়তুন (ফল)-এর," },
+      { ar: "ওয়া তূরি সীনীন", bn: "শপথ সিনাই পর্বতের," },
+      { ar: "ওয়া হাযাল বালাদিল আমীন", bn: "এবং শপথ এই নিরাপদ নগরীর (মক্কা)।" },
+      { ar: "লাক্বদ খালাক্বনাল ইনসানা ফী আহসানি তাক্ববীন", bn: "আমি মানুষকে সৃষ্টি করেছি সর্বোত্তম গঠনে।" }
+    ]
+  },
+  {
+    id: 94,
+    name: "সূরা আল-ইনশিরাহ (Ash-Sharh)",
+    arabic: "الشرح",
+    meaning: "বক্ষ প্রশস্তকরণ",
+    verses: [
+      { ar: "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ", bn: "আমি কি আপনার বক্ষ প্রশস্ত করে দিইনি?" },
+      { ar: "ওয়া ওয়াদা’না আনকা বিযরাক", bn: "এবং আমি কি লাঘব করিনি আপনার বোঝা," },
+      { ar: "আল্লাযী আনকাদা যাহরাক", bn: "যা আপনার পিঠ নুয়ে দিয়েছিল?" }
+    ]
+  },
+  {
+    id: 93,
+    name: "সূরা আদ-দুহা (Ad-Duha)",
+    arabic: "الضحى",
+    meaning: "পূর্বাহ্নের রৌদ্র",
+    verses: [
+      { ar: "وَالضُّحَىٰ", bn: "শপথ পূর্বাহ্নের রৌদ্রের," },
+      { ar: "ওয়াললায়লি ইযা সাজা", bn: "শপথ রাত্রির যখন তা অন্ধকারাচ্ছন্ন হয়," },
+      { ar: "মা ওয়াদ্দা’আকা রব্বুকা ওয়ামা ক্বলা", bn: "আপনার পালনকর্তা আপনাকে ত্যাগ করেননি এবং আপনার ওপর অসন্তুষ্ট হননি।" }
+    ]
+  },
+  {
+    id: 92,
+    name: "সূরা আল-লাইল (Al-Layl)",
+    arabic: "الليل",
+    meaning: "রাত্রি",
+    verses: [
+      { ar: "وَاللَّيْلِ إِذَا يَغْشَىٰ", bn: "শপথ রাত্রির যখন সে আচ্ছন্ন করে," },
+      { ar: "ওয়ান নাহার ইযা তাজাল্লা", bn: "শপথ দিনের যখন সে প্রকাশিত হয়," },
+      { ar: "ওমা খালাক্বায যাকারা ওয়াল উনসা", bn: "শপথ তাঁর, যিনি নর ও নারী সৃষ্টি করেছেন।" }
+    ]
+  },
+  {
+    id: 91,
+    name: "সূরা আশ-শামস (Ash-Shams)",
+    arabic: "الشمس",
+    meaning: "সূর্য",
+    verses: [
+      { ar: "وَالشَّمْسِ وَضُحَاهَا", bn: "শপথ সূর্যের ও তার রৌদ্রের," },
+      { ar: "ওয়াল ক্বমারি ইযা তালাহা", bn: "শপথ চন্দ্রের যখন তা সূর্যের পশ্চাতে আসে," },
+      { ar: "ওয়ান নাহার ইযা জাল্লাহা", bn: "শপথ দিনের যখন তা সূর্যকে প্রকাশিত করে।" }
+    ]
+  },
+  {
+    id: 90,
+    name: "সূরা আল-বালাদ (Al-Balad)",
+    arabic: "البلد",
+    meaning: "নগরী",
+    verses: [
+      { ar: "لَا أُقْسِمُ بِهَٰذَا الْبَلَدِ", bn: "আমি এই নগরীর শপথ করছি," },
+      { ar: "ওয়া আন্তা হিল্লুম বিহাযাল বালাদ", bn: "আর আপনি এই নগরীর অধিবাসী," },
+      { ar: "ওয়া ওয়ালিদিও ওয়ামা ওয়ালাদ", bn: "শপথ জনকের এবং যা সে জন্ম দিয়েছে।" }
+    ]
+  },
+  {
+    id: 89,
+    name: "সূরা আল-ফাজর (Al-Fajr)",
+    arabic: "الفجر",
+    meaning: "ঊষা",
+    verses: [
+      { ar: "وَالْفَجْرِ", bn: "শপথ ঊষার," },
+      { ar: "ওয়া লায়ালিন আশর", bn: "শপথ দশ রাত্রির," },
+      { ar: "ওয়াশ শাফয়ি ওয়াল ওয়াতর", bn: "শপথ জোড় ও বেজোড়ের।" }
+    ]
+  },
+  {
+    id: 88,
+    name: "সূরা আল-গাশিয়াহ (Al-Ghashiyah)",
+    arabic: "الغاشية",
+    meaning: "আচ্ছন্নকারী",
+    verses: [
+      { ar: "هَلْ أَتَاكَ حَدِيثُ الْغَاشِيَةِ", bn: "আপনার কাছে কি আচ্ছন্নকারী কেয়ামতের কাহিনী পৌঁছেছে?" },
+      { ar: "উজুহু ইয়াওমাইযিন খাশীআহ", bn: "সেদিন অনেক মুখ হবে লাঞ্ছিত," },
+      { ar: "আমীলাতুন নাসিবাহ", bn: "পরিশ্রান্ত ও ক্লান্ত।" }
+    ]
+  },
+  {
+    id: 87,
+    name: "সূরা আল-আ'লা (Al-A'la)",
+    arabic: "الأعلى",
+    meaning: "সর্বোন্নত",
+    verses: [
+      { ar: "سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى", bn: "আপনি আপনার মহান পালনকর্তার নামের পবিত্রতা ঘোষণা করুন," },
+      { ar: "আল্লাযী খালাক্বা ফাসাওয়্যা", bn: "যিনি সৃষ্টি করেছেন এবং ভারসাম্য রক্ষা করেছেন।" }
+    ]
+  },
+  {
+    id: 86,
+    name: "সূরা আত-তারিক (At-Tariq)",
+    arabic: "الطارق",
+    meaning: "রাত্রিকালীন আগন্তুক",
+    verses: [
+      { ar: "وَالسَّمَاءِ وَالطَّارِقِ", bn: "শপথ আকাশের এবং রাত্রিকালীন আগন্তুকের," },
+      { ar: "ওমা আদরকা মাত তারিক", bn: "আপনি কি জানেন রাত্রিকালীন আগন্তুক কি?" },
+      { ar: "আন্ নাজমুত সাক্বীব", bn: "তা এক উজ্জ্বল নক্ষত্র।" }
+    ]
+  },
+  {
+    id: 85,
+    name: "সূরা আল-বুরুজ (Al-Buruj)",
+    arabic: "البروج",
+    meaning: "নক্ষত্রপুঞ্জ",
+    verses: [
+      { ar: "وَالسَّمَاءِ ذَاتِ الْبُرُوجِ", bn: "শপথ নক্ষত্রখচিত আকাশের," },
+      { ar: "ওয়াল ইয়াওমিল মাওউদ", bn: "এবং ঘোষিত দিবসের (কেয়ামত)।" }
+    ]
+  }
+];
+
+const SHOP_PRODUCTS = [
+  { id: 1, name: "M10 Wireless Earbuds", price: 450, oldPrice: 850, rating: 4.8, reviews: 124, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&q=80&w=400" },
+  { id: 2, name: "Smart Watch Series 8", price: 1250, oldPrice: 2200, rating: 4.9, reviews: 89, img: "https://images.unsplash.com/photo-1544117518-29057b97bb52?auto=format&fit=crop&q=80&w=400" },
+  { id: 3, name: "Men's Casual Polo Shirt", price: 380, oldPrice: 650, rating: 4.5, reviews: 230, img: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&q=80&w=400" },
+  { id: 4, name: "Laptop Cooling Pad RGB", price: 750, oldPrice: 1200, rating: 4.7, reviews: 56, img: "https://images.unsplash.com/photo-1587302912306-cf1ed9c33146?auto=format&fit=crop&q=80&w=400" },
+  { id: 5, name: "Wireless Gaming Mouse", price: 950, oldPrice: 1500, rating: 4.6, reviews: 45, img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" },
+  { id: 6, name: "Backpack Waterproof 35L", price: 1150, oldPrice: 1850, rating: 4.8, reviews: 112, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=400" },
+  { id: 7, name: "Power Bank 20000mAh", price: 1850, oldPrice: 2800, rating: 4.9, reviews: 210, img: "https://images.unsplash.com/photo-1609091839311-d536819bc148?auto=format&fit=crop&q=80&w=400" },
+  { id: 8, name: "Electric Hair Trimmer", price: 650, oldPrice: 1100, rating: 4.4, reviews: 67, img: "https://images.unsplash.com/photo-1621607512214-68297480165e?auto=format&fit=crop&q=80&w=400" },
+  { id: 9, name: "Bluetooth Soundbar 40W", price: 3200, oldPrice: 4500, rating: 4.7, reviews: 34, img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80&w=400" },
+  { id: 10, name: "Smartphone Tripod 50 inch", price: 420, oldPrice: 750, rating: 4.3, reviews: 98, img: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=400" },
+  { id: 11, name: "Mechanical Keyboard RGB", price: 2800, oldPrice: 4200, rating: 4.9, reviews: 156, img: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=400" },
+  { id: 12, name: "Air Purifier Ionizer", price: 4500, oldPrice: 6500, rating: 4.6, reviews: 23, img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&q=80&w=400" },
+  { id: 13, name: "Leather Wallet for Men", price: 550, oldPrice: 950, rating: 4.5, reviews: 178, img: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=400" },
+  { id: 14, name: "Stainless Steel Water Bottle", price: 350, oldPrice: 550, rating: 4.4, reviews: 45, img: "https://images.unsplash.com/photo-1602143399827-7217db73665a?auto=format&fit=crop&q=80&w=400" },
+  { id: 15, name: "Office Executive Chair", price: 8500, oldPrice: 12000, rating: 4.8, reviews: 12, img: "https://images.unsplash.com/photo-1505797149-43b0ad766a67?auto=format&fit=crop&q=80&w=400" },
+  { id: 16, name: "Premium Coffee Mug", price: 250, oldPrice: 450, rating: 4.2, reviews: 342, img: "https://images.unsplash.com/photo-1517254456727-28d3f1826230?auto=format&fit=crop&q=80&w=400" },
+  { id: 17, name: "Digital Thermometer", price: 180, oldPrice: 250, rating: 4.1, reviews: 54, img: "https://images.unsplash.com/photo-1584036553516-bf83210334c0?auto=format&fit=crop&q=80&w=400" },
+  { id: 18, name: "LED Desk Lamp USB", price: 850, oldPrice: 1350, rating: 4.5, reviews: 29, img: "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&q=80&w=400" },
+  { id: 19, name: "Kitchen Knife Set 6pcs", price: 1250, oldPrice: 2100, rating: 4.6, reviews: 18, img: "https://images.unsplash.com/photo-1593641779344-972149b257be?auto=format&fit=crop&q=80&w=400" },
+  { id: 20, name: "Electric Kettle 2.0L", price: 1100, oldPrice: 1650, rating: 4.7, reviews: 82, img: "https://images.unsplash.com/photo-1594212699903-ec8a3ecc50f6?auto=format&fit=crop&q=80&w=400" },
 ];
 
 const CATEGORIES = [
@@ -1003,6 +1451,797 @@ const getValidUrl = (url?: string) => {
   return `https://${url}`;
 };
 
+function ExtraMenuSubItem({ item, onBack }: { item: any; onBack: () => void }) {
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [rankingData] = useState(RANKING_MEMBERS);
+  const [selectedSurah, setSelectedSurah] = useState<any>(null);
+
+  const showNotReadyAlert = () => {
+    Swal.fire({
+      icon: 'info',
+      title: 'প্রস্তুত হয়নি!',
+      text: 'এই কাজটি বর্তমানে প্রক্রিয়াধীন আছে। এটি খুব শীঘ্রই চালু করা হবে। দয়া করে অপেক্ষা করুন।',
+      confirmButtonText: 'ঠিক আছে',
+      confirmButtonColor: '#2563eb'
+    });
+  };
+
+  const handleShare = (product: any) => {
+    const shareUrl = `https://unityearning.com/shop/product/${product.id}`;
+    navigator.clipboard.writeText(shareUrl);
+    Swal.fire({
+      icon: 'success',
+      title: 'লিংক কপি হয়েছে!',
+      text: 'প্রোডাক্ট লিংকটি আপনার ক্লিপবোর্ডে কপি করা হয়েছে।',
+      timer: 2000,
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end'
+    });
+  };
+
+  if (item.label === "কুরআন শিক্ষা") {
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="text-center mb-10">
+          <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+            <item.icon className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+          <p className="text-gray-500 font-bold">কুরআনের ছোট ছোট সূরাগুলো শিখুন (অর্থসহ)</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {SURAH_LIST.map((surah) => (
+            <motion.div
+              key={surah.id}
+              whileHover={{ y: -5, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedSurah(surah)}
+              className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all cursor-pointer flex flex-col justify-between group h-full"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="font-black text-gray-900 text-xl group-hover:text-blue-600 transition-colors">{surah.name}</h4>
+                  <p className="text-xs text-blue-500 font-black uppercase tracking-[0.2em] mt-1">{surah.meaning}</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-bold">
+                  {surah.id}
+                </div>
+              </div>
+              <div className="mt-8 flex items-center justify-between">
+                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{surah.verses.length} Verses</span>
+                <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* SURAH DETAILS MODAL */}
+        <AnimatePresence>
+          {selectedSurah && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setSelectedSurah(null)}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              />
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                className="bg-white rounded-[2.5rem] shadow-2xl relative z-10 w-full max-w-4xl h-auto max-h-[90vh] overflow-hidden flex flex-col"
+              >
+                <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar">
+                  <div className="flex justify-between items-start mb-6 sticky top-0 bg-white/95 backdrop-blur-md z-10 py-3 border-b border-gray-100 -mt-2">
+                    <div>
+                      <h1 className="text-2xl font-black text-slate-900 mb-0.5 leading-tight flex items-center gap-2">
+                        {selectedSurah.name}
+                        <span className="text-3xl font-arabic text-blue-600 opacity-20">{selectedSurah.arabic}</span>
+                      </h1>
+                      <p className="text-gray-500 font-bold text-[10px] uppercase tracking-widest leading-none">অর্থ: {selectedSurah.meaning}</p>
+                    </div>
+                    <button onClick={() => setSelectedSurah(null)} className="p-2 bg-gray-50 hover:bg-red-50 hover:text-red-500 rounded-xl text-gray-400 transition-all active:scale-90">
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-6 pb-6">
+                    {selectedSurah.verses.map((verse, vIdx) => (
+                      <motion.div 
+                        key={vIdx}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: vIdx * 0.05 }}
+                        className="relative pl-10 group"
+                      >
+                        <div className="absolute left-0 top-0 w-7 h-7 rounded bg-blue-50 text-blue-600 flex items-center justify-center font-black text-[10px]">
+                          {vIdx + 1}
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-2xl text-right font-arabic leading-[1.6] text-slate-800 tracking-wide">
+                            {verse.ar}
+                          </p>
+                          <div className="p-3 bg-gray-50 rounded-xl border border-gray-50 group-hover:border-blue-100 group-hover:bg-blue-50/20 transition-all">
+                             <p className="text-sm font-bold text-gray-600 leading-relaxed font-hind">
+                                {verse.bn}
+                             </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="p-6 bg-blue-600 rounded-2xl text-center text-white mt-2">
+                    <h4 className="text-lg font-black mb-1">সাদাকাল্লাহুল আজিম</h4>
+                    <p className="text-blue-100 font-bold opacity-70 uppercase tracking-widest text-[9px]">End of Surah {selectedSurah.name.split(' ')[1]}</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "মেম্বার র‍্যাঙ্কিং") {
+    const filteredRanking = rankingData.filter(m => 
+      m.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ).sort((a, b) => b.converts - a.converts);
+
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-gray-50 flex flex-col font-hind pb-20">
+        {/* HEADER */}
+        <div className="bg-blue-600 text-white p-6 sticky top-20 z-40 shadow-lg">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <button onClick={onBack} className="p-3 hover:bg-blue-700 rounded-2xl transition-all shadow-lg active:scale-90">
+                <ArrowRight className="w-6 h-6 rotate-180" />
+              </button>
+              <div>
+                <h1 className="text-2xl font-black tracking-tight">{item.label}</h1>
+                <p className="text-xs font-bold text-blue-100 uppercase tracking-[0.2em]">Ranked by Total Converts</p>
+              </div>
+            </div>
+
+            <div className="flex-1 max-w-xl w-full relative group">
+              <input 
+                type="text" 
+                placeholder="মেম্বার খুঁজুন..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-2xl text-gray-800 outline-none shadow-inner border-2 border-transparent focus:border-blue-400 transition-all font-bold placeholder:text-gray-400"
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            </div>
+          </div>
+        </div>
+
+        {/* LIST SECTION (1 to 100) */}
+        <div className="container mx-auto px-4 max-w-4xl mt-10">
+          <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden divide-y divide-gray-50">
+            {filteredRanking.map((member, i) => (
+              <motion.div 
+                key={member.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (i % 15) * 0.05 }}
+                className="p-4 sm:p-6 flex items-center justify-between hover:bg-blue-50/50 transition-colors group"
+              >
+                <div className="flex items-center gap-4 sm:gap-6">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${i === 0 ? 'bg-amber-500 text-white shadow-md' : i === 1 ? 'bg-slate-300 text-slate-700' : i === 2 ? 'bg-orange-300 text-orange-800' : 'text-gray-300'}`}>
+                    {filteredRanking.indexOf(member) + 1}
+                  </div>
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-inner ${member.gender === 'male' ? 'bg-blue-50 text-blue-400' : 'bg-pink-50 text-pink-400'}`}>
+                    <User className="w-6 h-6 sm:w-7 sm:h-7" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-gray-800 text-base sm:text-lg group-hover:text-blue-600 transition-colors uppercase tracking-tight">
+                      {member.name}
+                    </h4>
+                    <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Verified Member</p>
+                  </div>
+                </div>
+                
+                <div className="text-right">
+                  <div className="text-blue-600 font-black text-base sm:text-xl">{member.converts}</div>
+                  <div className="text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-tighter">Total Converts</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "অনলাইন শপ") {
+    const filteredProducts = SHOP_PRODUCTS.filter(p => 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-gray-50 flex flex-col font-hind pb-20">
+        {/* SHOP HEADER */}
+        <div className="bg-orange-500 text-white p-4 sticky top-20 z-40 shadow-md">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <button onClick={onBack} className="p-2 hover:bg-orange-600 rounded-full transition-all">
+                <ArrowRight className="w-6 h-6 rotate-180" />
+              </button>
+              <h1 className="text-xl md:text-2xl font-black italic tracking-widest">UNITY EARNING SHOP</h1>
+            </div>
+            <div className="flex-1 max-w-xl w-full relative group">
+              <input 
+                type="text" 
+                placeholder="Search in Unity Earning Shop..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-2.5 rounded-lg text-gray-800 outline-none shadow-inner border-2 border-transparent focus:border-orange-300 transition-all font-bold"
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="relative p-2 hover:bg-orange-600 rounded-lg transition-all">
+                <ShoppingCart className="w-7 h-7" />
+                <span className="absolute -top-1 -right-1 bg-white text-orange-600 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
+              </button>
+              <button className="p-2 hover:bg-orange-600 rounded-lg transition-all hidden sm:block">
+                <User className="w-7 h-7" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* SHOP CONTENT */}
+        <div className="container mx-auto px-4 mt-8">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
+            <h2 className="text-2xl font-black text-gray-800">Featured Products</h2>
+            <button className="flex items-center gap-2 text-orange-600 font-black hover:underline">
+              <Filter className="w-4 h-4" /> Filter By
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
+            {filteredProducts.map((p) => (
+              <motion.div 
+                key={p.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -8 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300 flex flex-col"
+              >
+                <div className="aspect-square relative overflow-hidden bg-gray-50">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                  <button className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-md rounded-full text-gray-400 hover:text-red-500 transition-colors shadow-sm">
+                    <Heart className="w-4 h-4" />
+                  </button>
+                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/20 to-transparent flex justify-end">
+                    <span className="bg-orange-500 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase">Top Selling</span>
+                  </div>
+                </div>
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="font-black text-gray-800 text-sm mb-2 leading-snug line-clamp-2 h-10 group-hover:text-orange-600 transition-colors cursor-pointer" onClick={() => setSelectedProduct(p)}>
+                    {p.name}
+                  </h3>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-orange-600 font-black text-lg">Tk {p.price}</span>
+                    <span className="text-gray-400 text-xs line-through">Tk {p.oldPrice}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-4 mt-auto">
+                    <div className="flex items-center text-yellow-400">
+                      <Star className="w-3 h-3 fill-current" />
+                      <span className="text-gray-900 font-black text-xs ml-1">{p.rating}</span>
+                    </div>
+                    <span className="text-gray-300 text-xs">|</span>
+                    <span className="text-gray-400 text-[10px] font-bold">({p.reviews})</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => setSelectedProduct(p)}
+                      className="flex-1 py-2 bg-orange-500 text-white rounded-lg font-black text-xs hover:bg-orange-600 transition-all shadow-md shadow-orange-100"
+                    >
+                      Buy Now
+                    </button>
+                    <button 
+                      onClick={() => handleShare(p)}
+                      className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all"
+                    >
+                      <Share2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-20">
+              <Search className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+              <h3 className="text-xl font-black text-gray-400">No products found matching your search.</h3>
+            </div>
+          )}
+        </div>
+
+        {/* PRODUCT DETAILS MODAL */}
+        <AnimatePresence>
+          {selectedProduct && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setSelectedProduct(null)}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              />
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                className="bg-white rounded-[2rem] shadow-2xl relative z-10 w-full max-w-4xl overflow-hidden flex flex-col md:flex-row h-auto max-h-[90vh]"
+              >
+                <div className="md:w-1/2 aspect-square md:aspect-auto relative bg-gray-50 border-r border-gray-100">
+                  <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <button 
+                    onClick={() => setSelectedProduct(null)}
+                    className="absolute top-4 left-4 p-2 bg-white/80 backdrop-blur text-gray-800 rounded-full shadow-lg md:hidden"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                <div className="md:w-1/2 p-8 overflow-y-auto">
+                  <div className="hidden md:flex justify-end mb-4">
+                    <button onClick={() => setSelectedProduct(null)} className="p-2 bg-gray-50 rounded-full text-gray-400 hover:text-gray-900 transition-all">
+                      <X className="w-6 h-6" />
+                    </button>
+                  </div>
+                  <h1 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 leading-tight">{selectedProduct.name}</h1>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="flex items-center gap-1 text-yellow-400">
+                      <Star className="w-4 h-4 fill-current" />
+                      <Star className="w-4 h-4 fill-current" />
+                      <Star className="w-4 h-4 fill-current" />
+                      <Star className="w-4 h-4 fill-current" />
+                      <Star className="w-4 h-4 fill-current" />
+                      <span className="text-gray-900 font-black ml-2">{selectedProduct.rating}</span>
+                    </div>
+                    <span className="text-gray-400 font-bold">| {selectedProduct.reviews} Seller Ratings</span>
+                  </div>
+
+                  <div className="p-6 bg-orange-50 border border-orange-100 rounded-2xl mb-8">
+                    <span className="text-orange-600 text-4xl font-black block mb-1">Tk {selectedProduct.price}</span>
+                    <span className="text-gray-400 line-through font-bold text-xl">Tk {selectedProduct.oldPrice}</span>
+                    <span className="ml-3 px-2 py-1 bg-orange-500 text-white text-xs font-black rounded-lg">-{Math.round((1 - selectedProduct.price / selectedProduct.oldPrice) * 100)}%</span>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                     <div className="flex items-center gap-3">
+                       <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                         <CheckCircle2 className="w-6 h-6" />
+                       </div>
+                       <p className="font-bold text-gray-700">Cash on Delivery Available</p>
+                     </div>
+                     <div className="flex items-center gap-3">
+                       <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                         <Layers className="w-6 h-6" />
+                       </div>
+                       <p className="font-bold text-gray-700">7 Days Return Policy</p>
+                     </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 sticky bottom-0 bg-white pt-4 pb-2">
+                    <button onClick={showNotReadyAlert} className="flex-1 py-4 bg-orange-500 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-100 hover:bg-orange-600 hover:-translate-y-1 active:scale-95 transition-all">
+                      Add to Cart
+                    </button>
+                    <button onClick={showNotReadyAlert} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-xl shadow-xl shadow-slate-100 hover:bg-black hover:-translate-y-1 active:scale-95 transition-all">
+                      Buy Now
+                    </button>
+                    <button 
+                      onClick={() => handleShare(selectedProduct)}
+                      className="p-4 bg-gray-100 text-gray-600 rounded-2xl hover:bg-gray-200 active:scale-95 transition-all"
+                    >
+                      <Share2 className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "এডস ভিউ") {
+    const ads = [
+      { id: 1, title: "Unity Earning Official Website", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 2, title: "Learn Digital Marketing with Unity", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 3, title: "Unity Store - New Gadgets Available", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 4, title: "How to Withdraw Money from Unity", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 5, title: "Unity Earning - Student Success Story", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 6, title: "Join Unity Premium Membership", provider: "Unity Ads", reward: "1.0 Tk", duration: "30s" },
+      { id: 7, title: "Unity Earning - New Feature Launch", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 8, title: "Micro Jobs Tips & Tricks", provider: "Unity Ads", reward: "0.5 Tk", duration: "15s" },
+      { id: 9, title: "Unity Earning - Monthly Salary Guide", provider: "Unity Ads", reward: "0.5 Tk", duration: "20s" },
+      { id: 10, title: "Invite Friends & Earn Bonus", provider: "Unity Ads", reward: "1.0 Tk", duration: "30s" },
+    ];
+
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="text-center mb-10">
+          <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+            <item.icon className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+          <p className="text-gray-500 font-bold tracking-tight">ভিডিও এবং ব্যানার অ্যাড দেখে প্রতিদিন ইনকাম করুন</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {ads.map((ad, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.02 }}
+              onClick={showNotReadyAlert}
+              className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer overflow-hidden p-6 relative group"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
+                  <PlayCircle className="w-7 h-7" />
+                </div>
+                <div className="px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-black rounded-full uppercase tracking-widest animate-pulse">
+                  Watch Now
+                </div>
+              </div>
+              
+              <h4 className="font-black text-gray-900 text-lg mb-2 leading-tight h-12 line-clamp-2">{ad.title}</h4>
+              <p className="text-xs text-gray-400 font-bold mb-6 flex items-center gap-1.5 capitalize">
+                <ShieldCheck className="w-3 h-3 text-emerald-500" /> {ad.provider}
+              </p>
+              
+              <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Reward</span>
+                  <span className="text-xl font-black text-indigo-600">{ad.reward}</span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Duration</span>
+                  <span className="text-sm font-black text-gray-700">{ad.duration}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "মোবাইল রিচার্জ") {
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="max-w-xl mx-auto bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-gray-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+            <Smartphone className="w-32 h-32 text-blue-900" />
+          </div>
+          
+          <div className="relative z-10">
+            <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mb-8 shadow-xl`}>
+              <item.icon className="w-10 h-10" />
+            </div>
+            
+            <h2 className="text-3xl font-black text-gray-900 mb-2">{item.label}</h2>
+            <p className="text-gray-500 font-bold mb-10">যেকোনো নাম্বারে দ্রুত রিচার্জ করুন</p>
+
+            <form onSubmit={(e) => { e.preventDefault(); showNotReadyAlert(); }} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-black text-gray-500 uppercase tracking-widest pl-1">Mobile Number</label>
+                <div className="relative">
+                  <input 
+                    type="tel" 
+                    placeholder="01XXXXXXXXX" 
+                    className="w-full p-4 pl-12 rounded-2xl border-2 border-gray-100 focus:border-blue-500 outline-none transition-all font-bold text-lg"
+                    required
+                  />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-black text-gray-500 uppercase tracking-widest pl-1">Operator</label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {['Grameenphone', 'Banglalink', 'Robi', 'Airtel'].map((op) => (
+                    <label key={op} className="cursor-pointer group">
+                      <input type="radio" name="operator" className="hidden peer" required />
+                      <div className="p-3 text-center rounded-xl border-2 border-gray-100 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all hover:bg-gray-50">
+                        <span className="text-[10px] font-black text-gray-600 uppercase group-hover:text-blue-600">{op}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-black text-gray-500 uppercase tracking-widest pl-1">Amount (Tk)</label>
+                <div className="relative">
+                  <input 
+                    type="number" 
+                    placeholder="Enter Amount" 
+                    className="w-full p-4 pl-12 rounded-2xl border-2 border-gray-100 focus:border-blue-500 outline-none transition-all font-bold text-lg"
+                    required
+                  />
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-black text-lg">৳</div>
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                className="w-full py-5 rounded-2xl bg-blue-600 text-white font-black text-xl shadow-xl shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 active:scale-95 transition-all mt-4"
+              >
+                Confirm Recharge
+              </button>
+            </form>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "মাসিক বেতন") {
+    const salaryTiers = [
+      { role: "Member", roleBn: "মেম্বার", amount: "কাজ করার উপর নির্ভর করবে", icon: Users, color: "bg-slate-500" },
+      { role: "Team Trainer", roleBn: "টিম ট্রেইনার", amount: "5,000 Tk", icon: UserCog, color: "bg-blue-500" },
+      { role: "Counsellor", roleBn: "কাউন্সেলর", amount: "5,000 Tk", icon: MessageSquare, color: "bg-indigo-500" },
+      { role: "Senior Counsellor", roleBn: "সিনিয়র কাউন্সেলর", amount: "8,000 Tk", icon: Award, color: "bg-purple-500" },
+      { role: "Team Leader", roleBn: "টিম লিডার", amount: "10,000 Tk", icon: Crown, color: "bg-amber-500" },
+      { role: "Senior Team Leader", roleBn: "সিনিয়র টিম লিডার", amount: "20,000 Tk", icon: Trophy, color: "bg-orange-500" },
+      { role: "Manager", roleBn: "ম্যানেজার", amount: "30,000 Tk", icon: Briefcase, color: "bg-emerald-500" },
+    ];
+
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="text-center mb-10">
+          <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+            <item.icon className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label} (Monthly Salary)</h2>
+          <p className="text-gray-500 font-bold">আপনার ডেজিগনেশন অনুযায়ী মাসিক সম্মানী</p>
+        </div>
+
+        <div className="max-w-4xl mx-auto space-y-4">
+          {salaryTiers.map((tier, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white p-5 sm:p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between group overflow-hidden relative gap-4"
+            >
+              <div className={`absolute left-0 top-0 bottom-0 w-2 ${tier.color} opacity-80`} />
+              <div className="flex items-center gap-4 sm:gap-6">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 ${tier.color} text-white rounded-2xl flex items-center justify-center shadow-lg shrink-0`}>
+                  <tier.icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <div>
+                  <h4 className="text-lg sm:text-xl font-black text-gray-900 flex flex-wrap items-center gap-x-2">
+                    {tier.role} <span className="text-[10px] sm:text-xs font-bold text-gray-400">| {tier.roleBn}</span>
+                  </h4>
+                  <p className="text-[10px] sm:text-sm text-gray-500 font-bold">Unity Earning Official Designation</p>
+                </div>
+              </div>
+              <div className="text-left sm:text-right pl-16 sm:pl-0 border-t sm:border-t-0 border-gray-50 pt-3 sm:pt-0">
+                <div className={`text-lg sm:text-xl font-black ${tier.amount.includes('Tk') ? 'text-blue-600' : 'text-slate-600'} flex flex-col items-start sm:items-end`}>
+                  <span className="sm:hidden text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Monthly Salary:</span>
+                  {tier.amount}
+                  <span className="text-[10px] uppercase tracking-widest text-gray-400 font-black mt-1">Status: Verified</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-12 p-8 bg-blue-50 rounded-[2.5rem] border border-blue-100 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 shadow-inner">
+           <div className="w-20 h-20 bg-blue-600 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-lg">
+             <Star className="w-10 h-10 animate-spin-slow" />
+           </div>
+           <div>
+             <h3 className="text-xl font-black text-blue-900 mb-2 underline decoration-blue-200 underline-offset-4">আপনার বেতন পেতে করণীয়ঃ</h3>
+             <ul className="space-y-2">
+               <li className="flex items-center gap-2 text-blue-800 font-bold"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> আপনার টিম ট্রেইনার বা লিডারের সাথে যোগাযোগ রাখুন।</li>
+               <li className="flex items-center gap-2 text-blue-800 font-bold"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> মাসিক টার্গেট পূরণ করুন।</li>
+               <li className="flex items-center gap-2 text-blue-800 font-bold"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> নিয়মিত মিটিং এ অংশগ্রহণ করুন।</li>
+             </ul>
+           </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "সোশ্যাল মিডিয়া মার্কেটিং") {
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="text-center mb-10">
+          <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+            <item.icon className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+          <p className="text-gray-500 font-bold">সোশ্যাল মিডিয়া মার্কেটিং শিখে আয় করা শুরু করুন</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="bg-white p-4 rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden group">
+            <div className="aspect-video w-full rounded-[1.5rem] overflow-hidden shadow-inner">
+               <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/v3Rje3agun8" 
+                title="YouTube video player 1" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                className="w-full h-full"
+               ></iframe>
+            </div>
+            <div className="p-6">
+              <h4 className="text-xl font-black text-gray-900 mb-2">সোশ্যাল মিডিয়া মার্কেটিং পার্ট ১</h4>
+              <p className="text-gray-500 font-bold text-sm">ফেসবুক মার্কেটিং এর বিস্তারিত গাইডলাইন।</p>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden group">
+            <div className="aspect-video w-full rounded-[1.5rem] overflow-hidden shadow-inner">
+               <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/R1a7cDaunPw" 
+                title="YouTube video player 2" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                className="w-full h-full"
+               ></iframe>
+            </div>
+            <div className="p-6">
+              <h4 className="text-xl font-black text-gray-900 mb-2">সোশ্যাল মিডিয়া মার্কেটিং পার্ট ২</h4>
+              <p className="text-gray-500 font-bold text-sm">কিভাবে ক্লায়েন্ট হ্যান্ডেল করবেন এবং প্রফেশনাল মার্কেটিং করবেন।</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (item.label === "মাইক্রো জব") {
+    return (
+      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+          <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+        </button>
+
+        <div className="text-center mb-10">
+          <div className={`w-20 h-20 ${item.color} text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl`}>
+            <item.icon className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">{item.label}</h2>
+          <p className="text-gray-500 font-bold">সহজ ছোট ছোট কাজ সম্পন্ন করে আর্নিং শুরু করুন</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+          {MICRO_JOB_TASKS.map((task, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -5 }}
+              onClick={showNotReadyAlert}
+              className="bg-white p-5 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all cursor-pointer flex items-center justify-between group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+                  <task.icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="font-black text-gray-800 text-sm">{task.title}</h4>
+                  <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-0.5">Micro Task</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-blue-600 font-black text-lg">{task.reward}</div>
+                <div className="text-emerald-500 font-black text-[9px] uppercase tracking-tighter">Verified</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="container mx-auto px-4 mt-8 pb-20">
+      <button onClick={onBack} className="mb-6 flex items-center gap-2 p-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 font-bold text-gray-600 hover:text-blue-600 transition-all active:scale-95">
+        <ArrowRight className="w-5 h-5 rotate-180" /> Back to Menu
+      </button>
+
+      <div className="bg-white p-12 rounded-[2.5rem] shadow-xl border border-gray-100 text-center max-w-2xl mx-auto">
+        <div className={`w-24 h-24 ${item.color} text-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl`}>
+          <item.icon className="w-12 h-12" />
+        </div>
+        <h2 className="text-3xl font-black text-gray-900 mb-4">{item.label}</h2>
+        <p className="text-lg text-gray-500 font-bold mb-10 leading-relaxed italic">"{item.desc}"</p>
+        
+        <div className="p-8 bg-blue-50 rounded-3xl border border-blue-100 text-left">
+           <h4 className="font-black text-blue-900 mb-4 flex items-center gap-2 uppercase tracking-widest text-sm">
+             <AlertTriangle className="w-5 h-5" /> Information
+           </h4>
+           <p className="text-blue-800 font-bold leading-relaxed">
+             আপনার এই ফিচারটি বর্তমানে ডেভেলপমেন্ট মোডে আছে। খুব শীঘ্রই এটি লাইভ করা হবে। নিয়মিত চেক করতে থাকুন এবং UNITY EARNING এর সাথেই থাকুন। ধন্যবাদ!
+           </p>
+        </div>
+        
+        <button className="mt-10 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-blue-600 transition-all shadow-xl active:scale-95">
+          Join Official Group
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+function ExtraMenu() {
+  const [selectedSubItem, setSelectedSubItem] = useState<any>(null);
+
+  if (selectedSubItem) {
+    return <ExtraMenuSubItem item={selectedSubItem} onBack={() => setSelectedSubItem(null)} />;
+  }
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto px-4 lg:px-12 mt-8 pb-20">
+      <div className="text-center mb-12">
+        <h2 className="text-sm font-black text-blue-500 uppercase tracking-[0.3em] mb-3">Our Projects</h2>
+        <h3 className="text-4xl font-black text-slate-900 tracking-tighter">আমাদের প্রজেক্ট সমূহ</h3>
+      </div>
+      
+      <div className="bg-blue-600 p-8 lg:p-12 rounded-[3rem] shadow-2xl shadow-blue-200">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-10">
+          {EXTRA_MENU_ITEMS.map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedSubItem(item)}
+              className="group cursor-pointer flex flex-col items-center gap-4"
+            >
+              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:shadow-blue-400/50 transition-all">
+                <item.icon className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 group-hover:text-blue-500 transition-colors" />
+              </div>
+              <span className="text-center text-white font-black text-sm lg:text-base leading-tight font-hind px-2">
+                {item.label}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function DailyQuiz() {
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -1365,6 +2604,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                   else if (item.label === 'Store') navigateTo('store');
                   else if (item.label === 'Email Marketing') navigateTo('email-marketing');
                   else if (item.label === 'Daily Quiz') navigateTo('daily-quiz');
+                  else if (item.label === 'Menu') navigateTo('extra-menu');
                   else if (item.label === 'Change Password') navigateTo('change-password');
                   else navigateTo('dashboard');
                 }}>
@@ -1416,6 +2656,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
                       else if (item.label === 'Store') navigateTo('store');
                       else if (item.label === 'Email Marketing') navigateTo('email-marketing');
                       else if (item.label === 'Daily Quiz') navigateTo('daily-quiz');
+                      else if (item.label === 'Menu') navigateTo('extra-menu');
                       else if (item.label === 'Change Password') navigateTo('change-password');
                       else navigateTo('dashboard');
                     }}><a href={item.href} target={item.href !== '#' ? "_blank" : "_self"} rel={item.href !== '#' ? "noopener noreferrer" : ""}><item.icon className="w-4 h-4 mr-2" /> {item.label}</a></li>
@@ -1708,7 +2949,7 @@ export function StudentPanel({ logout }: StudentPanelProps) {
 
               </div>
             </div></>
-        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'gallery' ? <PhotoGallery /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : activeTab === 'ranking' ? <CareerRanking /> : <MyHomeworks />}
+        ) : activeTab === 'profile' ? <StudentProfile /> : activeTab === 'gallery' ? <PhotoGallery /> : activeTab === 'edit-profile' ? <EditProfile /> : activeTab === 'passbook' ? <MyPassbook /> : activeTab === 'withdrawals' ? <Withdrawals onNavigate={navigateTo} /> : activeTab === 'new-withdraw' ? <NewWithdrawRequest onBack={() => navigateTo('withdrawals')} /> : activeTab === 'notice' ? <Notice notices={settings.notices} /> : activeTab === 'extra-menu' ? <ExtraMenu /> : activeTab === 'store' ? <UnityStoreView /> : activeTab === 'change-password' ? <ChangePassword /> : activeTab === 'email-marketing' ? <EmailMarketing /> : activeTab === 'daily-quiz' ? <DailyQuiz /> : activeTab === 'ranking' ? <CareerRanking /> : <MyHomeworks />}
       </main>
       <footer className="bg-white border-t border-gray-100 py-16">
         <div className="container mx-auto px-4 lg:px-12 text-center text-gray-500 font-bold">

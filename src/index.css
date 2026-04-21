@@ -5,7 +5,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
 
 :root {
   --ue-blue: #2563eb;
@@ -13,12 +13,33 @@
   --ue-accent: #3b82f6;
   --ue-premium-black: #020617;
   --font-hind: "Hind Siliguri", "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-arabic: "Amiri", serif;
 }
 
 body {
   font-family: var(--font-hind);
   background-color: #f8fafc;
   color: #1e293b;
+}
+
+@theme {
+  --font-arabic: "Amiri", serif;
+}
+
+/* Custom Scrollbar for Surah List */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 20px;
+  border: 3px solid white;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
 
 @keyframes marquee {
