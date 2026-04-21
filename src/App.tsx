@@ -3,13 +3,14 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Swal from 'sweetalert2';
 import { 
-  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare
+  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare, Trophy
 } from 'lucide-react';
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
 import { AdminPanel } from './AdminPanel';
 import { RegisterPage } from './RegisterPage';
 import { TermsModal } from './TermsModal';
+import { SuccessStories } from './SuccessStories';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,6 +18,7 @@ export default function App() {
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
+  const [isSuccessStoriesOpen, setIsSuccessStoriesOpen] = useState(false);
   const [isAnnivPopupOpen, setIsAnnivPopupOpen] = useState(false);
 
   // Auth States
@@ -169,6 +171,10 @@ export default function App() {
     setIsAnnivPopupOpen(false);
     localStorage.setItem('ue_anniv_popup_closed_at_v1', Date.now().toString());
   };
+
+  if (isSuccessStoriesOpen) {
+    return <SuccessStories onBack={() => setIsSuccessStoriesOpen(false)} />;
+  }
 
   if (isAuthenticated) {
     return isAdmin ? <AdminPanel logout={logout} /> : <StudentPanel logout={logout} />;
@@ -450,6 +456,7 @@ export default function App() {
                 <div className="grid gap-3">
                   {[
                     { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
+                    { icon: Trophy, label: "Success stories", onClick: () => { setIsSuccessStoriesOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: UserPlus, label: "Sign Up", onClick: () => { setIsRegisterRouteOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: Store, label: "Store", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
                     { icon: UserCog, label: "Agent Login", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
@@ -483,6 +490,7 @@ export default function App() {
               <div className="p-6 grid gap-3">
                 {[
                   { icon: LogIn, label: "Login", color: "ue-pill-teal", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: Trophy, label: "Success stories", color: "ue-pill-indigo", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: UserPlus, label: "Sign Up", color: "", onClick: () => { window.location.href="https://unityearning.com/sign-up" } },
                   { icon: Store, label: "Store", color: "ue-pill-emerald", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
                   { icon: UserCog, label: "Agent Login", color: "", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
