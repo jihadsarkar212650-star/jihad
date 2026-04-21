@@ -213,7 +213,7 @@ export default function App() {
               {/* Abstract Top Gradient */}
               <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 opacity-[0.08]" />
 
-              <div className="p-8 relative">
+              <div className="p-6 relative">
                 <button 
                   onClick={() => setIsLoginModalOpen(false)}
                   className="absolute top-4 right-4 p-2 bg-gray-100/50 hover:bg-red-50 hover:text-red-500 rounded-full text-gray-500 transition-all z-20"
@@ -221,12 +221,12 @@ export default function App() {
                   <X className="w-5 h-5" />
                 </button>
 
-                <div className="text-center mb-8 mt-2">
-                  <div className="w-16 h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center mb-5 shadow-lg shadow-blue-500/30 rotate-3 transition-transform hover:rotate-0 duration-300">
-                     <User className="w-8 h-8 text-white -rotate-3 transition-transform hover:rotate-0 duration-300" />
+                <div className="text-center mb-6 mt-1">
+                  <div className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30 rotate-3 transition-transform hover:rotate-0 duration-300">
+                     <User className="w-7 h-7 text-white -rotate-3 transition-transform hover:rotate-0 duration-300" />
                   </div>
-                  <h3 className="text-3xl font-black text-gray-900 mb-3 tracking-tight font-hind">লগইন প্যানেল</h3>
-                  <p className="text-[13px] text-gray-600 font-bold font-hind leading-relaxed bg-blue-50/80 text-blue-800 p-4 rounded-2xl border border-blue-100 shadow-sm relative overflow-hidden">
+                  <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight font-hind">লগইন প্যানেল</h3>
+                  <p className="text-[12px] text-gray-600 font-bold font-hind leading-relaxed bg-blue-50/80 text-blue-800 p-3 rounded-2xl border border-blue-100 shadow-sm relative overflow-hidden">
                     <span className="absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-2xl"></span>
                     {loginModalType === 'agent' 
                       ? "এজেন্ট আইডিতে লগইন করার জন্য আপনার " 
@@ -237,12 +237,12 @@ export default function App() {
                   </p>
                 </div>
                 
-                <form onSubmit={handleLogin} className="space-y-5" autoComplete="off">
+                <form onSubmit={handleLogin} className="space-y-4" autoComplete="off">
                   <div>
-                    <label className="block text-xs font-black text-gray-500 mb-2 font-hind uppercase tracking-widest ml-1">WhatsApp Number</label>
+                    <label className="block text-[10px] font-black text-gray-400 mb-1.5 font-hind uppercase tracking-widest ml-1">WhatsApp Number</label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Phone className="w-5 h-5 text-gray-400 group-focus-within:text-green-500 transition-colors" />
+                        <Phone className="w-4 h-4 text-gray-400 group-focus-within:text-green-500 transition-colors" />
                       </div>
                       <input 
                         type="text" 
@@ -250,17 +250,17 @@ export default function App() {
                         onChange={(e) => setLoginNumber(e.target.value)}
                         placeholder="01XXXXXXXXX"
                         autoComplete="off"
-                        className="w-full pl-12 pr-4 py-4 bg-gray-50/80 border-2 border-gray-100 rounded-2xl focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10 transition-all outline-none font-bold text-gray-800 placeholder-gray-400"
+                        className="w-full pl-11 pr-4 py-3 bg-gray-50/80 border-2 border-gray-100 rounded-2xl focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-500/10 transition-all outline-none font-bold text-gray-800 placeholder-gray-400 text-sm"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black text-gray-500 mb-2 font-hind uppercase tracking-widest ml-1">Password</label>
+                    <label className="block text-[10px] font-black text-gray-400 mb-1.5 font-hind uppercase tracking-widest ml-1">Password</label>
                     <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Lock className="w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                        <Lock className="w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
                       </div>
                       <input 
                         type="password" 
@@ -268,7 +268,7 @@ export default function App() {
                         onChange={(e) => setLoginPass(e.target.value)}
                         placeholder="••••••••••"
                         autoComplete="new-password"
-                        className="w-full pl-12 pr-4 py-4 bg-gray-50/80 border-2 border-gray-100 rounded-2xl focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all outline-none font-bold tracking-widest text-gray-800 placeholder-gray-400"
+                        className="w-full pl-11 pr-4 py-3 bg-gray-50/80 border-2 border-gray-100 rounded-2xl focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all outline-none font-bold tracking-widest text-gray-800 placeholder-gray-400 text-sm"
                         required
                       />
                     </div>
@@ -278,10 +278,10 @@ export default function App() {
                     type="submit"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-600/25 hover:shadow-indigo-600/40 transition-all flex items-center justify-center gap-3 overflow-hidden relative group"
+                    className="w-full py-3.5 mt-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-base shadow-xl shadow-blue-600/25 hover:shadow-indigo-600/40 transition-all flex items-center justify-center gap-3 overflow-hidden relative group"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                    <span className="relative flex items-center gap-2">লগইন করুন <LogIn className="w-5 h-5" /></span>
+                    <span className="relative flex items-center gap-2 font-hind">লগইন করুন <LogIn className="w-5 h-5" /></span>
                   </motion.button>
                 </form>
               </div>
