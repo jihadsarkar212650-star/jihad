@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, User, CheckSquare, MessageCircle } from 'lucide-react';
+import { Menu, User, CheckSquare, MessageCircle, Briefcase, ChevronRight } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 export function RegisterPage({ onBack }: { onBack: () => void }) {
@@ -25,142 +25,118 @@ export function RegisterPage({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-bengali">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-x-hidden">
       {/* Header */}
-      <header className="h-14 bg-gradient-to-r from-blue-700 to-blue-500 flex items-center justify-between px-4 text-white sticky top-0 z-50 shadow-md">
-        <button onClick={onBack} className="p-1">
-          <Menu className="w-6 h-6" />
+      <header className="h-16 bg-white flex items-center justify-between px-6 text-slate-900 sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+        <button onClick={onBack} className="p-2 bg-slate-50 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors active:scale-90">
+          <Menu className="w-5 h-5" />
         </button>
-        <h1 className="text-lg font-bold tracking-wide uppercase font-sans">UNITY EARNING</h1>
-        <button className="p-1">
-          <User className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-2">
+           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-100">
+              <User className="w-4 h-4 text-white" />
+           </div>
+           <h1 className="text-sm font-black tracking-[0.2em] uppercase font-sans text-slate-800">UNITY EARNING</h1>
+        </div>
+        <div className="w-9" /> {/* Spacer */}
       </header>
 
-      <main className="flex-grow flex flex-col items-center py-8 px-4">
-        {/* Gradient Border Wrapper */}
-        <div className="w-full max-w-md bg-gradient-to-br from-blue-400 via-blue-600 to-blue-800 p-0.5 rounded-sm shadow-lg">
-          <div className="bg-white rounded-sm pt-8 pb-6 px-6 relative h-full w-full">
-            
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-[28px] font-bold text-blue-600 mb-2">রেজিস্ট্রেশন করুন</h2>
-              <p className="text-gray-600 font-medium text-sm sm:text-base">নতুন অ্যাকাউন্ট তৈরি করুন</p>
+      <main className="flex-grow flex flex-col items-center py-12 px-6">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-10">
+            <div className="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+              Join Our Community
             </div>
+            <h2 className="text-3xl font-black text-slate-900 mb-2 font-hind tracking-tight">রেজিস্ট্রেশন করুন</h2>
+            <p className="text-slate-500 font-bold text-sm font-hind">নতুন অ্যাকাউন্ট তৈরি করতে নিচের তথ্যগুলো পূরণ করুন</p>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">পূর্ণ নাম <span className="text-red-500">*</span></label>
-                <input 
-                  type="text" 
-                  required 
-                  placeholder="আপনার নাম লিখুন" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
+          <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200/40 border border-white relative overflow-hidden">
+            {/* Background Decoration */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-50 rounded-full opacity-50 blur-3xl pointer-events-none" />
+            
+            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">আপনার পূর্ণ নাম</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-indigo-600 transition-colors">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="আপনার নাম লিখুন" 
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 font-hind font-bold transition-all"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">হোয়াটসঅ্যাপ নাম্বার <span className="text-red-500">*</span></label>
-                <input 
-                  type="tel" 
-                  required 
-                  placeholder="01XXXXXXXXX" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">হোয়াটসঅ্যাপ নাম্বার</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-indigo-600 transition-colors">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  <input 
+                    type="tel" 
+                    required 
+                    placeholder="01XXXXXXXXX" 
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 font-sans font-bold transition-all"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">ইমেইল আইডি <span className="text-red-500">*</span></label>
-                <input 
-                  type="email" 
-                  required 
-                  placeholder="আপনার ইমেইল আইডি দিন" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ইমেইল আইডি (সঠিক)</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-indigo-600 transition-colors">
+                    <Briefcase className="w-5 h-5 opacity-50" />
+                  </div>
+                  <input 
+                    type="email" 
+                    required 
+                    placeholder="আপনার ইমেইল আইডি দিন" 
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 font-sans font-bold transition-all"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">পাসওয়ার্ড ৮ ডিজিট <span className="text-red-500">*</span></label>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">নতুন পাসওয়ার্ড (৮ ডিজিট)</label>
                 <input 
                   type="password" 
                   required 
                   minLength={8}
                   placeholder="********" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 tracking-widest transition-colors"
+                  className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 font-sans font-bold transition-all tracking-widest"
                 />
               </div>
 
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">পাসওয়ার্ড নিশ্চিত করুন <span className="text-red-500">*</span></label>
-                <input 
-                  type="password" 
-                  required 
-                  minLength={8}
-                  placeholder="পুনরায় পাসওয়ার্ড লিখুন" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">রেজিস্ট্রেশন কোড <span className="text-red-500">*</span></label>
-                <input 
-                  type="text" 
-                  required 
-                  placeholder="আপনার রেজিস্ট্রেশন কোড দিন" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-800 font-bold mb-1.5 text-sm lg:text-base">রেফারাল আইডি <span className="text-red-500">*</span></label>
-                <input 
-                  type="text" 
-                  required 
-                  placeholder="স্পন্সরের রেফারাল আইডি দিন" 
-                  className="w-full border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-500 text-gray-800 placeholder-gray-400 transition-colors"
-                />
-              </div>
-
-              <div className="pt-3 pb-1 flex items-start gap-2">
-                <input 
-                  type="checkbox" 
-                  id="privacy"
-                  checked={agreed}
-                  onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                />
-                <label htmlFor="privacy" className="text-gray-700 text-sm lg:text-base">
-                  আমি <a href="#" className="text-blue-600 font-medium hover:underline">প্রাইভেসি পলিসি</a> মেনে নিয়েছি
+              <div className="flex items-start gap-3 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                <div 
+                  onClick={() => setAgreed(!agreed)}
+                  className={`mt-1 cursor-pointer w-5 h-5 rounded-md flex items-center justify-center transition-all ${agreed ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'bg-white border-2 border-slate-200'}`}
+                >
+                  {agreed && <CheckSquare className="w-4 h-4" />}
+                </div>
+                <label className="text-[12px] text-indigo-900 font-bold font-hind leading-relaxed cursor-pointer select-none" onClick={() => setAgreed(!agreed)}>
+                  আমি কোম্পানির সকল <span className="text-indigo-600 underline decoration-indigo-200">শর্তাবলী</span> এবং <span className="text-indigo-600 underline decoration-indigo-200">প্রাইভেসি পলিসি</span> মেনে অ্যাকাউন্ট তৈরি করছি।
                 </label>
               </div>
 
-              <div className="pt-2">
-                <button 
-                  type="submit" 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded flex items-center justify-center gap-2 transition-colors shadow-md text-lg"
-                >
-                  <div className="bg-white/20 p-0.5 rounded-sm">
-                    <CheckSquare className="w-4 h-4 text-white" />
-                  </div>
-                  রেজিস্ট্রেশন করুন
-                </button>
-              </div>
-
-              <div className="text-center pt-5 pb-2">
-                <span className="text-gray-700 font-medium">আগে থেকেই একাউন্ট আছে? </span>
-                <button type="button" onClick={onBack} className="text-blue-600 font-bold hover:underline">লগইন করুন</button>
-              </div>
+              <button 
+                type="submit" 
+                className="w-full py-5 bg-indigo-600 hover:bg-slate-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-indigo-100 active:scale-95 transition-all"
+              >
+                Create Account
+              </button>
             </form>
           </div>
+          
+          <p className="text-center mt-10 text-slate-400 font-bold text-xs uppercase tracking-widest">
+            Already have an account? <button onClick={onBack} className="text-indigo-600 hover:underline decoration-dashed transition-all underline-offset-4">Sign In Now</button>
+          </p>
         </div>
       </main>
-
-      <footer className="text-center py-6 text-gray-600 text-sm bg-gray-50 flex-shrink-0 font-sans">
-        © 2026 UNITY EARNING. All rights reserved.
-      </footer>
-
-      <button className="fixed bottom-6 right-6 w-14 h-14 bg-[#1877F2] text-white rounded-full flex items-center justify-center shadow-xl hover:bg-blue-700 transition-colors z-50">
-        <MessageCircle className="w-7 h-7 fill-current" />
-      </button>
     </div>
   );
 }

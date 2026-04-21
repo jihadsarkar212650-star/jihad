@@ -3,7 +3,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Swal from 'sweetalert2';
 import { 
-  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare, Trophy, Zap, Grid, ChevronRight
+  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare, Trophy, Zap, Grid, ChevronRight, Briefcase, CheckCircle2
 } from 'lucide-react';
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
@@ -320,8 +320,12 @@ export default function App() {
                   <X className="w-5 h-5" />
                 </button>
 
-                <div className="text-center mb-10 mt-2">
-                  <h3 className="text-3xl font-bold text-[#0D0B3D] tracking-tight uppercase font-sans">SUB ADMIN LOGIN</h3>
+                <div className="text-center mb-8 mt-2 flex flex-col items-center">
+                  <div className="w-16 h-16 bg-gradient-to-tr from-indigo-600 via-purple-600 to-indigo-700 rounded-3xl flex items-center justify-center mb-4 shadow-xl shadow-indigo-100 rotate-3 active:rotate-0 transition-transform cursor-pointer">
+                     <Briefcase className="w-8 h-8 text-white -rotate-3" />
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight font-sans">SUB ADMIN LOGIN</h3>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Management Portal Access</p>
                 </div>
 
                 <form onSubmit={handleSubAdminLogin} className="space-y-6" autoComplete="off">
@@ -349,41 +353,80 @@ export default function App() {
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
                               onClick={() => setIsSubAdminTypeOpen(false)}
-                              className="absolute inset-0 bg-black/60"
+                              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                             />
                             <motion.div 
                               initial={{ y: "100%" }}
                               animate={{ y: 0 }}
                               exit={{ y: "100%" }}
-                              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                              className="relative bg-[#231F32] h-[100dvh] flex flex-col w-full z-10"
+                              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                              className="relative bg-slate-50 h-[100dvh] flex flex-col w-full z-10 font-sans"
                             >
-                              <div className="sticky top-0 bg-[#231F32] z-20 border-b border-white/10 flex items-center justify-between p-5 shadow-sm">
-                                <h3 className="text-white text-xl font-bold font-sans tracking-wide">Select Department</h3>
-                                <button type="button" onClick={() => setIsSubAdminTypeOpen(false)} className="p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors">
-                                  <X className="w-6 h-6" />
+                              <div className="sticky top-0 bg-white z-20 border-b border-slate-200 flex items-center justify-between p-5 px-6 shadow-sm">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                                    <Briefcase className="w-5 h-5 text-indigo-600" />
+                                  </div>
+                                  <div>
+                                    <h3 className="text-slate-900 text-lg font-black leading-none font-hind">Select Department</h3>
+                                    <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Field of Expertise</p>
+                                  </div>
+                                </div>
+                                <button type="button" onClick={() => setIsSubAdminTypeOpen(false)} className="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-500 transition-colors">
+                                  <X className="w-5 h-5" />
                                 </button>
                               </div>
-                              <div className="flex-1 overflow-y-auto pb-6">
+                              
+                              <div className="flex-1 overflow-y-auto p-6 space-y-3 pb-24">
                                 {DEPARTMENT_OPTIONS.map((option, i) => (
-                                  <label key={i} className="flex items-center justify-between p-5 border-b border-white/10 cursor-pointer hover:bg-white/5 transition-colors">
-                                    <span className="text-white text-lg font-sans tracking-wide">{option.label}</span>
-                                    <div className="relative flex items-center justify-center">
-                                      <input 
-                                        type="radio" 
-                                        name="department" 
-                                        value={option.value}
-                                        checked={subAdminType === option.value}
-                                        onChange={(e) => {
-                                          setSubAdminType(e.target.value);
-                                          setTimeout(() => setIsSubAdminTypeOpen(false), 200);
-                                        }}
-                                        className="appearance-none w-6 h-6 border-2 border-gray-400 rounded-full checked:border-[#A188FF] checked:bg-transparent transition-all outline-none cursor-pointer peer"
-                                      />
-                                      <div className="absolute w-3 h-3 bg-[#A188FF] rounded-full opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                                  <motion.label 
+                                    key={i} 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.02 }}
+                                    className={`relative group flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all ${
+                                      subAdminType === option.value 
+                                      ? "bg-indigo-600 border-indigo-600 shadow-lg shadow-indigo-100" 
+                                      : "bg-white border-slate-100 hover:border-indigo-100 shadow-sm"
+                                    }`}
+                                  >
+                                    <input 
+                                      type="radio" 
+                                      name="department" 
+                                      value={option.value}
+                                      checked={subAdminType === option.value}
+                                      onChange={(e) => {
+                                        setSubAdminType(e.target.value);
+                                        setTimeout(() => setIsSubAdminTypeOpen(false), 250);
+                                      }}
+                                      className="hidden"
+                                    />
+                                    <div className="flex items-center gap-4">
+                                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                                        subAdminType === option.value ? "bg-white/20 text-white" : "bg-slate-100/50 text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-500 shadow-inner"
+                                      }`}>
+                                        <UserCog className="w-5 h-5" />
+                                      </div>
+                                      <span className={`text-sm font-bold tracking-tight transition-colors font-hind ${
+                                        subAdminType === option.value ? "text-white" : "text-slate-700"
+                                      }`}>
+                                        {option.label}
+                                      </span>
                                     </div>
-                                  </label>
+                                    
+                                    {subAdminType === option.value && (
+                                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                        <CheckCircle2 className="w-6 h-6 text-white" />
+                                      </motion.div>
+                                    )}
+                                  </motion.label>
                                 ))}
+                              </div>
+
+                              <div className="p-6 bg-white border-t border-slate-100 absolute bottom-0 left-0 right-0">
+                                <button onClick={() => setIsSubAdminTypeOpen(false)} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest active:scale-95 transition-transform">
+                                  Confirm Selection
+                                </button>
                               </div>
                             </motion.div>
                           </div>
@@ -392,49 +435,57 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-base font-semibold text-[#0D0B3D] mb-2 font-sans tracking-wide">SubAdmin Email or Phone</label>
-                    <input 
-                      type="text" 
-                      value={subAdminId}
-                      onChange={(e) => setSubAdminId(e.target.value)}
-                      placeholder="Type your email or phone number"
-                      className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-gray-800 placeholder-gray-400 font-sans"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-base font-semibold text-[#0D0B3D] mb-2 font-sans tracking-wide">Password</label>
-                    <div className="relative">
-                      <input 
-                        type={showSubPass ? "text" : "password"}
-                        value={subAdminPass}
-                        onChange={(e) => setSubAdminPass(e.target.value)}
-                        placeholder="**********"
-                        className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-gray-800 placeholder-gray-400 placeholder:tracking-wides font-sans"
-                        required
-                      />
-                      <button 
-                        type="button"
-                        onClick={() => setShowSubPass(!showSubPass)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1E1B4B] hover:text-[#4f46e5] opacity-70"
-                      >
-                        {showSubPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                      </button>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-400 mb-1.5 font-sans uppercase tracking-[0.2em] ml-1">SubAdmin ID</label>
+                      <div className="relative group">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-indigo-500 transition-colors">
+                          <User className="w-5 h-5" />
+                        </div>
+                        <input 
+                          type="text" 
+                          value={subAdminId}
+                          onChange={(e) => setSubAdminId(e.target.value)}
+                          placeholder="Email or phone"
+                          className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 font-sans font-bold transition-all shadow-sm"
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex justify-start">
-                    <a href="#" className="text-[#6C5DD3] font-semibold tracking-wide text-sm hover:underline decoration-2 underline-offset-4 font-sans">Forgot Password?</a>
-                  </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-400 mb-1.5 font-sans uppercase tracking-[0.2em] ml-1">Secure Password</label>
+                      <div className="relative group">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-indigo-500 transition-colors">
+                          <Lock className="w-5 h-5" />
+                        </div>
+                        <input 
+                          type={showSubPass ? "text" : "password"}
+                          value={subAdminPass}
+                          onChange={(e) => setSubAdminPass(e.target.value)}
+                          placeholder="**********"
+                          className="w-full pl-11 pr-12 py-4 bg-white border border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-slate-800 placeholder-slate-300 tracking-widest font-sans font-bold transition-all shadow-sm"
+                          required
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => setShowSubPass(!showSubPass)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-indigo-600 transition-colors"
+                        >
+                          {showSubPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
+                      </div>
+                    </div>
 
-                  <button 
-                    type="submit"
-                    className="w-full py-4 mt-2 bg-[#6C5DD3] hover:bg-[#5a4bc0] text-white rounded-lg font-bold tracking-wide text-base shadow-lg transition-all font-sans"
-                  >
-                    Sign In
-                  </button>
+                    <div className="flex justify-start px-1">
+                      <a href="#" className="text-indigo-600 font-black tracking-widest text-[11px] uppercase hover:text-indigo-800 transition-colors font-sans decoration-dashed underline-offset-4">Forgot Access?</a>
+                    </div>
+
+                    <button 
+                      type="submit"
+                      className="w-full py-4.5 mt-2 bg-[#6C5DD3] hover:bg-slate-900 text-white rounded-2xl font-black tracking-[0.2em] text-sm uppercase shadow-xl shadow-indigo-100 active:scale-95 transition-all font-sans"
+                    >
+                      Authenticate
+                    </button>
                 </form>
 
             </motion.div>
@@ -470,8 +521,8 @@ export default function App() {
               </div>
 
               {/* Menu List - Serial Order */}
-              <div className="flex-grow overflow-y-auto bg-slate-50/30">
-                <div className="p-4 space-y-1">
+              <div className="flex-grow overflow-y-auto bg-slate-50/50">
+                <div className="p-4 space-y-2.5">
                   {[
                     { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: Trophy, label: "Success stories", onClick: () => { setIsSuccessStoriesOpen(true); setIsHeaderDrawerOpen(false); } },
@@ -492,15 +543,15 @@ export default function App() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.03 }}
                       onClick={item.onClick} 
-                      className="group flex items-center justify-between p-4 rounded-xl hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all text-slate-700 w-full text-left active:scale-[0.98]"
+                      className="group flex items-center justify-between py-3.5 px-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-100 transition-all text-slate-700 w-full text-left active:scale-[0.98]"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="w-8 h-8 rounded-lg bg-slate-100/50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
-                          <item.icon className="w-4 h-4" />
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+                          <item.icon className="w-4.5 h-4.5" />
                         </div>
-                        <span className="font-bold text-sm font-hind">{item.label}</span>
+                        <span className="font-bold text-[15px] font-hind tracking-tight">{item.label}</span>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-4.5 h-4.5 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
                     </motion.button>
                   ))}
                 </div>
@@ -539,7 +590,7 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="p-4 grid gap-1.5 overflow-y-auto">
+              <div className="p-4 space-y-2.5 overflow-y-auto">
                 {[
                   { icon: LogIn, label: "Login", color: "text-blue-600 bg-blue-50 border-blue-100", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                   { icon: Trophy, label: "Success stories", color: "text-orange-600 bg-orange-50 border-orange-100", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
@@ -556,15 +607,15 @@ export default function App() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.03 }}
                     onClick={item.onClick} 
-                    className="group flex items-center justify-between p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-sm transition-all text-slate-700 w-full text-left active:scale-[0.98]"
+                    className="group flex items-center justify-between py-3.5 px-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-100 transition-all text-slate-700 w-full text-left active:scale-[0.98]"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${item.color} shadow-sm group-hover:scale-110 transition-transform`}>
-                        <item.icon className="w-4 h-4" />
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${item.color} shadow-sm group-hover:scale-110 transition-transform`}>
+                        <item.icon className="w-4.5 h-4.5" />
                       </div>
-                      <span className="font-bold text-sm font-hind">{item.label}</span>
+                      <span className="font-bold text-[15px] font-hind tracking-tight">{item.label}</span>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4.5 h-4.5 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 ))}
               </div>
