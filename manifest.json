@@ -1,0 +1,21 @@
+{
+  "name": "Unity Earning",
+  "short_name": "UnityEarning",
+  "description": "Unity Earning E-Learning Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "https://unityearning.com/assets/img/unityearning.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://unityearning.com/assets/img/unityearning.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

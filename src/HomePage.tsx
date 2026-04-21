@@ -2,10 +2,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Menu, X, LogIn, UserPlus, Store, UserCog, ShieldCheck, 
   ArrowRight, Phone, HelpCircle, MessageCircle, BookOpen,
-  ChevronUp, Star, PenSquare, Sliders, Users, Trophy, Briefcase, Mail
+  ChevronUp, Star, PenSquare, Sliders, Users, Trophy, Briefcase, Mail,
+  Smartphone
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSettings } from './lib/useSettings';
+import Swal from 'sweetalert2';
 
 const COURSES = [
   { id: 1, title: "Al-Quran Hadis & Namaz Shikkha", mentor: "Maulana Hafizur Rahman", price: "৳ ৫০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg", desc: "কুরআন, হাদিস এবং নামাজের নিয়মকানুন শিখুন সহজ পদ্ধতিতে।" },
@@ -201,6 +203,51 @@ export function HomePage({
   const { settings } = useSettings();
   const [rating, setRating] = useState(4);
   const [hoveredStar, setHoveredStar] = useState(0);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+      Swal.fire({
+        title: '<span class="font-hind">অ্যাপ ডাউনলোড করুন</span>',
+        html: `
+          <div class="text-left font-hind space-y-4 p-2 text-slate-600">
+            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+              <p class="font-black text-blue-900 mb-2">Android-এর জন্য:</p>
+              <ul class="list-disc ml-5 space-y-1 font-bold text-sm">
+                <li>ব্রাউজারের ৩-ডট (⋮) মেনুতে ক্লিক করুন।</li>
+                <li>'Add to Home Screen' বা 'Install App' সিলেক্ট করুন।</li>
+              </ul>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+              <p class="font-black text-emerald-900 mb-2">iOS/iPhone-এর জন্য:</p>
+              <ul class="list-disc ml-5 space-y-1 font-bold text-sm">
+                <li>নিচে থাকা 'Share' বাটনে ক্লিক করুন।</li>
+                <li>'Add to Home Screen' অপশনটি বেছে নিন।</li>
+              </ul>
+            </div>
+          </div>
+        `,
+        icon: 'info',
+        confirmButtonText: 'ঠিক আছে',
+        confirmButtonColor: '#2563eb'
+      });
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
   
   return (
     <div className={`min-h-screen bg-white ${isScrolled ? 'scrolled' : ''}`}>
@@ -308,6 +355,12 @@ export function HomePage({
                   </a>
                   <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-semibold uppercase tracking-wider text-[11px] hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-2">
                     <UserCog className="w-4 h-4" /> Agent Login
+                  </button>
+                </div>
+                
+                <div className="flex justify-center mt-3">
+                  <button onClick={handleInstallClick} className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold uppercase tracking-wider text-[10px] shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 border border-emerald-500/30">
+                    <Smartphone className="w-3.5 h-3.5" /> Download App
                   </button>
                 </div>
               </motion.div>
