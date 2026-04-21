@@ -759,20 +759,20 @@ function MyHomeworks() {
   const [submissionNotes, setSubmissionNotes] = useState('');
 
   const homeworks = [
-    { title: "Email Marketing", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1557200136-7e10f443a9a1?auto=format&fit=crop&q=80&w=800" },
-    { title: "Video Editing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1574717024453-354056a2f26d?auto=format&fit=crop&q=80&w=800" },
-    { title: "Form Fill-up.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=800" },
-    { title: "Data Entry.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800" },
-    { title: "Typing Work.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1485856407642-7f9ba0268b51?auto=format&fit=crop&q=80&w=800" },
-    { title: "Digital Marketing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" },
-    { title: "Graphic Designing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1572044162444-ad60f128b582?auto=format&fit=crop&q=80&w=800" },
-    { title: "Product Selling.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1472851294608-062f824d28c5?auto=format&fit=crop&q=80&w=800" },
+    { title: "Email Marketing", status: "Continue", color: "bg-cyan-500", img: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { title: "Video Editing.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/video%20edit.jpg" },
+    { title: "Form Fill-up.", status: "Continue", color: "bg-cyan-500", img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { title: "Data Entry.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/data%20enty.jpg" },
+    { title: "Typing Work.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=80&w=800" },
+    { title: "Digital Marketing.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/Digital%20Market.jpg" },
+    { title: "Graphic Designing.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg" },
+    { title: "Product Selling.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/Product%20Sell.jpg" },
     { title: "Computer Course.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800" },
-    { title: "Facebook Marketing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1611162617651-5363b3614065?auto=format&fit=crop&q=80&w=800" },
+    { title: "Facebook Marketing.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg" },
     { title: "Gaming Marketing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" },
-    { title: "Spoken English.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1503676260728-1c00da096a0b?auto=format&fit=crop&q=80&w=800" },
-    { title: "Namaz & Quran Shikkha", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1564507004663-b6dfb3c814d5?auto=format&fit=crop&q=80&w=800" },
-    { title: "Photo Editing.", status: "Continue", color: "bg-cyan-500", img: "https://images.unsplash.com/photo-1585217678944-7f1390448e89?auto=format&fit=crop&q=80&w=800" },
+    { title: "Spoken English.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg" },
+    { title: "Namaz & Quran Shikkha", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg" },
+    { title: "Photo Editing.", status: "Continue", color: "bg-cyan-500", img: "https://unityearning.com/assets/img/Popular%20Courses/photo%20edit.jpg" },
   ];
 
   const handleSubmit = (e: FormEvent) => {
