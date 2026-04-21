@@ -255,8 +255,28 @@ export function HomePage({
       <div className="navbar-area sticky top-0 z-50">
         <div className="container mx-auto px-4 lg:px-12 py-3">
           <nav className={`ue-nav flex items-center justify-between transition-all duration-300 ${isScrolled ? 'bg-white/70 py-2' : 'bg-white/10'}`}>
-            <a href="/" className="navbar-brand">
-              <img src="https://unityearning.com/assets/img/unityearning.png" alt="Unity Earning" className="h-10 lg:h-12 w-auto" />
+            <a href="/" className="navbar-brand flex items-center gap-3 group">
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <img 
+                  src="https://unityearning.com/assets/img/unityearning.png" 
+                  alt="Unity Earning" 
+                  className="h-10 lg:h-12 w-auto relative z-10 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                />
+              </div>
+              <div className="flex flex-col">
+                <motion.span 
+                  className="text-xl lg:text-2xl font-black tracking-tighter leading-none italic bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-500 bg-clip-text text-transparent drop-shadow-xl font-sans"
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                  style={{ backgroundSize: "200% auto" }}
+                >
+                  UNITY EARNING
+                </motion.span>
+                <span className="text-[10px] font-black tracking-[0.3em] text-slate-500 uppercase ml-0.5 opacity-80 group-hover:text-blue-600 transition-colors duration-300">
+                  E-Learning Platform
+                </span>
+              </div>
             </a>
 
             {/* Desktop Menu */}
