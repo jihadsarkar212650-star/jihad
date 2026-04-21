@@ -7,7 +7,7 @@ import {
   Smartphone, Signal, ShoppingBag, PlayCircle, Layers, FilePlus, Target, Banknote, Book, Dice5, BookOpen,
   Dice1, Dice2, Dice3, Dice4, Dice6,
   UserPlus,
-  Search, ShoppingCart, Filter, Heart
+  Search, ShoppingCart, Filter, Heart, Youtube
 } from 'lucide-react';
 import React, { useState, FormEvent, useEffect, useRef } from 'react';
 import { db } from './lib/firebase';
@@ -1064,6 +1064,33 @@ function Withdrawals({ onNavigate }: { onNavigate: (tab: string) => void }) {
         >
           <CreditCard className="w-4 h-4 hidden sm:block" /> New Request <ArrowRight className="w-4 h-4" />
         </button>
+      </div>
+
+      {/* YouTube Video Section */}
+      <div className="mb-8">
+        <div className="bg-white rounded-[2rem] p-6 lg:p-8 shadow-xl shadow-blue-900/5 border border-slate-100 overflow-hidden relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center">
+              <Youtube className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="text-lg font-black text-slate-900 tracking-tight leading-tight">কিভাবে উইথড্র করবেন?</h4>
+              <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">নিচের ভিডিওটি মনোযোগ দিয়ে দেখুন</p>
+            </div>
+          </div>
+          
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-50 group">
+             <iframe 
+                className="w-full h-full object-cover"
+                src="https://www.youtube.com/embed/Iw5_ZPrjGx4" 
+                title="How to Withdraw from Unity Earning"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              ></iframe>
+          </div>
+        </div>
       </div>
 
       <h3 className="text-sm font-black text-slate-400 mb-4 px-2 uppercase tracking-widest">Transaction History</h3>
@@ -2776,7 +2803,37 @@ function DailyQuiz() {
     { question: "ঢাকা বিশ্ববিদ্যালয় কত সালে প্রতিষ্ঠিত হয়?", options: ["১৯২১", "১৯১১", "১৯৩১", "১৯৪৭"], answer: 0 },
     { question: "বাংলাদেশের মুদ্রার নাম কী?", options: ["টাকা", "রুপি", "ডলার", "পাউন্ড"], answer: 0 },
     { question: "বাংলাদেশের বর্তমান বিভাগ কয়টি?", options: ["৮টি", "৭টি", "৬টি", "৯টি"], answer: 0 },
-    { question: "বাংলাদেশের জাতীয় পতাকার নকশাকার কে?", options: ["কামরুল হাসান", "জয়নুল আবেদিন", "হামিদুর রহমান", "হাশেম খান"], answer: 0 }
+    { question: "বাংলাদেশের জাতীয় পতাকার নকশাকার কে?", options: ["কামরুল হাসান", "জয়নুল আবেদিন", "হামিদুর রহমান", "হাশেম খান"], answer: 0 },
+    { question: "বাংলাদেশের রাষ্ট্রীয় ভাষা কোনটি?", options: ["বাংলা", "ইংরেজি", "আরবি", "হিন্দি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় মন্দির কোনটি?", options: ["ঢাকেশ্বরী মন্দির", "রমনা কালী মন্দির", "সিদ্ধেশ্বরী মন্দির", "আদিনাথ মন্দির"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় বন কোনটি?", options: ["সুন্দরবন", "ভাওয়াল বন", "মধুপুর বন", "পার্বত্য বন"], answer: 0 },
+    { question: "বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি?", options: ["সেন্ট মার্টিন", "কুতুবদিয়া", "মহেশখালী", "ভোলা"], answer: 0 },
+    { question: "বাংলাদেশের কোন জেলাকে চায়ের দেশ বলা হয়?", options: ["মৌলভীবাজার", "সিলেট", "পঞ্চগড়", "রাঙামাটি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় পতাকার লাল বৃত্ত কিসের প্রতীক?", options: ["সূর্য ও রক্ত", "বিজয়", "শান্তি", "উন্নয়ন"], answer: 0 },
+    { question: "ময়নামতী কোথায় অবস্থিত?", options: ["কুমিল্লা", "বগুড়া", "নাটোর", "পাবনা"], answer: 0 },
+    { question: "বাংলাদেশের সর্ববৃহৎ হাওর কোনটি?", options: ["হাকালুকি", "টাঙ্গুয়া", "চলনবিল", "হাইল"], answer: 0 },
+    { question: "সাগরকন্যা বলা হয় কোনটিকে?", options: ["কুয়াকাটা", "কক্সবাজার", "পটুয়াখালী", "বরিশাল"], answer: 0 },
+    { question: "বাংলাদেশের হোয়াইট গোল্ড বলা হয় কোনটিকে?", options: ["চিংড়ি", "পাট", "ধান", "তুলা"], answer: 0 },
+    { question: "বাংলাদেশের প্রবেশদ্বার বলা হয় কোন শহরকে?", options: ["চট্টগ্রাম", "ঢাকা", "খুলনা", "সিলেট"], answer: 0 },
+    { question: "বাংলাদেশের সবচেয়ে উঁচু পাহাড় কোনটি?", options: ["তাজিংডং", "কেওক্রাডং", "গারো পাহাড়", "চিম্বুক"], answer: 0 },
+    { question: "বাংলাদেশের চা গবেষণাগার কোথায় অবস্থিত?", options: ["শ্রীমঙ্গল", "সিলেট", "কমলগঞ্জ", "বিয়ানীবাজার"], answer: 0 },
+    { question: "বাংলাদেশের প্রথম উপগ্রহের নাম কী?", options: ["বঙ্গবন্ধু-১", "স্পুটনিক", "এ্যাপোলো", "আর্যভট্ট"], answer: 0 },
+    { question: "বাংলাদেশের রণসঙ্গীতের রচয়িতা কে?", options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "সত্যেন সেন"], answer: 0 },
+    { question: "বাংলাদেশের দীর্ঘতম সমুদ্র সৈকত কোনটি?", options: ["কক্সবাজার", "কুয়াকাটা", "পতেঙ্গা", "ইনানি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় শিশু দিবস কবে?", options: ["১৭ মার্চ", "১৪ এপ্রিল", "১৬ ডিসেম্বর", "২১ ফেব্রুয়ারি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় মসজিদের নাম কী?", options: ["বায়তুল মোকাররম", "তারা মসজিদ", "ষাট গম্বুজ মসজিদ", "জাস্টিস মসজিদ"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় সংগীতে কয়টি চরণ গাওয়া হয়?", options: ["প্রথম ১০টি", "৪টি", "সবগুলো", "প্রথম ৮টি"], answer: 0 },
+    { question: "বাংলাদেশের জাতীয় খেলা কোনটি?", options: ["কাবাডি", "ফুটবল", "ক্রিকেট", "হকি"], answer: 0 },
+    { question: "বাংলাদেশের বীর শ্রেষ্ঠ কয়জন?", options: ["৭ জন", "১১ জন", "৯ জন", "৫ জন"], answer: 0 },
+    { question: "ইবনে বতুতা কোন দেশে এসেছিলেন?", options: ["বাঙলা", "ভারত", "পাকিস্তান", "চীন"], answer: 0 },
+    { question: "বাংলাদেশের সবচেয়ে ছোট জেলা কোনটি?", options: ["নারায়ণগঞ্জ", "মেহেরপুর", "ঢাকা", "ফেনী"], answer: 0 },
+    { question: "সূর্য কোনো দিকে ওঠে?", options: ["পূর্ব", "পশ্চিম", "উত্তর", "দক্ষিণ"], answer: 0 },
+    { question: "পানির অপর নাম কী?", options: ["জীবন", "মরণ", "আলো", "বাতাস"], answer: 0 },
+    { question: "কোনটি আমাদের দেশের জাতীয় বৃক্ষ?", options: ["আম গাছ", "কাঁঠাল গাছ", "বট গাছ", "নারকেল গাছ"], answer: 0 },
+    { question: "মহাস্থানগড় কোন নদীর তীরে অবস্থিত?", options: ["করতোয়া", "পদ্মা", "যমুনা", "মেঘনা"], answer: 0 },
+    { question: "বাংলাদেশের মানচিত্রের প্রথম নকশাকার কে?", options: ["শিবনারায়ণ দাশ", "কামরুল হাসান", "জয়নুল আবেদিন", "হামিদুর রহমান"], answer: 0 },
+    { question: "লালবাগ কেল্লা কোথায় অবস্থিত?", options: ["ঢাকা", "চট্টগ্রাম", "সিলেট", "বরিশাল"], answer: 0 },
+    { question: "জাতীয় স্মৃতিসৌধ কোথায় অবস্থিত?", options: ["সাভার", "ঢাকা", "গাজীপুর", "নারায়ণগঞ্জ"], answer: 0 }
   ];
 
   const handleStart = () => {
@@ -2810,7 +2867,7 @@ function DailyQuiz() {
           </div>
           <h2 className="text-3xl font-black mb-4 font-bengali">কুইজ খেলে ইনকাম করুন</h2>
           <p className="text-gray-600 mb-8 max-w-lg mx-auto text-lg leading-relaxed font-bengali">
-            সাধারণ জ্ঞানের ২০টি প্রশ্নের সঠিক উত্তর দিন। কুইজটি সফলভাবে সম্পন্ন করলে আপনার একাউন্টে ২০ টাকা পুরস্কার হিসেবে যোগ করা হবে।
+            সাধারণ জ্ঞানের ৫০টি প্রশ্নের সঠিক উত্তর দিন। কুইজটি সফলভাবে সম্পন্ন করলে আপনার একাউন্টে ২০ টাকা পুরস্কার হিসেবে যোগ করা হবে।
           </p>
           <button 
             onClick={handleStart}
