@@ -20,8 +20,8 @@ const COURSES = [
   { id: 8, title: "Professional Spoken English", mentor: "Sumaiya Islam", price: "৳ ৪৫০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg", desc: "সাবলীলভাবে ইংরেজি বলা শিখুন অভিজ্ঞ মেন্টরের সাথে।" },
   { id: 9, title: "Advanced Graphic Design", mentor: "Imran Hossain", price: "৳ ৭০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg", desc: "গ্রাফিক ডিজাইনের আধুনিক সব টুলস এবং টেকনিক শিখুন।" },
   { id: 10, title: "Email Marketing", mentor: "Rahim Uddin", price: "৳ ৪০০০", rating: 4.6, img: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "ইমেইল মার্কেটিংয়ের মাধ্যমে ক্লায়েন্ট জেনারেশনের কৌশল।" },
-  { id: 11, title: "Network Marketing", mentor: "Karim Ahmed", price: "৳ ৫০০০", rating: 4.7, img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", desc: "নেটওয়ার্ক মার্কেটিংয়ে সফল হওয়ার কার্যকরী নিয়মাবলি।" },
-  { id: 12, title: "Typing Job", mentor: "Fatima Begum", price: "৳ ২০০০", rating: 4.5, img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop", desc: "সহজ টাইপিং জবের মাধ্যমে ঘরে বসে আয় করার উপায়।" },
+  { id: 11, title: "Network Marketing", mentor: "Karim Ahmed", price: "৳ ৫০০০", rating: 4.7, img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "নেটওয়ার্ক মার্কেটিংয়ে সফল হওয়ার কার্যকরী নিয়মাবলি।" },
+  { id: 12, title: "Typing Job", mentor: "Fatima Begum", price: "৳ ২০০০", rating: 4.5, img: "https://images.pexels.com/photos/380757/pexels-photo-380757.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "সহজ টাইপিং জবের মাধ্যমে ঘরে বসে আয় করার উপায়।" },
 ];
 
 const REVIEWS = [
@@ -262,6 +262,7 @@ export function HomePage({
                   src="https://unityearning.com/assets/img/unityearning.png" 
                   alt="Unity Earning" 
                   className="h-10 lg:h-12 w-auto relative z-10 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                  referrerPolicy="no-referrer"
                 />
               </div>
               <div className="flex flex-col">

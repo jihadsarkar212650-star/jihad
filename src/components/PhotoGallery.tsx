@@ -9,11 +9,11 @@ export function PhotoGallery() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const demoPosts = [
-      { id: '1', studentName: 'আব্দুল করিম', message: 'ইউনিটি আর্নিং থেকে আমি মাসে ১০ হাজার টাকা ইনকাম করছি।', imageUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400' },
-      { id: '2', studentName: 'রহিমা খাতুন', message: 'এত সহজে আর্নিং করা যায় আগে জানতাম না, ধন্যবাদ ইউনিটি!', imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=400' },
-      { id: '3', studentName: 'শাকিল আহমেদ', message: 'আমার ক্যারিয়ারের সেরা সিদ্ধান্ত ছিল ইউনিটি আর্নিং-এ যুক্ত হওয়া।', imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400' },
-      { id: '4', studentName: 'নুসরাত জাহান', message: 'পড়াশোনার পাশাপাশি আমি এখন স্বাবলম্বী।', imageUrl: 'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&q=80&w=400' },
-      { id: '5', studentName: 'মাসুদ রানা', message: 'ইউনিটি আর্নিং আমাদের মতো বেকারদের জন্য আশার আলো।', imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb27cd6c?auto=format&fit=crop&q=80&w=400' },
+      { id: '1', studentName: 'আব্দুল করিম', message: 'ইউনিটি আর্নিং থেকে আমি মাসে ১০ হাজার টাকা ইনকাম করছি।', imageUrl: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800' },
+      { id: '2', studentName: 'রহিমা খাতুন', message: 'এত সহজে আর্নিং করা যায় আগে জানতাম না, ধন্যবাদ ইউনিটি!', imageUrl: 'https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=800' },
+      { id: '3', studentName: 'শাকিল আহমেদ', message: 'আমার ক্যারিয়ারের সেরা সিদ্ধান্ত ছিল ইউনিটি আর্নিং-এ যুক্ত হওয়া।', imageUrl: 'https://images.pexels.com/photos/3184301/pexels-photo-3184301.jpeg?auto=compress&cs=tinysrgb&w=800' },
+      { id: '4', studentName: 'নুসরাত জাহান', message: 'পড়াশোনার পাশাপাশি আমি এখন স্বাবলম্বী।', imageUrl: 'https://images.pexels.com/photos/3182811/pexels-photo-3182811.jpeg?auto=compress&cs=tinysrgb&w=800' },
+      { id: '5', studentName: 'মাসুদ রানা', message: 'ইউনিটি আর্নিং আমাদের মতো বেকারদের জন্য আশার আলো।', imageUrl: 'https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800' },
   ];
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export function PhotoGallery() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <motion.div key={post.id} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-            <img src={post.imageUrl} alt={post.studentName} className="w-full h-64 object-cover rounded-xl mb-4" />
+            <img src={post.imageUrl} alt={post.studentName} className="w-full h-64 object-cover rounded-xl mb-4" referrerPolicy="no-referrer" />
             <h3 className="font-bold text-slate-900">{post.studentName}</h3>
             <p className="text-slate-600 text-sm mt-1">{post.message}</p>
           </motion.div>
