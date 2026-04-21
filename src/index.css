@@ -370,11 +370,16 @@ body {
 .single-course h3 {
   background: darkgreen;
   color: #fff;
-  padding: 11px;
-  border-radius: 10px;
-  font-size: 1.2em;
+  padding: 12px 15px;
+  border-radius: 12px;
+  font-size: 1.15rem;
   margin: 0 0 15px;
   text-align: center;
+  min-height: 4rem; /* Ensures enough space for 2 lines */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.25;
 }
 
 /* Utilities for sections from original HTML */

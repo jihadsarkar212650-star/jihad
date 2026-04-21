@@ -19,9 +19,9 @@ const COURSES = [
   { id: 7, title: "Facebook Marketing Masterclass", mentor: "Tanvir Ahmed", price: "৳ ৫০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg", desc: "ফেসবুকে ব্যবসার প্রচার এবং টার্গেটেড ক্লায়েন্ট পাওয়ার উপায়।" },
   { id: 8, title: "Professional Spoken English", mentor: "Sumaiya Islam", price: "৳ ৪৫০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg", desc: "সাবলীলভাবে ইংরেজি বলা শিখুন অভিজ্ঞ মেন্টরের সাথে।" },
   { id: 9, title: "Advanced Graphic Design", mentor: "Imran Hossain", price: "৳ ৭০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg", desc: "গ্রাফিক ডিজাইনের আধুনিক সব টুলস এবং টেকনিক শিখুন।" },
-  { id: 10, title: "Email Marketing", mentor: "Rahim Uddin", price: "৳ ৪০০০", rating: 4.6, img: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "ইমেইল মার্কেটিংয়ের মাধ্যমে ক্লায়েন্ট জেনারেশনের কৌশল।" },
-  { id: 11, title: "Network Marketing", mentor: "Karim Ahmed", price: "৳ ৫০০০", rating: 4.7, img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "নেটওয়ার্ক মার্কেটিংয়ে সফল হওয়ার কার্যকরী নিয়মাবলি।" },
-  { id: 12, title: "Typing Job", mentor: "Fatima Begum", price: "৳ ২০০০", rating: 4.5, img: "https://images.pexels.com/photos/380757/pexels-photo-380757.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "সহজ টাইপিং জবের মাধ্যমে ঘরে বসে আয় করার উপায়।" },
+  { id: 10, title: "Email Marketing", mentor: "Rahim Uddin", price: "৳ ৪০০০", rating: 4.6, img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=compress&cs=tinysrgb&w=600", desc: "ইমেইল মার্কেটিংয়ের মাধ্যমে ক্লায়েন্ট জেনারেশনের কৌশল।" },
+  { id: 11, title: "Network Marketing", mentor: "Karim Ahmed", price: "৳ ৫০০০", rating: 4.7, img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=compress&cs=tinysrgb&w=600", desc: "নেটওয়ার্ক মার্কেটিংয়ে সফল হওয়ার কার্যকরী নিয়মাবলি।" },
+  { id: 12, title: "Typing Job", mentor: "Fatima Begum", price: "৳ ২০০০", rating: 4.5, img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=compress&cs=tinysrgb&w=600", desc: "সহজ টাইপিং জবের মাধ্যমে ঘরে বসে আয় করার উপায়।" },
 ];
 
 const REVIEWS = [
@@ -542,7 +542,7 @@ export function HomePage({
                     </div>
                     <span className="text-[10px] font-bold text-slate-400">({course.rating})</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-2 line-clamp-2 group-hover:text-blue-200 transition-colors">
                     {course.title}
                   </h3>
                   <p className="text-sm text-slate-500 mb-4 h-10 line-clamp-2">{course.desc}</p>
@@ -636,6 +636,154 @@ export function HomePage({
         </div>
       </section>
 
+      {/* ABOUT SECTION (BENGALI) */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 lg:px-12">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-slate-50 p-8 md:p-14 rounded-[3rem] border border-slate-100 shadow-xl relative overflow-hidden group">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-all duration-1000"></div>
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-green-600/5 rounded-full blur-3xl group-hover:bg-green-600/10 transition-all duration-1000"></div>
+              
+              <h4 className="text-blue-600 font-extrabold text-2xl md:text-3xl mb-8 font-hind uppercase tracking-tighter flex items-center justify-center gap-4">
+                <Star className="w-8 h-8 fill-blue-600 text-blue-600 animate-pulse" /> কেন আমাদের বেছে নেবেন? <Star className="w-8 h-8 fill-blue-600 text-blue-600 animate-pulse" />
+              </h4>
+              
+              <div className="space-y-8 text-slate-600 leading-relaxed font-hind text-lg md:text-xl text-center max-w-4xl mx-auto">
+                <p className="font-medium">
+                  <span className="text-slate-900 font-black text-2xl">ইউনিটি আর্নিং</span> শুধুমাত্র একটি লার্নিং প্ল্যাটফর্ম নয়, এটি এক আস্থার ঠিকানা। বাংলাদেশের বেকারত্ব দূরীকরণে এবং তরুণ সমাজকে স্বাবলম্বী করতে আমরা নিরলসভাবে কাজ করে যাচ্ছি।
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                  <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500/30 transition-all group/card">
+                    <h4 className="text-blue-600 font-black mb-2 text-xl flex items-center gap-2">
+                       <div className="w-2 h-6 bg-blue-600 rounded-full"></div> 🎯 লক্ষ্য ও উদ্দেশ্য:
+                    </h4>
+                    <p className="text-base text-slate-500 font-bold">প্রতিটি ঘরে দক্ষ দক্ষ জনশক্তি গড়ে তোলা এবং প্রযুক্তিনির্ভর আয়ের উৎস তৈরি করা।</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-md hover:border-green-500/30 transition-all group/card text-right">
+                    <h4 className="text-green-600 font-black mb-2 text-xl flex items-center justify-end gap-2 text-right">
+                       💎 স্পেশাল সাপোর্ট: <div className="w-2 h-6 bg-green-600 rounded-full"></div>
+                    </h4>
+                    <p className="text-base text-slate-500 font-bold">কোর্স চলাকালীন এবং কোর্স শেষে লাইফ-টাইম ডেডিকেটেড মেন্টর সাপোর্ট নিশ্চিত করা হয়।</p>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-green-600/5 rounded-3xl blur-xl"></div>
+                  <p className="relative bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-slate-100 text-slate-800 font-bold italic shadow-sm leading-relaxed">
+                    "আপনার পরিশ্রম আর আমাদের সঠিক দিকনির্দেশনা—এই দুইয়ের সমন্বয়েই আসবে কাঙ্ক্ষিত সাফল্য। আমাদের ধাপে ধাপে সাজানো কোর্সগুলো সম্পন্ন করার মাধ্যমে আপনিও হতে পারেন একজন প্রফেশনাল ফ্রিল্যান্সার বা সফল ডিজিটাল উদ্যোক্তা।"
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECURITY NOTICE SECTION */}
+      <section className="py-16 bg-slate-50">
+        <div className="container mx-auto px-4 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="bg-white border-2 border-red-100 rounded-[2.5rem] shadow-2xl p-8 md:p-14 relative overflow-hidden"
+          >
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 p-8 opacity-[0.03] -rotate-12 pointer-events-none">
+              <ShieldCheck className="w-64 h-64 text-red-600" />
+            </div>
+            <div className="absolute bottom-0 left-0 p-8 opacity-[0.03] rotate-12 pointer-events-none">
+              <ShieldCheck className="w-48 h-48 text-red-600" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex flex-col md:flex-row items-center gap-10 mb-10">
+                <div className="flex-shrink-0 w-24 h-24 bg-gradient-to-br from-red-600 to-red-700 rounded-[2rem] flex items-center justify-center shadow-2xl shadow-red-200">
+                  <ShieldCheck className="w-14 h-14 text-white" />
+                </div>
+                
+                <div className="text-center md:text-left">
+                  <h2 className="text-3xl md:text-4xl font-black text-red-700 mb-2 font-hind uppercase tracking-tighter">
+                    গুরুত্বপূর্ণ নিরাপত্তা নির্দেশিকা
+                  </h2>
+                  <p className="text-red-500 font-bold font-hind text-lg uppercase tracking-widest bg-red-50 px-4 py-1 rounded-full inline-block">
+                    Security Policy & Account Safety
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                  <div className="bg-red-50/50 p-6 rounded-3xl border border-red-100">
+                    <p className="text-xl text-slate-800 leading-relaxed font-hind font-bold mb-4">
+                      ইউনিটি আর্নিং-এ আপনার একাউন্ট বা আইডি এক্টিভ করার ক্ষেত্রে কোম্পানির নিয়মাবলী কঠোরভাবে অনুসরণ করার নির্দেশ দেওয়া হচ্ছে।
+                    </p>
+                    <p className="text-slate-700 leading-relaxed font-hind text-lg">
+                      <span className="text-red-600 font-extrabold px-1 underline decoration-red-300 decoration-4 underline-offset-4 bg-white/80 rounded">
+                        কোম্পানির অফিশিয়াল কাউন্সেলর (Official Counselor)
+                      </span> ছাড়া অন্য কারো সাথে আর্থিক লেনদেন করা বা আইডি এক্টিভ করার জন্য যোগাযোগ করা <span className="text-red-700 font-black">সম্পূর্ণ নিষিদ্ধ এবং আইনত দণ্ডনীয়।</span>
+                    </p>
+                  </div>
+
+                  <div className="bg-blue-50/30 p-6 rounded-3xl border border-blue-100">
+                    <h4 className="text-blue-700 font-black text-xl mb-3 font-hind flex items-center gap-2">
+                       <HelpCircle className="w-6 h-6" /> আপনি কি জানেন?
+                    </h4>
+                    <p className="text-slate-600 font-hind leading-relaxed font-medium">
+                      আমাদের প্ল্যাটফর্মে প্রত্যেক শিক্ষার্থীকে একটি ইউনিক রেফারেল কোড এবং অফিশিয়াল সাপোর্ট প্রদান করা হয়। কারো প্রলোভনে পড়ে অফিশিয়াল চ্যানেলের বাইরে কোনো লেনদেন করবেন না। এতে আপনার একাউন্টটি স্থায়ীভাবে বাতিল হতে পারে।
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-slate-900 rounded-[2rem] p-8 text-white shadow-2xl">
+                  <h3 className="text-xl font-black mb-6 flex items-center gap-3 text-red-500 font-hind">
+                    🚫 নিষিদ্ধ কাজসমূহ এবং সতর্কতা:
+                  </h3>
+                  <ul className="space-y-4">
+                    {[
+                      "অফিশিয়াল কাউন্সেলর ব্যতীত অন্য কাউকে পেমেন্ট করা।",
+                      "ফেসবুক বা হোয়াটসঅ্যাপে কারো ব্যক্তিগত নাম্বারে এক্টিভেশন ফি পাঠানো।",
+                      "আপনার একাউন্টের পাসওয়ার্ড বা OTP শেয়ার করা।",
+                      "থার্ড পার্টি লিংকের মাধ্যমে লগইন করার চেষ্টা করা।",
+                      "বেআইনি পন্থায় ইনকাম করার বিজ্ঞাপন দেখে বিভ্রান্ত হওয়া।"
+                    ].map((item, i) => (
+                      <li key={i} className="flex gap-4 items-start group">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center font-black text-xs mt-1 border border-red-500/30 group-hover:bg-red-500 group-hover:text-white transition-all">
+                          {i+1}
+                        </div>
+                        <span className="text-gray-300 font-hind text-base font-medium group-hover:text-white transition-colors">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8 pt-6 border-t border-white/10">
+                    <p className="text-xs text-slate-400 font-hind text-center italic">
+                      যেকোনো সন্দেহজনক কার্যকলাপে তাৎক্ষণিক হেল্পলাইনে যোগাযোগ করুন।
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-10 flex flex-wrap justify-center gap-4">
+                <motion.div 
+                   whileHover={{ scale: 1.05 }}
+                   className="flex items-center gap-3 px-6 py-3 bg-red-600 text-white rounded-full font-black text-sm shadow-xl shadow-red-200 cursor-default"
+                >
+                  <ShieldCheck className="w-5 h-5" /> অফিশিয়াল চ্যানেল নিশ্চিত করুন
+                </motion.div>
+                <motion.div 
+                   whileHover={{ scale: 1.05 }}
+                   className="flex items-center gap-3 px-6 py-3 bg-white border-2 border-slate-100 text-slate-800 rounded-full font-black text-sm shadow-lg cursor-default"
+                >
+                  <Phone className="w-5 h-5 text-green-600" /> অফিশিয়াল হেল্পলাইন: 01700000000
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="bg-black text-white pt-24 pb-12">
         <div className="container mx-auto px-4 lg:px-12">
@@ -672,16 +820,6 @@ export function HomePage({
 
           <div className="border-t border-gray-900 pt-8 text-center flex flex-col gap-5">
             
-            {/* ABOUT TEXT (BENGALI) */}
-            <div className="max-w-4xl mx-auto px-4">
-              <div className="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 shadow-inner">
-                <h4 className="text-blue-500 font-black text-xl mb-3 font-hind">কেন আমাদের বেছে নেবেন?</h4>
-                <p className="text-gray-400 leading-relaxed font-hind text-base md:text-lg">
-                  <span className="text-white font-bold">ইউনিটি আর্নিং</span> বাংলাদেশের একটি অন্যতম শীর্ষস্থানীয় অনলাইন ই-লার্নিং প্লাটফর্ম। আমরা শুধু কোর্স করানোর মধ্যেই সীমাবদ্ধ নই, বরং প্রতিটি শিক্ষার্থীকে দক্ষ করে গড়ে তুলে তাদের <span className="text-green-500 font-bold">আয়ের সুনিশ্চিত পথ</span> তৈরিতে সহায়তা করি। দক্ষ মেন্টরদের সার্বক্ষণিক তত্ত্বাবধান এবং জীবনমুখী কারিগরি কোর্স আপনার ভবিষ্যৎ ক্যারিয়ারকে করবে উজ্জ্বল। ধাপে ধাপে শেখার মাধ্যমে আপনিও হতে পারেন একজন সফল ফ্রিল্যান্সার বা উদ্যোক্তা।
-                </p>
-              </div>
-            </div>
-
             {/* SOCIAL MEDIA LINKS */}
             <div className="flex justify-center items-center gap-4">
               <a href={getValidUrl(settings?.socialLinks?.facebook)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-900 text-blue-500 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-lg hover:-translate-y-1">
