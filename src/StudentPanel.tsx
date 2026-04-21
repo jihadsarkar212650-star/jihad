@@ -23,7 +23,7 @@ const MENU_ITEMS = [
   { label: "My Passbook", icon: CreditCard, href: "#" },
   { label: "Withdrawals", icon: ArrowDownCircle, href: "#" },
   { label: "Notice", icon: Bell, href: "#" },
-  { label: "Store", icon: Store, href: "#" },
+  { label: "Store", icon: Store, href: "https://unityearning.com/shop" },
   { label: "Video Tutorial", icon: Video, href: "https://support-unityearning.vercel.app/" },
   { label: "Typing Work", icon: Keyboard, href: "https://unity-earning-typing.vercel.app" },
   { label: "Help Line", icon: Phone, href: "#" },

@@ -297,17 +297,17 @@ export function HomePage({
                 </p>
 
                 <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 mt-8">
-                  <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-3.5 bg-blue-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5 group">
-                    লগইন করুন <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-blue-600 text-white rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group">
+                    Login Now <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
-                  <button onClick={openRegisterPage} className="w-full sm:w-auto px-4 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
-                    রেজিস্ট্রেশন
+                  <button onClick={openRegisterPage} className="w-full sm:w-auto px-4 py-2.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-semibold uppercase tracking-wider text-[11px] hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
+                    Registration
                   </button>
-                  <a href="https://www.unityearning.com/shop" className="w-full sm:w-auto px-4 py-3.5 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-1.5">
-                    <Store className="w-4 h-4" /> স্টোর
+                  <a href="https://unityearning.com/shop" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-4 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                    <Store className="w-4 h-4" /> Store
                   </a>
-                  <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-3.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-black uppercase tracking-wider text-xs sm:text-sm hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-1.5">
-                    <UserCog className="w-4 h-4" /> এজেন্ট লগইন
+                  <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-semibold uppercase tracking-wider text-[11px] hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-2">
+                    <UserCog className="w-4 h-4" /> Agent Login
                   </button>
                 </div>
               </motion.div>
