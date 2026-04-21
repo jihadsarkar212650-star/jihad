@@ -447,18 +447,36 @@ export default function App() {
         {isHeaderDrawerOpen && (
           <div className="fixed inset-0 z-[100]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsHeaderDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col font-hind">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                <h3 className="text-xl font-bold text-blue-700 font-hind">মেনু</h3>
-                <button onClick={() => setIsHeaderDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"><X className="w-6 h-6" /></button>
+            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute top-0 right-0 h-full w-[85%] max-w-sm bg-white shadow-2xl flex flex-col font-hind overflow-hidden">
+              
+              {/* Drawer Header - Professional Look */}
+              <div className="relative p-6 pt-10 pb-8 bg-blue-700 text-white overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-400/20 rounded-full -ml-8 -mb-8 blur-xl"></div>
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20">
+                      <Menu className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold tracking-tight">Unity Earning</h3>
+                      <p className="text-[10px] text-blue-100 uppercase tracking-widest font-black">Main Navigation</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setIsHeaderDrawerOpen(false)} className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors border border-white/10">
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
               </div>
-              <div className="p-6 overflow-y-auto flex-grow bg-slate-50/30">
-                <div className="grid gap-2">
+
+              {/* Menu List - Serial Order */}
+              <div className="flex-grow overflow-y-auto bg-slate-50/30">
+                <div className="p-4 space-y-1">
                   {[
                     { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: Trophy, label: "Success stories", onClick: () => { setIsSuccessStoriesOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: UserPlus, label: "Sign Up", onClick: () => { setIsRegisterRouteOpen(true); setIsHeaderDrawerOpen(false); } },
-                    { icon: Store, label: "Store", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
+                    { icon: Store, label: "Official Store", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
                     { icon: UserCog, label: "Agent Login", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Student Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Sub Admin Login", onClick: () => { setIsSubAdminModalOpen(true); setIsHeaderDrawerOpen(false); } },
@@ -470,21 +488,30 @@ export default function App() {
                   ].map((item: any, i) => (
                     <motion.button 
                       key={i} 
-                      initial={{ opacity: 0, x: 10 }}
+                      initial={{ opacity: 0, x: 15 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.03 }}
                       onClick={item.onClick} 
-                      className="group flex items-center gap-4 p-4 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 hover:bg-white bg-white transition-all font-bold text-gray-800 cursor-pointer w-full text-left active:scale-[0.98]"
+                      className="group flex items-center justify-between p-4 rounded-xl hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all text-slate-700 w-full text-left active:scale-[0.98]"
                     >
-                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5" /></div>
-                      <span className="font-hind flex-grow">{item.label}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-300 opacity-0 group-hover:opacity-100 transition-all" />
+                      <div className="flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100/50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                          <item.icon className="w-4 h-4" />
+                        </div>
+                        <span className="font-bold text-sm font-hind">{item.label}</span>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
                     </motion.button>
                   ))}
                 </div>
               </div>
-              <div className="p-6 bg-white border-t border-gray-100 text-center">
-                <p className="text-xs text-gray-400 font-bold tracking-widest uppercase">Unity Earning LMS</p>
+
+              {/* Footer Part */}
+              <div className="p-4 border-t border-slate-100 bg-white">
+                <button className="w-full py-4 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center gap-3 text-white font-bold shadow-lg shadow-slate-100 active:scale-95 transition-transform">
+                  <Phone className="w-4 h-4 text-green-400" />
+                  <span className="text-xs uppercase tracking-widest font-hind">হেল্পলাইনে যোগাযোগ</span>
+                </button>
               </div>
             </motion.div>
           </div>
@@ -496,36 +523,58 @@ export default function App() {
         {isMobileDrawerOpen && (
           <div className="fixed inset-0 z-[100]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-            <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                <h3 className="text-xl font-bold text-blue-700 font-hind">দ্রুত মেনু</h3>
-                <button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"><X className="w-6 h-6" /></button>
+            <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-2xl max-h-[85vh] flex flex-col overflow-hidden font-hind">
+              
+              <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto my-3" />
+              
+              <div className="px-6 py-4 flex items-center justify-between border-b border-slate-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center border border-blue-100/50">
+                    <Grid className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 font-hind">দ্রুত মেনু</h3>
+                </div>
+                <button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors">
+                  <X className="w-5 h-5 text-slate-400" />
+                </button>
               </div>
-              <div className="p-6 grid gap-2">
+
+              <div className="p-4 grid gap-1.5 overflow-y-auto">
                 {[
-                  { icon: LogIn, label: "Login", color: "bg-blue-50 text-blue-600", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: Trophy, label: "Success stories", color: "bg-orange-50 text-orange-600", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: UserPlus, label: "Sign Up", color: "bg-emerald-50 text-emerald-600", onClick: () => { setIsRegisterRouteOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: Store, label: "Store", color: "bg-purple-50 text-purple-600", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
-                  { icon: UserCog, label: "Agent Login", color: "bg-indigo-50 text-indigo-600", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Student Login", color: "bg-blue-50 text-blue-600", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Sub Admin Login", color: "bg-slate-50 text-slate-600", onClick: () => { setIsSubAdminModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Admin Login", color: "bg-red-50 text-red-600", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: LogIn, label: "Login", color: "text-blue-600 bg-blue-50 border-blue-100", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: Trophy, label: "Success stories", color: "text-orange-600 bg-orange-50 border-orange-100", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: UserPlus, label: "Sign Up", color: "text-emerald-600 bg-emerald-50 border-emerald-100", onClick: () => { setIsRegisterRouteOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: Store, label: "Store", color: "text-purple-600 bg-purple-50 border-purple-100", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
+                  { icon: UserCog, label: "Agent Login", color: "text-indigo-600 bg-indigo-50 border-indigo-100", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Student Login", color: "text-blue-600 bg-blue-50 border-blue-100", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Sub Admin Login", color: "text-slate-600 bg-slate-50 border-slate-100", onClick: () => { setIsSubAdminModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Admin Login", color: "text-red-600 bg-red-50 border-red-100", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                 ].map((item: any, i) => (
                   <motion.button 
                     key={i} 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.04 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.03 }}
                     onClick={item.onClick} 
-                    className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 shadow-sm hover:border-blue-200 hover:shadow-md transition-all font-bold text-gray-800 cursor-pointer w-full text-left bg-white active:scale-[0.98] group"
+                    className="group flex items-center justify-between p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-sm transition-all text-slate-700 w-full text-left active:scale-[0.98]"
                   >
-                    <div className={`p-2 ${item.color} rounded-lg group-hover:scale-110 transition-transform`}><item.icon className="w-5 h-5" /></div>
-                    <span className="font-hind">{item.label}</span>
-                    <ArrowRight className="w-4 h-4 ml-auto text-gray-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <div className="flex items-center gap-4">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${item.color} shadow-sm group-hover:scale-110 transition-transform`}>
+                        <item.icon className="w-4 h-4" />
+                      </div>
+                      <span className="font-bold text-sm font-hind">{item.label}</span>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-slate-300 transform group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 ))}
               </div>
+
+              <div className="p-6 pt-2 pb-10">
+                 <button onClick={() => setIsHelpModalOpen(true)} className="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-xl shadow-blue-100 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+                   <HelpCircle className="w-5 h-5 text-white/80" /> আমাদের সাথে কথা বলুন
+                 </button>
+              </div>
+
             </motion.div>
           </div>
         )}
