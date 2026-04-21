@@ -18,130 +18,40 @@
 
 body {
   font-family: var(--font-hind);
-  background-color: #f8fafc;
+  background-color: #020617;
   color: #1e293b;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @theme {
   --font-arabic: "Amiri", serif;
 }
 
-/* Custom Scrollbar for Surah List */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 10px;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 20px;
-  border: 3px solid white;
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-  display: flex;
-  width: max-content;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
 }
 
 /* Premium Header Overrides */
 .navbar-area {
   backdrop-filter: blur(12px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  background-color: #ffffff; /* Fully white as requested */
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .scrolled .navbar-area {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-}
-
-/* Luxury Nav Pill */
-.nav-pill {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-pill:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Professional Course Card */
-.single-course {
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 24px;
-  background: white;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.single-course:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border-color: var(--ue-accent);
-}
-
-.course-badge {
-  background: var(--ue-accent);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Premium Student Panel Layouts */
-.ue-grad-hero {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.ue-soft-card {
-  background: #ffffff;
-  border: 1px solid #f1f5f9;
-  border-radius: 24px;
-  color: #0f172a !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* Unified Button Style */
-.ue-pill-btn {
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-weight: 700;
-  transition: all 0.2s ease;
-}
-
-/* Custom Scrollbar for Premium Feel */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .header-bg {

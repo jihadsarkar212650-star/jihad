@@ -250,11 +250,11 @@ export function HomePage({
   };
   
   return (
-    <div className={`min-h-screen bg-white ${isScrolled ? 'scrolled' : ''}`}>
+    <div className={`min-h-screen bg-[#020617] ${isScrolled ? 'scrolled' : ''}`}>
       {/* HEADER / NAV */}
       <div className="navbar-area sticky top-0 z-50">
         <div className="container mx-auto px-4 lg:px-12 py-3">
-          <nav className={`ue-nav flex items-center justify-between transition-all duration-300 ${isScrolled ? 'bg-white/70 py-2' : 'bg-white/10'}`}>
+          <nav className={`ue-nav flex items-center justify-between transition-all duration-300 ${isScrolled ? 'py-2' : ''}`}>
             <a href="/" className="navbar-brand flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -343,8 +343,8 @@ export function HomePage({
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 text-left">
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
