@@ -671,6 +671,16 @@ export function HomePage({
 
           <div className="border-t border-gray-900 pt-8 text-center flex flex-col gap-5">
             
+            {/* ABOUT TEXT (BENGALI) */}
+            <div className="max-w-4xl mx-auto px-4">
+              <div className="bg-gray-900/50 p-6 rounded-2xl border border-gray-800 shadow-inner">
+                <h4 className="text-blue-500 font-black text-xl mb-3 font-hind">কেন আমাদের বেছে নেবেন?</h4>
+                <p className="text-gray-400 leading-relaxed font-hind text-base md:text-lg">
+                  <span className="text-white font-bold">ইউনিটি আর্নিং</span> বাংলাদেশের একটি অন্যতম শীর্ষস্থানীয় অনলাইন ই-লার্নিং প্লাটফর্ম। আমরা শুধু কোর্স করানোর মধ্যেই সীমাবদ্ধ নই, বরং প্রতিটি শিক্ষার্থীকে দক্ষ করে গড়ে তুলে তাদের <span className="text-green-500 font-bold">আয়ের সুনিশ্চিত পথ</span> তৈরিতে সহায়তা করি। দক্ষ মেন্টরদের সার্বক্ষণিক তত্ত্বাবধান এবং জীবনমুখী কারিগরি কোর্স আপনার ভবিষ্যৎ ক্যারিয়ারকে করবে উজ্জ্বল। ধাপে ধাপে শেখার মাধ্যমে আপনিও হতে পারেন একজন সফল ফ্রিল্যান্সার বা উদ্যোক্তা।
+                </p>
+              </div>
+            </div>
+
             {/* SOCIAL MEDIA LINKS */}
             <div className="flex justify-center items-center gap-4">
               <a href={getValidUrl(settings?.socialLinks?.facebook)} target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-900 text-blue-500 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-lg hover:-translate-y-1">
