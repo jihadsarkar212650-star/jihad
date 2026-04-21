@@ -8,15 +8,18 @@ import { useEffect, useRef, useState } from 'react';
 import { useSettings } from './lib/useSettings';
 
 const COURSES = [
-  { id: 1, title: "Al-Quran Hadis & Namaz Shikkha", mentor: "Maulana Hafizur Rahman", price: "৳ ৫০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg" },
-  { id: 2, title: "Advanced Photo Editing", mentor: "Ariful Islam", price: "৳ ৪০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/photo%20edit.jpg" },
-  { id: 3, title: "Professional Video Editing", mentor: "Sajid Ahmed", price: "৳ ৮০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/video%20edit.jpg" },
-  { id: 4, title: "Digital Marketing Strategy", mentor: "Nusrat Jahan", price: "৳ ৬০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Digital%20Market.jpg" },
-  { id: 5, title: "E-Commerce Management", mentor: "Rakibul Hassan", price: "৳ ৭০০০", rating: 4.6, img: "https://unityearning.com/assets/img/Popular%20Courses/Product%20Sell.jpg" },
-  { id: 6, title: "Data Entry Specialist", mentor: "Farhana Akter", price: "৳ ৩০০০", rating: 4.5, img: "https://unityearning.com/assets/img/Popular%20Courses/data%20enty.jpg" },
-  { id: 7, title: "Facebook Marketing Masterclass", mentor: "Tanvir Ahmed", price: "৳ ৫০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg" },
-  { id: 8, title: "Professional Spoken English", mentor: "Sumaiya Islam", price: "৳ ৪৫০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg" },
-  { id: 9, title: "Advanced Graphic Design", mentor: "Imran Hossain", price: "৳ ৭০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg" },
+  { id: 1, title: "Al-Quran Hadis & Namaz Shikkha", mentor: "Maulana Hafizur Rahman", price: "৳ ৫০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Al-Quran.jpg", desc: "কুরআন, হাদিস এবং নামাজের নিয়মকানুন শিখুন সহজ পদ্ধতিতে।" },
+  { id: 2, title: "Advanced Photo Editing", mentor: "Ariful Islam", price: "৳ ৪০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/photo%20edit.jpg", desc: "ফটোশপ এবং লাইটরুমের ব্যবহার শিখে পেশাদার এডিটর হোন।" },
+  { id: 3, title: "Professional Video Editing", mentor: "Sajid Ahmed", price: "৳ ৮০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/video%20edit.jpg", desc: "এডভান্স ভিডিও এডিটিং শিখুন প্রফেশনাল আউটপুট নিশ্চিত করুন।" },
+  { id: 4, title: "Digital Marketing Strategy", mentor: "Nusrat Jahan", price: "৳ ৬০০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/Digital%20Market.jpg", desc: "ডিজিটাল মার্কেটে সফল হওয়ার সকল কৌশল শিখুন এই কোর্সে।" },
+  { id: 5, title: "E-Commerce Management", mentor: "Rakibul Hassan", price: "৳ ৭০০০", rating: 4.6, img: "https://unityearning.com/assets/img/Popular%20Courses/Product%20Sell.jpg", desc: "ই-কমার্স ওয়েবসাইট পরিচালনা এবং প্রোডাক্ট সেলিং কৌশল।" },
+  { id: 6, title: "Data Entry Specialist", mentor: "Farhana Akter", price: "৳ ৩০০০", rating: 4.5, img: "https://unityearning.com/assets/img/Popular%20Courses/data%20enty.jpg", desc: "ডাটা এন্ট্রি কাজের দক্ষতা এবং সঠিক ফ্রিল্যান্সিং গাইডলাইন।" },
+  { id: 7, title: "Facebook Marketing Masterclass", mentor: "Tanvir Ahmed", price: "৳ ৫০০০", rating: 4.8, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic.jpg", desc: "ফেসবুকে ব্যবসার প্রচার এবং টার্গেটেড ক্লায়েন্ট পাওয়ার উপায়।" },
+  { id: 8, title: "Professional Spoken English", mentor: "Sumaiya Islam", price: "৳ ৪৫০০", rating: 4.9, img: "https://unityearning.com/assets/img/Popular%20Courses/spoken-english.jpeg", desc: "সাবলীলভাবে ইংরেজি বলা শিখুন অভিজ্ঞ মেন্টরের সাথে।" },
+  { id: 9, title: "Advanced Graphic Design", mentor: "Imran Hossain", price: "৳ ৭০০০", rating: 4.7, img: "https://unityearning.com/assets/img/Popular%20Courses/Graphic%20Design.jpg", desc: "গ্রাফিক ডিজাইনের আধুনিক সব টুলস এবং টেকনিক শিখুন।" },
+  { id: 10, title: "Email Marketing", mentor: "Rahim Uddin", price: "৳ ৪০০০", rating: 4.6, img: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600", desc: "ইমেইল মার্কেটিংয়ের মাধ্যমে ক্লায়েন্ট জেনারেশনের কৌশল।" },
+  { id: 11, title: "Network Marketing", mentor: "Karim Ahmed", price: "৳ ৫০০০", rating: 4.7, img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", desc: "নেটওয়ার্ক মার্কেটিংয়ে সফল হওয়ার কার্যকরী নিয়মাবলি।" },
+  { id: 12, title: "Typing Job", mentor: "Fatima Begum", price: "৳ ২০০০", rating: 4.5, img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop", desc: "সহজ টাইপিং জবের মাধ্যমে ঘরে বসে আয় করার উপায়।" },
 ];
 
 const REVIEWS = [
@@ -196,6 +199,8 @@ export function HomePage({
   openTermsModal
 }: HomePageProps) {
   const { settings } = useSettings();
+  const [rating, setRating] = useState(4);
+  const [hoveredStar, setHoveredStar] = useState(0);
   
   return (
     <div className={`min-h-screen bg-white ${isScrolled ? 'scrolled' : ''}`}>
@@ -463,9 +468,10 @@ export function HomePage({
                     </div>
                     <span className="text-[10px] font-bold text-slate-400">({course.rating})</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-4 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-800 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
                     {course.title}
                   </h3>
+                  <p className="text-sm text-slate-500 mb-4 h-10 line-clamp-2">{course.desc}</p>
                   <div className="flex items-center justify-between pt-6 border-t border-slate-50">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
@@ -515,17 +521,21 @@ export function HomePage({
               <div className="flex flex-col lg:flex-row gap-12 items-center">
                 <div className="lg:w-1/3 text-center lg:text-left">
                   <div className="ue-score mb-4 justify-center lg:justify-start">
-                    <div className="num">7/10</div>
+                    <div className="num text-5xl font-black text-blue-600">8/10</div>
                   </div>
                   <div className="ue-stars flex gap-1 justify-center lg:justify-start mb-2">
-                    {[1,2,3].map(i => <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />)}
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400/50" />
-                    <Star className="w-6 h-6 text-gray-200" />
+                    {[1,2,3,4,5].map((star) => (
+                      <Star 
+                        key={star} 
+                        className={`w-8 h-8 cursor-pointer transition-colors ${star <= (hoveredStar || rating) ? 'fill-yellow-400 text-yellow-500' : 'text-gray-300'}`}
+                        onMouseEnter={() => setHoveredStar(star)}
+                        onMouseLeave={() => setHoveredStar(0)}
+                        onClick={() => setRating(star)}
+                      />
+                    ))}
                   </div>
                   <div className="text-gray-500 font-bold">(১৮,০৩২ রিভিউ)</div>
-                  <button className="ue-rate-cta mt-6 flex items-center gap-2 mx-auto lg:mx-0">
-                    <PenSquare className="w-4 h-4" /> আপনার রেটিং দিন
-                  </button>
+                  <p className="text-sm text-gray-400 mt-2">আপনার রেটিং আমাদের অনুপ্রেরণা!</p>
                 </div>
 
                 <div className="lg:w-2/3 w-full">
