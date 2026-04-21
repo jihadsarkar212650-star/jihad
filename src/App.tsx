@@ -3,7 +3,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Swal from 'sweetalert2';
 import { 
-  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare, Trophy
+  X, LogIn, ShieldCheck, UserCog, User, Lock, Menu, Phone, HelpCircle, MessageCircle, BookOpen, ArrowRight, Store, UserPlus, Eye, EyeOff, MessageSquare, Trophy, Zap, Grid, ChevronRight
 } from 'lucide-react';
 import { HomePage } from './HomePage';
 import { StudentPanel } from './StudentPanel';
@@ -447,13 +447,13 @@ export default function App() {
         {isHeaderDrawerOpen && (
           <div className="fixed inset-0 z-[100]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsHeaderDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col">
+            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col font-hind">
               <div className="flex items-center justify-between p-6 border-b border-gray-100">
                 <h3 className="text-xl font-bold text-blue-700 font-hind">মেনু</h3>
-                <button onClick={() => setIsHeaderDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button>
+                <button onClick={() => setIsHeaderDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"><X className="w-6 h-6" /></button>
               </div>
-              <div className="p-6 overflow-y-auto flex-grow">
-                <div className="grid gap-3">
+              <div className="p-6 overflow-y-auto flex-grow bg-slate-50/30">
+                <div className="grid gap-2">
                   {[
                     { icon: LogIn, label: "Login", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: Trophy, label: "Success stories", onClick: () => { setIsSuccessStoriesOpen(true); setIsHeaderDrawerOpen(false); } },
@@ -468,12 +468,23 @@ export default function App() {
                     { icon: ShieldCheck, label: "Terms & Conditions", onClick: () => { setIsTermsModalOpen(true); setIsHeaderDrawerOpen(false); } },
                     { icon: ShieldCheck, label: "Privacy Policy", onClick: () => {} },
                   ].map((item: any, i) => (
-                    <button key={i} onClick={item.onClick} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 shadow-sm hover:bg-gray-50 transition-colors font-bold text-gray-800 cursor-pointer w-full text-left">
-                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg"><item.icon className="w-5 h-5" /></div>
-                      <span className="font-hind">{item.label}</span>
-                    </button>
+                    <motion.button 
+                      key={i} 
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.03 }}
+                      onClick={item.onClick} 
+                      className="group flex items-center gap-4 p-4 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 hover:bg-white bg-white transition-all font-bold text-gray-800 cursor-pointer w-full text-left active:scale-[0.98]"
+                    >
+                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5" /></div>
+                      <span className="font-hind flex-grow">{item.label}</span>
+                      <ChevronRight className="w-4 h-4 text-gray-300 opacity-0 group-hover:opacity-100 transition-all" />
+                    </motion.button>
                   ))}
                 </div>
+              </div>
+              <div className="p-6 bg-white border-t border-gray-100 text-center">
+                <p className="text-xs text-gray-400 font-bold tracking-widest uppercase">Unity Earning LMS</p>
               </div>
             </motion.div>
           </div>
@@ -486,19 +497,33 @@ export default function App() {
           <div className="fixed inset-0 z-[100]">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileDrawerOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
             <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100"><h3 className="text-xl font-bold text-blue-700 font-hind">দ্রুত মেনু</h3><button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl"><X className="w-6 h-6" /></button></div>
-              <div className="p-6 grid gap-3">
+              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 className="text-xl font-bold text-blue-700 font-hind">দ্রুত মেনু</h3>
+                <button onClick={() => setIsMobileDrawerOpen(false)} className="p-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"><X className="w-6 h-6" /></button>
+              </div>
+              <div className="p-6 grid gap-2">
                 {[
-                  { icon: LogIn, label: "Login", color: "ue-pill-teal", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: Trophy, label: "Success stories", color: "ue-pill-indigo", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: UserPlus, label: "Sign Up", color: "", onClick: () => { window.location.href="https://unityearning.com/sign-up" } },
-                  { icon: Store, label: "Store", color: "ue-pill-emerald", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
-                  { icon: UserCog, label: "Agent Login", color: "", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Student Login", color: "", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Sub Admin Login", color: "", onClick: () => { setIsSubAdminModalOpen(true); setIsMobileDrawerOpen(false); } },
-                  { icon: ShieldCheck, label: "Admin Login", color: "", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: LogIn, label: "Login", color: "bg-blue-50 text-blue-600", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: Trophy, label: "Success stories", color: "bg-orange-50 text-orange-600", onClick: () => { setIsSuccessStoriesOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: UserPlus, label: "Sign Up", color: "bg-emerald-50 text-emerald-600", onClick: () => { setIsRegisterRouteOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: Store, label: "Store", color: "bg-purple-50 text-purple-600", onClick: () => { window.location.href="https://www.unityearning.com/shop" } },
+                  { icon: UserCog, label: "Agent Login", color: "bg-indigo-50 text-indigo-600", onClick: () => { setLoginModalType('agent'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Student Login", color: "bg-blue-50 text-blue-600", onClick: () => { setLoginModalType('student'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Sub Admin Login", color: "bg-slate-50 text-slate-600", onClick: () => { setIsSubAdminModalOpen(true); setIsMobileDrawerOpen(false); } },
+                  { icon: ShieldCheck, label: "Admin Login", color: "bg-red-50 text-red-600", onClick: () => { setLoginModalType('admin'); setIsLoginModalOpen(true); setIsMobileDrawerOpen(false); } },
                 ].map((item: any, i) => (
-                  <button key={i} onClick={item.onClick} className={`ue-pill-btn ${item.color} justify-center w-full py-4 cursor-pointer`}><item.icon className="w-5 h-5" /> <span>{item.label}</span> <ArrowRight className="w-4 h-4" /></button>
+                  <motion.button 
+                    key={i} 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.04 }}
+                    onClick={item.onClick} 
+                    className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 shadow-sm hover:border-blue-200 hover:shadow-md transition-all font-bold text-gray-800 cursor-pointer w-full text-left bg-white active:scale-[0.98] group"
+                  >
+                    <div className={`p-2 ${item.color} rounded-lg group-hover:scale-110 transition-transform`}><item.icon className="w-5 h-5" /></div>
+                    <span className="font-hind">{item.label}</span>
+                    <ArrowRight className="w-4 h-4 ml-auto text-gray-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
