@@ -3,7 +3,7 @@ import {
   Menu, X, LogIn, UserPlus, Store, UserCog, ShieldCheck, 
   ArrowRight, Phone, HelpCircle, MessageCircle, BookOpen,
   ChevronUp, Star, PenSquare, Sliders, Users, Trophy, Briefcase, Mail,
-  Smartphone
+  Smartphone, ChevronDown
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSettings } from './lib/useSettings';
@@ -47,6 +47,41 @@ const RATING_DIST = [
   { star: 3, pct: 12 },
   { star: 2, pct: 5 },
   { star: 1, pct: 3 },
+];
+
+const FAQ_ITEMS = [
+  {
+    question: "আমাদের কোর্সের ক্লাস গুলো কি লাইভ নাকি রেকর্ডেড ?",
+    answer: "আমাদের প্রতিটি কোর্সের ক্লাস গুলো ই আগে থেকে ভিডিও রেকর্ডেড করা রয়েছে। কারণ লাইভ ক্লাসে অনেক শিক্ষার্থী একসাথে থাকার কারণে অনেক সময় নেটওয়ার্ক সমস্যা বা আলোচনার কারণে সময় নষ্ট হয়। তাই আপনাদের সুবিধার জন্য আমরা প্রতিটি ক্লাস নিখুঁতভাবে রেকর্ড করে রেখেছি যাতে আপনারা যখন খুশি তখন সেগুলো দেখতে পারেন এবং শিখতে পারেন।"
+  },
+  {
+    question: "একটি কোর্স সম্পূর্ণ করতে সর্বোচ্চ কত সময় দরকার ?",
+    answer: "একটি কোর্স সম্পূর্ণ করার সময় আপনার শেখার গতির ওপর নির্ভর করবে। সাধারণত আমাদের কোর্সগুলো এমকভাবে সাজানো হয়েছে যা আপনি নিয়মিত ১-২ ঘণ্টা সময় দিলে ১৫ থেকে ৩০ দিনের মধ্যে সম্পূর্ণ করতে পারবেন। তবে আপনি চাইলে আপনার সুবিধামতো আরও দ্রুত বা বেশি সময় নিয়ে করতে পারেন।"
+  },
+  {
+    question: "একটি কোর্স ইনরোল করার পর সেটির এক্সেস কতদিন থাকবে ?",
+    answer: "একবার কোর্স ইনরোল করার পর সাধারণত আপনি লাইফ-টাইম (আজীবন) এক্সেস পাবেন। অর্থাৎ আপনি যেকোনো সময় লগইন করে আপনার ড্যাশবোর্ড থেকে ক্লাসগুলো দেখতে পারবেন এবং আপডেট ভিডিও গুলোও পাবেন।"
+  },
+  {
+    question: "কোর্স সম্পর্কিত যেকোনো সমস্যা হলে কিভাবে জানাবো ?",
+    answer: "কোর্স চলাকালীন যেকোনো সমস্যা সমাধান করার জন্য আমাদের রয়েছে ডেডিকেটেড সাপোর্ট গ্রুপ এবং অফিশিয়াল হেল্পলাইন। এছাড়া প্রতিটি কোর্সের সাথে একজন সাপোর্ট মেন্টর যুক্ত থাকেন, আপনি সরাসরি উনার সাথে যোগাযোগ করে সমস্যার সমাধান করে নিতে পারবেন।"
+  },
+  {
+    question: "আমি একদম নতুন কিছুই জানি না, আমি কি করতে পারবো ?",
+    answer: "হ্যাঁ , অবশ্যই পারবেন। আমাদের প্রতিটি কোর্স একদম জিরো লেভেল থেকে শুরু করা হয়েছে যাতে একজন নতুন শিক্ষার্থীও খুব সহজে শিখতে পারেন। আপনাকে শুধু ধৈর্য সহকারে ভিডিও গুলো দেখতে হবে এবং প্রাক্টিস করতে হবে।"
+  },
+  {
+    question: "আমাদের কোর্স গুলো মোবাইল দিয়ে করা যাবে কী ?",
+    answer: "হ্যাঁ , আমাদের সবগুলো কোর্স এবং কাজ আপনি মোবাইল ফোনের মাধ্যমেই সম্পন্ন করতে পারবেন। কম্পিউটার বা ল্যাপটপ থাকলে সুবিধা বেশি, তবে শুধুমাত্র একটি ভালো ইন্টারনেট কানেকশনসহ স্মার্টফোন থাকলেই আপনি শেখা এবং কাজ দুটোই চালিয়ে যেতে পারবেন।"
+  },
+  {
+    question: "একটি কোর্স শেষ করবার কতদিন পর ইনকাম শুরু করতে পারবো ?",
+    answer: "ইনকাম শুরু করার বিষয়টি আপনার স্কিল আয়ত্ত করার ওপর নির্ভর করে। সাধারণত কোর্স শেষ করার পাশাপাশি আপনি যখন আমাদের গাইডলাইন অনুযায়ী কাজ শুরু করবেন তখন থেকেই আপনার আয়ের সুযোগ তৈরি হবে। কঠোর পরিশ্রম এবং সঠিক পরিকল্পনা থাকলে আপনি দ্রুতই সফল হতে পারবেন।"
+  },
+  {
+    question: "কোর্স শেষ হলে কি সার্টিফিকেট দেয়া হবে?",
+    answer: "হ্যাঁ , প্রতিটি কোর্স সফলভাবে শেষ করার পর আপনাকে একটি ডিজিটাল সার্টিফিকেট (E-Certificate) প্রদান করা হবে যা আপনার প্রোফাইলে এবং কর্মক্ষেত্রে যোগ করতে পারবেন।"
+  }
 ];
 
 function Counter({ target, suffix, label, color }: any) {
@@ -204,6 +239,7 @@ export function HomePage({
   const [rating, setRating] = useState(4);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -784,39 +820,167 @@ export function HomePage({
         </div>
       </section>
 
+      {/* FAQ SECTION */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Background Accents */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+          <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-50 rounded-full blur-[100px] opacity-60" />
+          <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-purple-50 rounded-full blur-[100px] opacity-60" />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-12 relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">Got Questions?</span>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-6">
+                সচরাচর জিজ্ঞাসিত <br/>
+                <span className="text-blue-600">কিছু প্রশ্ন</span>
+              </h2>
+              <div className="w-20 h-1.5 bg-blue-600 mx-auto rounded-full mb-8" />
+              <p className="text-slate-500 font-bold max-w-lg mx-auto">
+                আমাদের কোর্স এবং প্ল্যাটফর্ম সম্পর্কে আপনার মনে থাকা সাধারণ কিছু প্রশ্নের উত্তর এখানে দেওয়া হলো।
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {FAQ_ITEMS.map((faq, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group"
+                >
+                  <div 
+                    className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
+                      openFaqIndex === index 
+                      ? "border-blue-200 bg-blue-50/30 shadow-lg shadow-blue-50" 
+                      : "border-slate-100 bg-white hover:border-blue-100 hover:shadow-md"
+                    }`}
+                  >
+                    <button 
+                      onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                      className="w-full px-6 md:px-8 py-6 flex items-center justify-between text-left gap-4"
+                    >
+                      <span className={`text-lg md:text-xl font-black font-hind transition-colors duration-300 ${openFaqIndex === index ? 'text-blue-600' : 'text-slate-800'}`}>
+                        {faq.question}
+                      </span>
+                      <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        openFaqIndex === index ? "bg-blue-600 text-white rotate-180" : "bg-slate-100 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500"
+                      }`}>
+                        <ChevronDown className="w-5 h-5" />
+                      </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {openFaqIndex === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <div className="px-6 md:px-8 pb-8">
+                            <div className="w-full h-px bg-blue-100/50 mb-6" />
+                            <p className="text-slate-600 font-hind text-lg leading-relaxed font-medium">
+                              {faq.answer}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-16 text-center">
+              <div className="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 blur-3xl rounded-full translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-700" />
+                <h4 className="text-2xl font-black mb-4 font-hind">আরও কিছু জানার আছে?</h4>
+                <p className="text-slate-400 font-bold mb-8 font-hind">আপনার কোনো প্রশ্ন এখানে না থাকলে আমাদের সাপোর্ট টিমের সাথে সরাসরি যোগাযোগ করুন।</p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <button 
+                    onClick={() => setIsHelpModalOpen(true)}
+                    className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all"
+                  >
+                    লাইভ চ্যাট সাপোর্ট
+                  </button>
+                  <a 
+                    href="tel:01700000000"
+                    className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all border border-white/10"
+                  >
+                    কল করুন
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="bg-black text-white pt-24 pb-12">
         <div className="container mx-auto px-4 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
             <div>
-              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-green-500 underline underline-offset-8">Office Address</h3>
+              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-green-500 underline underline-offset-8 font-hind">অফিস ঠিকানা</h3>
               <div className="flex gap-4">
                 <div className="p-2 bg-green-900/40 rounded-lg h-fit">
                   <HelpCircle className="w-5 h-5 text-green-400" />
                 </div>
-                <p className="text-gray-400 leading-relaxed uppercase">
-                  Mirpur, Dhaka, Bangladesh <br/>
-                  Mobile: 01700000000 <br/>
-                  Email: info@unityearning.com
+                <p className="text-gray-400 leading-relaxed font-hind">
+                  মিরপুর, ঢাকা, বাংলাদেশ <br/>
+                  ফোন: 01600602084 <br/>
+                  ইমেইল: supportunityearning@gmail.com
                 </p>
+              </div>
+              
+              <div className="mt-8">
+                <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-indigo-500 underline underline-offset-8 font-hind">যোগাযোগ মাধ্যম</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors cursor-pointer">
+                    <Phone className="w-4 h-4 text-emerald-500" />
+                    <span className="font-bold text-sm">হোয়াটসঅ্যাপ: ০১৬০০৬০২০৮৪</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors cursor-pointer">
+                    <Mail className="w-4 h-4 text-red-500" />
+                    <span className="font-bold text-sm">supportunityearning@gmail.com</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="text-center">
-              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8">Certificate</h3>
-              <img src="https://unityearning.com/assets/img/Popular%20Courses/cert.jpeg" alt="Certificate" className="w-1/2 mx-auto rounded-lg shadow-xl" referrerPolicy="no-referrer" />
-            </div>
-
             <div>
-              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8">Company</h3>
-              <ul className="space-y-4">
-                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">All Courses</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">About us</a></li>
-                <li><button onClick={openTermsModal} className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Terms & Conditions</button></li>
-                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold">Privacy Policy</a></li>
+              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8 font-hind">দ্রুত লিঙ্ক</h3>
+              <ul className="grid grid-cols-1 gap-y-3">
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> সকল কোর্স</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> অ্যাক্টিভ কোর্স</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> রিফান্ড পলিসি</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> ব্লগ পৃষ্ঠা</a></li>
+                <li className="pt-2"></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> আমাদের সম্পর্কে</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> যোগাযোগ করুন</a></li>
+                <li><button onClick={openTermsModal} className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> ব্যবহারকারীর শর্তাবলী</button></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-500 transition-colors uppercase font-bold text-sm font-hind flex items-center gap-2 transition-all hover:translate-x-1"><ArrowRight className="w-3 h-3" /> প্রাইভেসি পলিসি</a></li>
               </ul>
             </div>
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-blue-500 underline underline-offset-8 font-hind">সার্টিফিকেট</h3>
+              <div className="relative group p-1 bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
+                <img src="https://unityearning.com/assets/img/Popular%20Courses/cert.jpeg" alt="Certificate" className="w-full h-auto rounded-xl shadow-xl transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-2xl">
+                    <Trophy className="w-6 h-6" />
+                  </div>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-gray-500 font-bold uppercase tracking-widest font-hind">LMS-সার্টিফাইড প্লাটফর্ম</p>
+            </div>
           </div>
+
 
           <div className="border-t border-gray-900 pt-8 text-center flex flex-col gap-5">
             
@@ -865,7 +1029,7 @@ export function HomePage({
       <div className="fixed bottom-4 right-4 flex flex-col items-end gap-2 z-40 lg:hidden">
         {/* WhatsApp Icon */}
         <a 
-          href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801919012426"} 
+          href={settings?.socialLinks?.whatsapp ? getValidUrl(settings.socialLinks.whatsapp) : "https://wa.me/8801600602084"} 
           target="_blank" 
           rel="noopener noreferrer"
           className="flex items-center justify-center w-10 h-10 bg-[#25D366] text-white rounded-full shadow-lg hover:bg-green-500 transition-colors"
