@@ -404,13 +404,13 @@ export function HomePage({
                   <button onClick={() => { setLoginModalType('student'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-blue-600 text-white rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group">
                     Login Now <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
-                  <button onClick={openRegisterPage} className="w-full sm:w-auto px-4 py-2.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-semibold uppercase tracking-wider text-[11px] hover:border-blue-500/50 hover:bg-slate-800/80 transition-all flex items-center justify-center text-center">
+                  <button onClick={openRegisterPage} className="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white border border-cyan-400/30 rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-cyan-600/20 hover:from-cyan-600 hover:to-blue-600 hover:-translate-y-0.5 transition-all flex items-center justify-center text-center">
                     Registration
                   </button>
                   <a href="https://unityearning.com/shop" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-4 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
                     <Store className="w-4 h-4" /> Store
                   </a>
-                  <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-slate-900 text-white border border-slate-700 rounded-xl font-semibold uppercase tracking-wider text-[11px] hover:bg-blue-600 hover:border-blue-600 transition-all flex items-center justify-center gap-2">
+                  <button onClick={() => { setLoginModalType('agent'); setIsLoginModalOpen(true); }} className="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-violet-600 to-purple-700 text-white border border-violet-500/30 rounded-xl font-semibold uppercase tracking-wider text-[11px] shadow-lg shadow-purple-600/20 hover:from-violet-700 hover:to-purple-800 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
                     <UserCog className="w-4 h-4" /> Agent Login
                   </button>
                 </div>
